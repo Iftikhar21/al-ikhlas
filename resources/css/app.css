@@ -1,0 +1,49 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:wght@400;500;600;700&display=swap');
+
+* {
+    font-family: 'Poppins', sans-serif;
+}
+
+:root {
+    --color-primary: #15803d;
+    --color-primary-dark: #166534;
+    --color-accent: #facc15;
+    --color-accent-dark: #eab308;
+}
+
+@layer utilities {
+    .bg-primary {
+        background-color: var(--color-primary) !important;
+    }
+
+    .bg-primary-dark {
+        background-color: var(--color-primary-dark) !important;
+    }
+
+    .bg-accent {
+        background-color: var(--color-accent) !important;
+    }
+
+    .bg-accent-dark {
+        background-color: var(--color-accent-dark) !important;
+    }
+
+    .text-primary {
+        color: var(--color-primary) !important;
+    }
+
+    .text-accent {
+        color: var(--color-accent) !important;
+    }
+}
