@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Beranda</title>
     @vite('resources/css/app.css')
+    <script src="https://unpkg.com/lucide@latest"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -39,6 +40,9 @@
             const menu = document.getElementById('mobile-menu');
             menu.classList.toggle('hidden');
         }
+    </script>
+    <script>
+        lucide.createIcons();
     </script>
 </body>
 

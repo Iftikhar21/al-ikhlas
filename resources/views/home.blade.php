@@ -2,246 +2,348 @@
 
 @section('content')
     <style>
-        .fade-in {
-            animation: fadeIn 0.8s ease-in-out;
+        .gradient-overlay {
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 40%, rgba(0, 0, 0, 0) 100%);
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            transition: transform 0.3s ease;
         }
 
-        .hero-bg {
-            background: linear-gradient(rgba(21, 128, 61, 0.7), rgba(21, 128, 61, 0.7)), url('https://images.unsplash.com/photo-1542816417-0983c9c9ad53?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
-            background-size: cover;
-            background-position: center;
+        .dot.active {
+            background-color: white;
+            opacity: 1;
+            width: 16px;
+        }
+
+        .dot {
+            transition: all 0.3s ease;
         }
     </style>
-    <section class="hero-bg min-h-screen flex items-center justify-center text-white">
-        <div class="max-w-4xl mx-auto px-4 text-center fade-in">
-            <h1 class="text-4xl md:text-6xl font-bold mb-6">
-                Selamat Datang di<br>TPA Masjid Al-Ikhlas
-            </h1>
-            <p class="text-xl md:text-2xl mb-8 text-gray-100">
-                Mencetak Generasi Qur'ani dengan Cinta Al-Qur'an
-            </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <button
-                    class="bg-primary hover:bg-primary-dark text-white font-medium px-8 py-3 rounded-lg transition-all duration-300 transform hover:scale-105">
-                    Lihat Program
-                </button>
-                <button
-                    class="bg-accent hover:bg-accent-dark text-gray-800 font-medium px-8 py-3 rounded-lg transition-all duration-300 transform hover:scale-105">
-                    Daftar Santri
-                </button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Profil Singkat -->
-    <section class="py-16 bg-white">
-        <div class="max-w-6xl mx-auto px-4">
-            <div class="grid md:grid-cols-2 gap-12 items-center">
-                <div class="fade-in">
-                    <h2 class="text-3xl font-bold text-primary mb-6">Tentang TPA Al-Ikhlas</h2>
-                    <p class="text-gray-600 mb-4 leading-relaxed">
-                        TPA Masjid Al-Ikhlas hadir sebagai lembaga pendidikan Al-Qur'an yang berkomitmen untuk mencetak
-                        generasi qur'ani dengan metode pembelajaran yang menyenangkan dan mudah dipahami.
-                    </p>
-                    <p class="text-gray-600 mb-6 leading-relaxed">
-                        Dengan tenaga pengajar yang berpengalaman dan berkualitas, kami mengutamakan pembentukan akhlak
-                        mulia, pemahaman Al-Qur'an yang mendalam, serta penerapan nilai-nilai Islam dalam kehidupan
-                        sehari-hari.
-                    </p>
-                    <div class="grid grid-cols-2 gap-4 text-center">
-                        <div class="bg-green-50 p-4 rounded-lg">
-                            <div class="text-2xl font-bold text-primary">200+</div>
-                            <div class="text-sm text-gray-600">Santri Aktif</div>
-                        </div>
-                        <div class="bg-yellow-50 p-4 rounded-lg">
-                            <div class="text-2xl font-bold text-primary">15+</div>
-                            <div class="text-sm text-gray-600">Ustadz/ah</div>
-                        </div>
+    <div class="relative">
+        <div id="carousel" class="carousel-container flex overflow-x-hidden snap-x snap-mandatory">
+            <!-- Slide 1 -->
+            <div class="carousel-item min-w-full h-[70vh] md:h-screen relative snap-start">
+                <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1600&h=900&fit=crop"
+                    alt="Technology" class="w-full h-full object-cover">
+                <div class="gradient-overlay absolute inset-0"></div>
+                <div class="absolute bottom-0 left-0 right-0 p-4 sm:p-8 md:p-12 lg:p-16">
+                    <div class="max-w-4xl">
+                        <span
+                            class="inline-block px-3 py-1 bg-blue-600 text-white text-xs font-semibold rounded-full mb-2 sm:mb-4">TECHNOLOGY</span>
+                        <h1
+                            class="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-6xl font-bold text-white mb-2 sm:mb-4 leading-tight">
+                            The Future of AI: Transforming Industries Worldwide</h1>
+                        <p class="text-gray-200 text-sm sm:text-base md:text-lg lg:text-xl mb-4 sm:mb-6 max-w-2xl">
+                            Artificial intelligence is reshaping how we work, live, and interact with technology in
+                            unprecedented ways.</p>
+                        <button
+                            class="px-4 py-2 sm:px-6 sm:py-3 bg-white text-gray-900 rounded-full font-semibold hover:bg-gray-100 transition-all text-sm sm:text-base">Read
+                            More</button>
                     </div>
                 </div>
-                <div class="fade-in">
-                    <img src="https://images.unsplash.com/photo-1544717297-fa95b6ee9643?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
-                        alt="Anak-anak mengaji" class="rounded-lg shadow-lg w-full h-96 object-cover">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Program Unggulan -->
-    <section class="py-16 bg-gray-50">
-        <div class="max-w-6xl mx-auto px-4">
-            <div class="text-center mb-12 fade-in">
-                <h2 class="text-3xl font-bold text-primary mb-4">Program Kami</h2>
-                <p class="text-gray-600">Beragam program pembelajaran Al-Qur'an yang disesuaikan dengan usia dan
-                    kemampuan santri</p>
             </div>
 
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div
-                    class="bg-white p-6 rounded-lg shadow-md border-l-4 border-primary hover:shadow-lg transition-shadow fade-in">
-                    <div class="text-3xl mb-4 text-primary">📖</div>
-                    <h3 class="text-xl font-semibold text-primary mb-2">Tahsin</h3>
-                    <p class="text-gray-600 text-sm">Perbaikan bacaan Al-Qur'an dengan metode yang mudah dan
-                        menyenangkan</p>
-                </div>
-
-                <div
-                    class="bg-white p-6 rounded-lg shadow-md border-l-4 border-primary hover:shadow-lg transition-shadow fade-in">
-                    <div class="text-3xl mb-4 text-primary">🕌</div>
-                    <h3 class="text-xl font-semibold text-primary mb-2">Tahfidz</h3>
-                    <p class="text-gray-600 text-sm">Program menghafal Al-Qur'an dengan bimbingan ustadz berpengalaman
-                    </p>
-                </div>
-
-                <div
-                    class="bg-white p-6 rounded-lg shadow-md border-l-4 border-primary hover:shadow-lg transition-shadow fade-in">
-                    <div class="text-3xl mb-4 text-primary">🤲</div>
-                    <h3 class="text-xl font-semibold text-primary mb-2">Adab & Akhlak</h3>
-                    <p class="text-gray-600 text-sm">Pembentukan karakter islami dan adab berinteraksi sesuai ajaran
-                        Islam</p>
-                </div>
-
-                <div
-                    class="bg-white p-6 rounded-lg shadow-md border-l-4 border-primary hover:shadow-lg transition-shadow fade-in">
-                    <div class="text-3xl mb-4 text-primary">🎯</div>
-                    <h3 class="text-xl font-semibold text-primary mb-2">Iqra & Dasar</h3>
-                    <p class="text-gray-600 text-sm">Pembelajaran membaca Al-Qur'an dari dasar untuk pemula</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Jadwal Kegiatan -->
-    <section class="py-16 bg-white">
-        <div class="max-w-4xl mx-auto px-4">
-            <div class="text-center mb-12 fade-in">
-                <h2 class="text-3xl font-bold text-primary mb-4">Jadwal Kegiatan</h2>
-                <p class="text-gray-600">Jadwal pembelajaran yang terstruktur dan fleksibel</p>
-            </div>
-
-            <div class="bg-gradient-to-r from-green-50 to-yellow-50 p-6 rounded-lg shadow-md fade-in">
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div>
-                        <h3 class="font-semibold text-primary mb-4">Senin - Kamis</h3>
-                        <div class="space-y-2 text-sm">
-                            <div class="flex justify-between">
-                                <span>Ba'da Maghrib</span>
-                                <span class="font-medium">Tahsin & Iqra</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span>Ba'da Isya</span>
-                                <span class="font-medium">Tahfidz</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <h3 class="font-semibold text-primary mb-4">Sabtu - Minggu</h3>
-                        <div class="space-y-2 text-sm">
-                            <div class="flex justify-between">
-                                <span>08:00 - 10:00</span>
-                                <span class="font-medium">Adab & Akhlak</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span>10:30 - 12:00</span>
-                                <span class="font-medium">Muroja'ah</span>
-                            </div>
-                        </div>
+            <!-- Slide 2 -->
+            <div class="carousel-item min-w-full h-[70vh] md:h-screen relative snap-start">
+                <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&h=900&fit=crop"
+                    alt="Environment" class="w-full h-full object-cover">
+                <div class="gradient-overlay absolute inset-0"></div>
+                <div class="absolute bottom-0 left-0 right-0 p-4 sm:p-8 md:p-12 lg:p-16">
+                    <div class="max-w-4xl">
+                        <span
+                            class="inline-block px-3 py-1 bg-green-600 text-white text-xs font-semibold rounded-full mb-2 sm:mb-4">ENVIRONMENT</span>
+                        <h1
+                            class="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-6xl font-bold text-white mb-2 sm:mb-4 leading-tight">
+                            Climate Action: Global Leaders Unite for Change</h1>
+                        <p class="text-gray-200 text-sm sm:text-base md:text-lg lg:text-xl mb-4 sm:mb-6 max-w-2xl">
+                            Nations commit to ambitious targets as climate summit delivers groundbreaking agreements.
+                        </p>
+                        <button
+                            class="px-4 py-2 sm:px-6 sm:py-3 bg-white text-gray-900 rounded-full font-semibold hover:bg-gray-100 transition-all text-sm sm:text-base">Read
+                            More</button>
                     </div>
                 </div>
-                <div class="text-center mt-6">
-                    <button
-                        class="bg-primary hover:bg-primary-dark text-white font-medium px-6 py-2 rounded-lg transition-all duration-300">
-                        Lihat Semua Jadwal
-                    </button>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="carousel-item min-w-full h-[70vh] md:h-screen relative snap-start">
+                <img src="https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=1600&h=900&fit=crop"
+                    alt="Innovation" class="w-full h-full object-cover">
+                <div class="gradient-overlay absolute inset-0"></div>
+                <div class="absolute bottom-0 left-0 right-0 p-4 sm:p-8 md:p-12 lg:p-16">
+                    <div class="max-w-4xl">
+                        <span
+                            class="inline-block px-3 py-1 bg-purple-600 text-white text-xs font-semibold rounded-full mb-2 sm:mb-4">INNOVATION</span>
+                        <h1
+                            class="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-6xl font-bold text-white mb-2 sm:mb-4 leading-tight">
+                            Space Exploration Reaches New Milestones</h1>
+                        <p class="text-gray-200 text-sm sm:text-base md:text-lg lg:text-xl mb-4 sm:mb-6 max-w-2xl">
+                            Breakthrough discoveries push the boundaries of human knowledge and exploration beyond
+                            Earth.</p>
+                        <button
+                            class="px-4 py-2 sm:px-6 sm:py-3 bg-white text-gray-900 rounded-full font-semibold hover:bg-gray-100 transition-all text-sm sm:text-base">Read
+                            More</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </section>
 
-    <!-- Galeri Singkat -->
-    <section class="py-16 bg-gray-50">
-        <div class="max-w-6xl mx-auto px-4">
-            <div class="text-center mb-12 fade-in">
-                <h2 class="text-3xl font-bold text-primary mb-4">Galeri Kegiatan</h2>
-                <p class="text-gray-600">Dokumentasi kegiatan pembelajaran dan acara TPA</p>
-            </div>
+        <!-- Carousel Dots -->
+        <div class="absolute bottom-4 sm:bottom-6 md:bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2">
+            <button class="dot w-2 h-2 rounded-full bg-white bg-opacity-50 active" onclick="scrollToSlide(0)"></button>
+            <button class="dot w-2 h-2 rounded-full bg-white bg-opacity-50" onclick="scrollToSlide(1)"></button>
+            <button class="dot w-2 h-2 rounded-full bg-white bg-opacity-50" onclick="scrollToSlide(2)"></button>
+        </div>
 
-            <div class="grid md:grid-cols-3 gap-4 mb-8">
-                <div class="fade-in">
-                    <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
-                        alt="Kegiatan mengaji"
-                        class="rounded-lg shadow-md w-full h-48 object-cover hover:scale-105 transition-transform duration-300">
-                </div>
-                <div class="fade-in">
-                    <img src="https://images.unsplash.com/photo-1609220136736-443140cffec6?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
-                        alt="Kegiatan belajar"
-                        class="rounded-lg shadow-md w-full h-48 object-cover hover:scale-105 transition-transform duration-300">
-                </div>
-                <div class="fade-in">
-                    <img src="https://images.unsplash.com/photo-1544717297-fa95b6ee9643?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
-                        alt="Santri belajar"
-                        class="rounded-lg shadow-md w-full h-48 object-cover hover:scale-105 transition-transform duration-300">
-                </div>
-            </div>
+        <!-- Navigation Arrows -->
+        <button onclick="scrollCarousel(-1)" class="hidden md:flex absolute left-2 md:left-4 top-1/2 -translate-y-1/2 
+                           w-8 h-8 md:w-12 md:h-12 bg-white cursor-pointer hover:bg-white/30 backdrop-blur-sm 
+                           rounded-full items-center justify-center transition-all">
+            <svg class="w-4 h-4 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+            </svg>
+        </button>
 
-            <div class="text-center fade-in">
-                <button
-                    class="bg-primary hover:bg-primary-dark text-white font-medium px-8 py-3 rounded-lg transition-all duration-300 transform hover:scale-105">
-                    Lihat Galeri Lengkap
-                </button>
-            </div>
+        <button onclick="scrollCarousel(1)" class="hidden md:flex absolute right-2 md:right-4 top-1/2 -translate-y-1/2 
+                           w-8 h-8 md:w-12 md:h-12 bg-white cursor-pointer hover:bg-white/30 backdrop-blur-sm 
+                           rounded-full items-center justify-center transition-all">
+            <svg class="w-4 h-4 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            </svg>
+        </button>
+    </div>
+
+    <!-- News Grid -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 md:py-16">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 sm:mb-12">
+            <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-0">Latest Stories</h2>
+            <a href="#" class="text-blue-600 hover:text-blue-700 font-semibold flex items-center">
+                View All
+                <svg class="w-5 h-5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+            </a>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            <!-- Card 1 -->
+            <article class="card-hover bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-md sm:shadow-lg">
+                <div class="relative h-48 sm:h-56 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=800&h=600&fit=crop" alt="Tech"
+                        class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                    <span
+                        class="absolute top-3 sm:top-4 left-3 sm:left-4 px-2 sm:px-3 py-1 bg-blue-600 text-white text-xs font-semibold rounded-full">TECH</span>
+                </div>
+                <div class="p-4 sm:p-6">
+                    <h3
+                        class="text-lg sm:text-xl font-bold text-gray-900 mb-2 hover:text-blue-600 transition-colors cursor-pointer">
+                        Quantum Computing Breakthrough Announced</h3>
+                    <p class="text-gray-600 text-sm sm:text-base mb-3 sm:mb-4">Researchers achieve quantum supremacy
+                        milestone with new processor architecture.</p>
+                    <div class="flex items-center text-xs sm:text-sm text-gray-500">
+                        <span>5 hours ago</span>
+                        <span class="mx-2">•</span>
+                        <span>3 min read</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Card 2 -->
+            <article class="card-hover bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-md sm:shadow-lg">
+                <div class="relative h-48 sm:h-56 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&h=600&fit=crop"
+                        alt="Business" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                    <span
+                        class="absolute top-3 sm:top-4 left-3 sm:left-4 px-2 sm:px-3 py-1 bg-orange-600 text-white text-xs font-semibold rounded-full">BUSINESS</span>
+                </div>
+                <div class="p-4 sm:p-6">
+                    <h3
+                        class="text-lg sm:text-xl font-bold text-gray-900 mb-2 hover:text-blue-600 transition-colors cursor-pointer">
+                        Global Markets React to Economic Data</h3>
+                    <p class="text-gray-600 text-sm sm:text-base mb-3 sm:mb-4">Stock markets show resilience as
+                        investors digest quarterly earnings reports.</p>
+                    <div class="flex items-center text-xs sm:text-sm text-gray-500">
+                        <span>8 hours ago</span>
+                        <span class="mx-2">•</span>
+                        <span>4 min read</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Card 3 -->
+            <article class="card-hover bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-md sm:shadow-lg">
+                <div class="relative h-48 sm:h-56 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=800&h=600&fit=crop"
+                        alt="Health" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                    <span
+                        class="absolute top-3 sm:top-4 left-3 sm:left-4 px-2 sm:px-3 py-1 bg-red-600 text-white text-xs font-semibold rounded-full">HEALTH</span>
+                </div>
+                <div class="p-4 sm:p-6">
+                    <h3
+                        class="text-lg sm:text-xl font-bold text-gray-900 mb-2 hover:text-blue-600 transition-colors cursor-pointer">
+                        Revolutionary Medical Treatment Approved</h3>
+                    <p class="text-gray-600 text-sm sm:text-base mb-3 sm:mb-4">New therapy offers hope for millions
+                        affected by chronic conditions worldwide.</p>
+                    <div class="flex items-center text-xs sm:text-sm text-gray-500">
+                        <span>12 hours ago</span>
+                        <span class="mx-2">•</span>
+                        <span>6 min read</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Card 4 -->
+            <article class="card-hover bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-md sm:shadow-lg">
+                <div class="relative h-48 sm:h-56 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1477346611705-65d1883cee1e?w=800&h=600&fit=crop"
+                        alt="Culture" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                    <span
+                        class="absolute top-3 sm:top-4 left-3 sm:left-4 px-2 sm:px-3 py-1 bg-pink-600 text-white text-xs font-semibold rounded-full">CULTURE</span>
+                </div>
+                <div class="p-4 sm:p-6">
+                    <h3
+                        class="text-lg sm:text-xl font-bold text-gray-900 mb-2 hover:text-blue-600 transition-colors cursor-pointer">
+                        Art Exhibition Breaks Attendance Records</h3>
+                    <p class="text-gray-600 text-sm sm:text-base mb-3 sm:mb-4">Contemporary art showcase attracts
+                        visitors from around the globe in historic numbers.</p>
+                    <div class="flex items-center text-xs sm:text-sm text-gray-500">
+                        <span>1 day ago</span>
+                        <span class="mx-2">•</span>
+                        <span>5 min read</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Card 5 -->
+            <article class="card-hover bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-md sm:shadow-lg">
+                <div class="relative h-48 sm:h-56 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=800&h=600&fit=crop"
+                        alt="Sports" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                    <span
+                        class="absolute top-3 sm:top-4 left-3 sm:left-4 px-2 sm:px-3 py-1 bg-yellow-600 text-white text-xs font-semibold rounded-full">SPORTS</span>
+                </div>
+                <div class="p-4 sm:p-6">
+                    <h3
+                        class="text-lg sm:text-xl font-bold text-gray-900 mb-2 hover:text-blue-600 transition-colors cursor-pointer">
+                        Championship Finals Set Record Viewership</h3>
+                    <p class="text-gray-600 text-sm sm:text-base mb-3 sm:mb-4">Thrilling match captivates millions as
+                        underdog team defies all expectations.</p>
+                    <div class="flex items-center text-xs sm:text-sm text-gray-500">
+                        <span>1 day ago</span>
+                        <span class="mx-2">•</span>
+                        <span>4 min read</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Card 6 -->
+            <article class="card-hover bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-md sm:shadow-lg">
+                <div class="relative h-48 sm:h-56 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=800&h=600&fit=crop"
+                        alt="Travel" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                    <span
+                        class="absolute top-3 sm:top-4 left-3 sm:left-4 px-2 sm:px-3 py-1 bg-teal-600 text-white text-xs font-semibold rounded-full">TRAVEL</span>
+                </div>
+                <div class="p-4 sm:p-6">
+                    <h3
+                        class="text-lg sm:text-xl font-bold text-gray-900 mb-2 hover:text-blue-600 transition-colors cursor-pointer">
+                        Hidden Gems: Destinations for 2025</h3>
+                    <p class="text-gray-600 text-sm sm:text-base mb-3 sm:mb-4">Discover the world's most breathtaking
+                        locations that remain off the beaten path.</p>
+                    <div class="flex items-center text-xs sm:text-sm text-gray-500">
+                        <span>2 days ago</span>
+                        <span class="mx-2">•</span>
+                        <span>7 min read</span>
+                    </div>
+                </div>
+            </article>
         </div>
     </section>
 
-    <!-- CTA Donasi -->
-    <section class="py-16 bg-primary-dark text-white">
-        <div class="max-w-4xl mx-auto px-4 text-center fade-in">
-            <h2 class="text-3xl font-bold mb-4">Dukung Dakwah & Pendidikan Qur'ani</h2>
-            <p class="text-xl mb-8 text-gray-100">
-                Berpartisipasilah dalam menyebarkan ilmu Al-Qur'an dan mencetak generasi qur'ani yang berakhlak mulia
-            </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <button
-                    class="bg-accent hover:bg-accent-dark text-gray-800 font-medium px-8 py-3 rounded-lg transition-all duration-300 transform hover:scale-105">
-                    Donasi Sekarang
-                </button>
-                <button
-                    class="border-2 border-white text-white hover:bg-white hover:text-primary font-medium px-8 py-3 rounded-lg transition-all duration-300">
-                    Pelajari Program
-                </button>
-            </div>
-        </div>
-    </section>
     <script>
-        // Animate elements on scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
+        // Initialize Lucide icons
+        lucide.createIcons();
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('fade-in');
+        const carousel = document.getElementById('carousel');
+        const dots = document.querySelectorAll('.dot');
+        let currentSlide = 0;
+        let autoScrollInterval;
+
+        function scrollCarousel(direction) {
+            const slideWidth = carousel.offsetWidth;
+            currentSlide = (currentSlide + direction + 3) % 3;
+            carousel.scrollTo({
+                left: slideWidth * currentSlide,
+                behavior: 'smooth'
+            });
+            updateDots();
+        }
+
+        function scrollToSlide(index) {
+            const slideWidth = carousel.offsetWidth;
+            currentSlide = index;
+            carousel.scrollTo({
+                left: slideWidth * index,
+                behavior: 'smooth'
+            });
+            updateDots();
+        }
+
+        function updateDots() {
+            dots.forEach((dot, index) => {
+                if (index === currentSlide) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
                 }
             });
-        }, observerOptions);
+        }
 
-        // Observe all sections
-        document.querySelectorAll('section > div, .fade-in').forEach(el => {
-            observer.observe(el);
-        }); 
+        // Update dots on scroll
+        carousel.addEventListener('scroll', () => {
+            const slideWidth = carousel.offsetWidth;
+            const scrolled = carousel.scrollLeft;
+            currentSlide = Math.round(scrolled / slideWidth);
+            updateDots();
+        });
+
+        // Auto-scroll carousel
+        function startAutoScroll() {
+            autoScrollInterval = setInterval(() => {
+                scrollCarousel(1);
+            }, 5000);
+        }
+
+        function stopAutoScroll() {
+            clearInterval(autoScrollInterval);
+        }
+
+        // Pause auto-scroll on hover
+        carousel.addEventListener('mouseenter', stopAutoScroll);
+        carousel.addEventListener('mouseleave', startAutoScroll);
+
+        // Touch swipe support
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        carousel.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+            stopAutoScroll();
+        });
+
+        carousel.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            if (touchStartX - touchEndX > 50) {
+                scrollCarousel(1);
+            } else if (touchEndX - touchStartX > 50) {
+                scrollCarousel(-1);
+            }
+            startAutoScroll();
+        });
+
+        // Start auto-scroll on page load
+        startAutoScroll();
     </script>
 @endsection

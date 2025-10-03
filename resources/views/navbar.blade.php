@@ -8,21 +8,32 @@
             </div>
 
             <!-- Desktop Menu -->
+            @php
+$menus = [
+    ['route' => 'home', 'label' => 'Beranda'],
+    ['route' => 'program', 'label' => 'Program'],
+    ['route' => 'schedule', 'label' => 'Jadwal'],
+    ['route' => 'register-online', 'label' => 'Pendaftaran'],
+    ['route' => 'contact', 'label' => 'Kontak'],
+];
+            @endphp
+            
+            <!-- Desktop Menu -->
             <div class="hidden md:block">
                 <div class="ml-10 flex items-baseline space-x-4">
-                    <a href="#"
-                        class="text-primary hover:text-primary-dark px-3 py-2 text-sm font-medium transition-colors">Beranda</a>
-                    <a href="#"
-                        class="text-gray-600 hover:text-primary px-3 py-2 text-sm font-medium transition-colors">Tentang
-                        Kami</a>
-                    <a href="#"
-                        class="text-gray-600 hover:text-primary px-3 py-2 text-sm font-medium transition-colors">Program</a>
-                    <a href="#"
-                        class="text-gray-600 hover:text-primary px-3 py-2 text-sm font-medium transition-colors">Jadwal</a>
-                    <a href="#"
-                        class="text-gray-600 hover:text-primary px-3 py-2 text-sm font-medium transition-colors">Pendaftaran</a>
-                    <a href="#"
-                        class="text-gray-600 hover:text-primary px-3 py-2 text-sm font-medium transition-colors">Kontak</a>
+                    @foreach ($menus as $menu)
+                        <a href="{{ route($menu['route']) }}" class="relative px-3 py-2 text-sm font-medium transition-colors
+                                    {{ request()->routeIs($menu['route'])
+                                    ? 'text-primary after:scale-x-100'
+                                    : 'text-gray-600 hover:text-primary hover:after:scale-x-100' }}
+                                    after:content-[''] after:absolute after:left-0 after:bottom-0 
+                                    after:w-full after:h-[2px] after:bg-accent  <!-- Ganti warna untuk testing -->
+                                    after:origin-center after:scale-x-0 
+                                    after:transition-transform after:duration-300
+                                    debug-border"> <!-- Tambah class untuk debug -->
+                            {{ $menu['label'] }}
+                        </a>
+                    @endforeach
                 </div>
             </div>
 
