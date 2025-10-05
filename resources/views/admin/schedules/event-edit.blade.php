@@ -107,7 +107,7 @@
                                         <div
                                             class="aspect-w-16 aspect-h-9 bg-gray-100 rounded-lg overflow-hidden border-2 border-dashed border-gray-300">
                                             <img id="currentImagePreview" class="w-full h-48 object-cover"
-                                                src="{{ Storage::url($event->image) }}" alt="Current image">
+                                                src="{{ asset('storage/' . $event->image) }}" alt="Current image">
                                         </div>
                                         <div class="text-center mt-2">
                                             <p class="text-sm text-gray-500">Gambar saat ini</p>

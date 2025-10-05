@@ -48,7 +48,7 @@ class ProgramController extends Controller
 
         Programs::create($data);
 
-        return redirect()->route('admin-programs.index')->with('success', 'Program berhasil ditambahkan.');
+        return redirect()->route('admin.programs.index')->with('success', 'Program berhasil ditambahkan.');
     }
 
     public function show(Programs $program)
@@ -91,7 +91,7 @@ class ProgramController extends Controller
 
         $program->update($data);
 
-        return redirect()->route('admin-programs.index')->with('success', 'Program berhasil diperbarui.');
+        return redirect()->route('admin.programs.index')->with('success', 'Program berhasil diperbarui.');
     }
 
     public function destroy(Programs $program)
@@ -104,6 +104,6 @@ class ProgramController extends Controller
         }
 
         $program->delete();
-        return redirect()->route('admin-programs.index')->with('success', 'Program berhasil dihapus.');
+        return redirect()->route('admin.programs.index')->with('success', 'Program berhasil dihapus.');
     }
 }

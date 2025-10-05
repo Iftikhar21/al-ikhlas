@@ -4,13 +4,13 @@
     <main class="pt-23 p-4 lg:ml-80 transition-all bg-gray-100">
         <!-- Tombol Aksi -->
         <div class="mb-3 flex flex-wrap gap-2">
-            <a href="{{ route('admin-news.edit', $news->id) }}"
+            <a href="{{ route('admin.news.edit', $news->id) }}"
                 class="inline-flex items-center gap-2 px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-white text-sm font-medium rounded-lg shadow transition">
                 <i data-lucide="pencil" class="w-4 h-4"></i>
                 <span>Edit</span>
             </a>
 
-            <form id="deleteForm-{{ $news->id }}" action="{{ route('admin-news.destroy', $news->id) }}" method="POST">
+            <form id="deleteForm-{{ $news->id }}" action="{{ route('admin.news.destroy', $news->id) }}" method="POST">
                 @csrf
                 @method('DELETE')
                 <button type="button"
@@ -27,7 +27,7 @@
                 </button>
             </form>
 
-            <a href="{{ route('admin-news.index') }}"
+            <a href="{{ route('admin.news.index') }}"
                 class="inline-flex items-center gap-2 px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white text-sm font-medium rounded-lg shadow transition">
                 <i data-lucide="chevron-left" class="w-4 h-4"></i>
                 <span>Kembali</span>

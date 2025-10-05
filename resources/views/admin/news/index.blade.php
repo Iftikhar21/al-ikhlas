@@ -18,7 +18,7 @@
         <div class="bg-white rounded-lg shadow-sm p-6 mb-8">
             <div class="flex flex-col md:flex-row md:items-center justify-between mb-6">
                 <h1 class="text-2xl font-bold text-gray-800 mb-4 md:mb-0">Daftar Berita</h1>
-                <a href="{{ route('admin-news.create') }}"
+                <a href="{{ route('admin.news.create') }}"
                     class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg shadow transition">
                     <i data-lucide="plus" class="w-4 h-4 me-2"></i>
                     <span>Tambah Berita</span>
@@ -59,21 +59,21 @@
                                 <!-- Tombol Aksi -->
                                 <div class="flex space-x-2">
                                     <!-- Detail -->
-                                    <a href="{{ route('admin-news.show', $item->id) }}"
+                                    <a href="{{ route('admin.news.show', $item->id) }}"
                                         class="flex items-center justify-center w-8 h-8 bg-blue-500 hover:bg-blue-600 text-white rounded shadow transition"
                                         title="Lihat Detail">
                                         <i data-lucide="eye" class="w-4 h-4"></i>
                                     </a>
 
                                     <!-- Edit -->
-                                    <a href="{{ route('admin-news.edit', $item->id) }}"
+                                    <a href="{{ route('admin.news.edit', $item->id) }}"
                                         class="flex items-center justify-center w-8 h-8 bg-yellow-500 hover:bg-yellow-600 text-white rounded shadow transition"
                                         title="Edit Berita">
                                         <i data-lucide="pencil" class="w-4 h-4"></i>
                                     </a>
 
                                     <!-- Delete -->
-                                    <form action="{{ route('admin-news.destroy', $item->id) }}" method="POST" id="deleteForm-{{ $item->id }}">
+                                    <form action="{{ route('admin.news.destroy', $item->id) }}" method="POST" id="deleteForm-{{ $item->id }}">
                                         @csrf
                                         @method('DELETE')
                                     </form>
@@ -109,7 +109,7 @@
                     <i class="fas fa-newspaper text-gray-300 text-6xl mb-4"></i>
                     <h3 class="text-xl font-medium text-gray-500 mb-2">Belum ada berita</h3>
                     <p class="text-gray-400 mb-6">Mulai dengan menambahkan berita pertama Anda</p>
-                    <a href="{{ route('admin-news.create') }}"
+                    <a href="{{ route('admin.news.create') }}"
                         class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg shadow transition">
                         <i class="fas fa-plus mr-2"></i> Tambah Berita Pertama
                     </a>

@@ -10,7 +10,7 @@
 
             <div class="bg-white rounded-lg shadow overflow-hidden">
                 @if($event->image)
-                    <img src="{{ Storage::url($event->image) }}" alt="{{ $event->title }}" class="w-full h-64 object-cover">
+                    <img src="{{ asset('storage/' . $event->image) }}" alt="{{ $event->title }}" class="w-full h-64 object-cover">
                 @else
                     <div class="w-full h-64 bg-gray-200 flex items-center justify-center">
                         <span class="text-gray-500 text-lg">No Image Available</span>

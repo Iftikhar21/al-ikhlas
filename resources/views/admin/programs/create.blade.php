@@ -33,7 +33,7 @@
                         <h2 class="text-3xl font-bold text-gray-800 mb-2">Tambah Program Baru</h2>
                         <p class="text-gray-600">Buat program dengan informasi yang lengkap dan menarik</p>
                     </div>
-                    <a href="{{ route('admin-programs.index') }}"
+                    <a href="{{ route('admin.programs.index') }}"
                         class="inline-flex items-center gap-2 px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white text-sm font-medium rounded-lg shadow transition">
                         <i data-lucide="chevron-left" class="w-4 h-4"></i>
                         <span>Kembali</span>
@@ -41,7 +41,7 @@
                 </div>
             </div>
 
-            <form id="createForm" action="{{ route('admin-programs.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6"
+            <form id="createForm" action="{{ route('admin.programs.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6"
                 id="programForm">
                 @csrf
 

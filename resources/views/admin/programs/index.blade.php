@@ -34,7 +34,7 @@
                         <option value="published">Published</option>
                         <option value="draft">Draft</option>
                     </select>
-                    <a href="{{ route('admin-programs.create') }}"
+                    <a href="{{ route('admin.programs.create') }}"
                         class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg shadow transition">
                         <i data-lucide="plus" class="w-4 h-4 me-2"></i>
                         <span>Tambah Program</span>
@@ -98,21 +98,21 @@
                                         <!-- Actions -->
                                         <div class="flex items-center justify-center space-x-2 pt-2 border-t border-gray-100">
                                             <!-- View -->
-                                            <a href="{{ route('admin-programs.show', $program->id) }}"
+                                            <a href="{{ route('admin.programs.show', $program->id) }}"
                                                 class="inline-flex items-center p-2 bg-blue-50 hover:bg-blue-100 text-blue-600 rounded-lg transition-colors duration-200 group"
                                                 title="Lihat Detail">
                                                 <i data-lucide="eye" class="w-4 h-4 group-hover:scale-110 transition-transform"></i>
                                             </a>
 
                                             <!-- Edit -->
-                                            <a href="{{ route('admin-programs.edit', $program->id) }}"
+                                            <a href="{{ route('admin.programs.edit', $program->id) }}"
                                                 class="inline-flex items-center p-2 bg-yellow-50 hover:bg-yellow-100 text-yellow-600 rounded-lg transition-colors duration-200 group"
                                                 title="Edit Program">
                                                 <i data-lucide="pencil" class="w-4 h-4 group-hover:scale-110 transition-transform"></i>
                                             </a>
 
                                             <!-- Delete -->
-                                            <form action="{{ route('admin-programs.destroy', $program->id) }}" method="POST" id="deleteForm-{{ $program->id }}">
+                                            <form action="{{ route('admin.programs.destroy', $program->id) }}" method="POST" id="deleteForm-{{ $program->id }}">
                                                         @csrf
                                                         @method('DELETE')
                                             </form>
@@ -139,7 +139,7 @@
                         </div>
                         <h3 class="text-lg font-medium text-gray-900 mb-2">Belum ada program</h3>
                         <p class="text-gray-500 mb-6">Mulai dengan membuat program pertama Anda</p>
-                        <a href="{{ route('admin-programs.create') }}"
+                        <a href="{{ route('admin.programs.create') }}"
                             class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg shadow transition">
                             <i data-lucide="plus" class="w-4 h-4 me-2"></i>
                             <span>Tambah Program Pertama</span>

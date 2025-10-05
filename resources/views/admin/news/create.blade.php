@@ -33,7 +33,7 @@
                         <h2 class="text-3xl font-bold text-gray-800 mb-2">Tambah Berita Baru</h2>
                         <p class="text-gray-600">Buat berita dengan konten yang menarik dan terstruktur</p>
                     </div>
-                    <a href="{{ route('admin-news.index') }}"
+                    <a href="{{ route('admin.news.index') }}"
                         class="inline-flex items-center gap-2 px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white text-sm font-medium rounded-lg shadow transition">
                         <i data-lucide="chevron-left" class="w-4 h-4"></i>
                         <span>Kembali</span>
@@ -41,7 +41,7 @@
                 </div>
             </div>
 
-            <form id="createForm" action="{{ route('admin-news.store') }}" method="POST" enctype="multipart/form-data"
+            <form id="createForm" action="{{ route('admin.news.store') }}" method="POST" enctype="multipart/form-data"
                 class="space-y-6" id="newsForm">
                 @csrf
 
@@ -558,7 +558,7 @@
                                             <div class="relative">
                                                 <img src="${e.target.result}" class="w-full h-32 object-cover rounded-lg border border-gray-200">
                                                 <button type="button" onclick="removeSupportPhotoPreview(this)" class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition">
-                                                    Hapus
+                                                    
                                                 </button>
                                             </div>
                                         `;

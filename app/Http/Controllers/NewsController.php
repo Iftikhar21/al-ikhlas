@@ -69,7 +69,7 @@ class NewsController extends Controller
             }
         }
 
-        return redirect()->route('admin-news.index')->with('success', 'Berita berhasil ditambahkan');
+        return redirect()->route('admin.news.index')->with('success', 'Berita berhasil ditambahkan');
     }
 
     // show detail
@@ -150,7 +150,7 @@ class NewsController extends Controller
             }
         }
 
-        return redirect()->route('admin-news.index')->with('success', 'Berita berhasil diperbarui');
+        return redirect()->route('admin.news.index')->with('success', 'Berita berhasil diperbarui');
     }
 
     // hapus
@@ -160,6 +160,6 @@ class NewsController extends Controller
             return redirect()->route('login');
         }
         $news->delete();
-        return redirect()->route('admin-news.index')->with('success', 'Berita berhasil dihapus');
+        return redirect()->route('admin.news.index')->with('success', 'Berita berhasil dihapus');
     }
 }

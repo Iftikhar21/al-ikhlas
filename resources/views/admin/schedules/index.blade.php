@@ -67,25 +67,25 @@
                             @forelse($weeklySchedules as $schedule)
                                                             <tr>
                                                                 @php
-                                $days = [
-                                    'Monday' => 'Senin',
-                                    'Tuesday' => 'Selasa',
-                                    'Wednesday' => 'Rabu',
-                                    'Thursday' => 'Kamis',
-                                    'Friday' => 'Jumat',
-                                    'Saturday' => 'Sabtu',
-                                    'Sunday' => 'Minggu',
-                                ];
+    $days = [
+        'Monday' => 'Senin',
+        'Tuesday' => 'Selasa',
+        'Wednesday' => 'Rabu',
+        'Thursday' => 'Kamis',
+        'Friday' => 'Jumat',
+        'Saturday' => 'Sabtu',
+        'Sunday' => 'Minggu',
+    ];
 
-                                $dayColors = [
-                                    'Monday' => 'bg-blue-100 text-blue-800',
-                                    'Tuesday' => 'bg-indigo-100 text-indigo-800',
-                                    'Wednesday' => 'bg-purple-100 text-purple-800',
-                                    'Thursday' => 'bg-pink-100 text-pink-800',
-                                    'Friday' => 'bg-green-100 text-green-800',
-                                    'Saturday' => 'bg-yellow-100 text-yellow-800',
-                                    'Sunday' => 'bg-red-100 text-red-800',
-                                ];
+    $dayColors = [
+        'Monday' => 'bg-blue-100 text-blue-800',
+        'Tuesday' => 'bg-indigo-100 text-indigo-800',
+        'Wednesday' => 'bg-purple-100 text-purple-800',
+        'Thursday' => 'bg-pink-100 text-pink-800',
+        'Friday' => 'bg-green-100 text-green-800',
+        'Saturday' => 'bg-yellow-100 text-yellow-800',
+        'Sunday' => 'bg-red-100 text-red-800',
+    ];
                                                                 @endphp
 
                                                                 <td class="px-6 py-4 whitespace-nowrap">
@@ -171,7 +171,7 @@
                     @forelse($eventSchedules as $event)
                         <div class="bg-gray-50 rounded-lg shadow-sm border border-gray-200 overflow-hidden">
                             @if($event->image)
-                                <img src="{{ Storage::url($event->image) }}" alt="{{ $event->title }}"
+                                <img src="{{ asset('storage/' . $event->image) }}" alt="{{ $event->title }}"
                                     class="w-full h-48 object-cover">
                             @else
                                 <div class="w-full h-48 bg-gray-200 flex items-center justify-center">
