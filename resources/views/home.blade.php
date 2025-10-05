@@ -2,348 +2,627 @@
 
 @section('content')
     <style>
-        .gradient-overlay {
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 40%, rgba(0, 0, 0, 0) 100%);
+        .arabic-font {
+            font-family: 'Amiri', serif;
         }
 
-        .card-hover:hover {
-            transform: translateY(-5px);
-            transition: transform 0.3s ease;
+        /* Islamic Pattern Background */
+        .islamic-pattern {
+            background-image:
+                repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(139, 195, 74, 0.06) 35px, rgba(139, 195, 74, 0.06) 70px),
+                repeating-linear-gradient(-45deg, transparent, transparent 35px, rgba(76, 175, 80, 0.06) 35px, rgba(76, 175, 80, 0.06) 70px);
         }
 
-        .dot.active {
-            background-color: white;
+        /* Slider Styles - TIDAK DIUBAH */
+        .slider-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .slider-wrapper {
+            display: flex;
+            transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .slide {
+            min-width: 100%;
+            position: relative;
+            opacity: 0;
+            transform: scale(0.95);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .slide.active {
             opacity: 1;
-            width: 16px;
+            transform: scale(1);
+        }
+
+        .slide-image {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            position: relative;
+        }
+
+        .slide-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.4) 60%, transparent 100%);
+            padding: 3rem 2rem 2rem;
+            color: white;
+        }
+
+        .nav-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.95);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 10;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-button:hover {
+            background: #8BC34A;
+            color: white;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .nav-button.prev {
+            left: 20px;
+        }
+
+        .nav-button.next {
+            right: 20px;
+        }
+
+        .dots-container {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
         }
 
         .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
             transition: all 0.3s ease;
         }
+
+        .dot.active {
+            background: #8BC34A;
+            width: 30px;
+            border-radius: 6px;
+        }
+
+        @media (max-width: 768px) {
+            .slide-image {
+                height: 350px;
+            }
+
+            .slide-overlay {
+                padding: 2rem 1.5rem 1.5rem;
+            }
+
+            .nav-button {
+                width: 40px;
+                height: 40px;
+            }
+        }
+
+        /* Custom Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        /* Gradient Border Effect */
+        .gradient-border {
+            position: relative;
+            background: white;
+            border-radius: 1.5rem;
+        }
+
+        .gradient-border::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 1.5rem;
+            padding: 2px;
+            background: linear-gradient(135deg, #8BC34A, #689F38, #4CAF50);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .gradient-border:hover::before {
+            opacity: 1;
+        }
     </style>
-    <div class="relative">
-        <div id="carousel" class="carousel-container flex overflow-x-hidden snap-x snap-mandatory">
-            <!-- Slide 1 -->
-            <div class="carousel-item min-w-full h-[70vh] md:h-screen relative snap-start">
-                <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1600&h=900&fit=crop"
-                    alt="Technology" class="w-full h-full object-cover">
-                <div class="gradient-overlay absolute inset-0"></div>
-                <div class="absolute bottom-0 left-0 right-0 p-4 sm:p-8 md:p-12 lg:p-16">
-                    <div class="max-w-4xl">
-                        <span
-                            class="inline-block px-3 py-1 bg-blue-600 text-white text-xs font-semibold rounded-full mb-2 sm:mb-4">TECHNOLOGY</span>
-                        <h1
-                            class="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-6xl font-bold text-white mb-2 sm:mb-4 leading-tight">
-                            The Future of AI: Transforming Industries Worldwide</h1>
-                        <p class="text-gray-200 text-sm sm:text-base md:text-lg lg:text-xl mb-4 sm:mb-6 max-w-2xl">
-                            Artificial intelligence is reshaping how we work, live, and interact with technology in
-                            unprecedented ways.</p>
-                        <button
-                            class="px-4 py-2 sm:px-6 sm:py-3 bg-white text-gray-900 rounded-full font-semibold hover:bg-gray-100 transition-all text-sm sm:text-base">Read
-                            More</button>
+
+    <!-- Main Content -->
+    <div class="islamic-pattern min-h-screen">
+        <main class="container mx-auto px-4 py-8 lg:py-12">
+
+            <!-- Hero Slider Section - TIDAK DIUBAH -->
+            <section class="mb-20 relative">
+                <div class="slider-container relative">
+                    <div class="slider-wrapper" id="sliderWrapper">
+                        @foreach($heroSlides as $index => $slide)
+                            <div class="slide {{ $index === 0 ? 'active' : '' }} relative">
+                                @if($slide->thumbnail)
+                                    <img src="{{ asset('storage/' . $slide->thumbnail) }}" alt="{{ $slide->title }}"
+                                        class="slide-image w-full h-full object-cover">
+                                @else
+                                    <div class="slide-image w-full h-full bg-gray-200 flex items-center justify-center">
+                                        <i data-lucide="image" class="text-6xl text-gray-500"></i>
+                                    </div>
+                                @endif
+
+                                <div class="slide-overlay absolute inset-0 bg-black/50 flex flex-col justify-center items-start text-left px-4 sm:px-8 md:px-16">
+                                    <div class="m-10 md:m-20">
+                                        <h2 class="text-lg sm:text-2xl md:text-4xl font-bold mb-2 sm:mb-3 text-white leading-snug">
+                                            {{ $slide->title }}
+                                        </h2>
+                                        <p class="text-gray-200 text-xs sm:text-base md:text-lg mb-3 sm:mb-4 max-w-xl">
+                                            {{ Str::limit($slide->content ?? $slide->content ?? 'Tidak ada deskripsi', 150) }}
+                                        </p>
+                                        <a href="" class="bg-white text-green-600 text-xs sm:text-sm md:text-base px-3 sm:px-5 md:px-6 py-1.5 sm:py-2 rounded-full font-semibold hover:bg-green-50 transition">
+                                            Baca Selengkapnya
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+
+                    <button class="nav-button prev" onclick="moveSlide(-1)">
+                        <i data-lucide="chevron-left"></i>
+                    </button>
+                    <button class="nav-button next" onclick="moveSlide(1)">
+                        <i data-lucide="chevron-right"></i>
+                    </button>
+
+                    <div class="dots-container" id="dotsContainer"></div>
+                </div>
+            </section>
+
+            <!-- Quick Links Section - Redesigned -->
+            <section class="mb-24">
+                <div class="text-center mb-16 animate-fade-in-up">
+                    <div class="inline-block mb-4">
+                        <span class="text-green-600 font-semibold text-sm uppercase tracking-wider bg-green-50 px-4 py-2 rounded-full">Layanan Kami</span>
+                    </div>
+                    <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-6 bg-clip-text text-transparent bg-gradient-to-r from-green-600 to-emerald-600">
+                        Layanan TPA/TPQ
+                    </h2>
+                    <p class="text-gray-600 text-lg lg:text-xl max-w-3xl mx-auto leading-relaxed">
+                        Berbagai program dan layanan untuk pendidikan Al-Quran anak-anak dengan metode pembelajaran modern dan menyenangkan
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <a href="{{ route('program') }}" class="group relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-gray-100 overflow-hidden">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-green-100 to-emerald-50 rounded-bl-full -mr-16 -mt-16 opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                        <div class="relative z-10">
+                            <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                                <i data-lucide="book-open" class="w-8 h-8 text-white"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">Program Belajar</h3>
+                            <p class="text-gray-600 mb-4">Lihat program pendidikan unggulan kami</p>
+                            <div class="flex items-center text-green-600 font-semibold group-hover:translate-x-2 transition-transform">
+                                <span>Selengkapnya</span>
+                                <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="{{ route('schedule') }}" class="group relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-gray-100 overflow-hidden">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-100 to-cyan-50 rounded-bl-full -mr-16 -mt-16 opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                        <div class="relative z-10">
+                            <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                                <i data-lucide="calendar" class="w-8 h-8 text-white"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">Jadwal</h3>
+                            <p class="text-gray-600 mb-4">Jadwal belajar & kegiatan lengkap</p>
+                            <div class="flex items-center text-blue-600 font-semibold group-hover:translate-x-2 transition-transform">
+                                <span>Selengkapnya</span>
+                                <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="{{ route('register-online') }}" class="group relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-gray-100 overflow-hidden">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-amber-100 to-orange-50 rounded-bl-full -mr-16 -mt-16 opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                        <div class="relative z-10">
+                            <div class="w-16 h-16 bg-gradient-to-br from-amber-500 to-orange-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                                <i data-lucide="user-plus" class="w-8 h-8 text-white"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">Pendaftaran</h3>
+                            <p class="text-gray-600 mb-4">Daftar santri baru online</p>
+                            <div class="flex items-center text-amber-600 font-semibold group-hover:translate-x-2 transition-transform">
+                                <span>Selengkapnya</span>
+                                <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="{{ route('contact') }}" class="group relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-gray-100 overflow-hidden">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-100 to-pink-50 rounded-bl-full -mr-16 -mt-16 opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                        <div class="relative z-10">
+                            <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                                <i data-lucide="phone" class="w-8 h-8 text-white"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">Kontak</h3>
+                            <p class="text-gray-600 mb-4">Hubungi kami untuk informasi</p>
+                            <div class="flex items-center text-purple-600 font-semibold group-hover:translate-x-2 transition-transform">
+                                <span>Selengkapnya</span>
+                                <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Programs Overview Section - Redesigned -->
+            <section class="mb-24">
+                <div class="text-center mb-16">
+                    <div class="inline-block mb-4">
+                        <span class="text-green-600 font-semibold text-sm uppercase tracking-wider bg-green-50 px-4 py-2 rounded-full">Program Kami</span>
+                    </div>
+                    <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-6 bg-clip-text text-transparent bg-gradient-to-r from-green-600 to-emerald-600">
+                        Program Unggulan
+                    </h2>
+                    <p class="text-gray-600 text-lg lg:text-xl max-w-3xl mx-auto">
+                        Program pendidikan Al-Quran untuk berbagai usia dengan kurikulum terstruktur
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    @foreach($programs->take(3) as $program)
+                        <div class="group bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100">
+                            <div class="relative bg-gradient-to-br from-green-500 to-emerald-600 p-8 text-white">
+                                <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-bl-full -mr-8 -mt-8"></div>
+                                <div class="relative z-10">
+                                    <div class="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mb-4">
+                                        @if($program->thumbnail)
+                                            <img src="{{ asset('storage/' . $program->thumbnail) }}" class="w-12 h-12 object-cover rounded-full"
+                                                alt="{{ $program->title }}">
+                                        @else
+                                            <!-- Default icon -->
+                                            <svg class="w-12 h-12 text-{{ $color }}-700" fill="currentColor" viewBox="0 0 20 20">
+                                                <path
+                                                    d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z" />
+                                            </svg>
+                                        @endif
+                                    </div>
+                                    <h3 class="text-2xl font-bold mb-2">{{ $program->title }}</h3>
+                                </div>
+                            </div>
+
+                            <div class="p-8">
+                                <p class="text-gray-600 leading-relaxed mb-6">{{ Str::limit($program->description, 100) }}</p>
+                                <a href="{{ route('program-detail', $program->slug) }}" class="inline-flex items-center text-green-600 font-semibold hover:text-green-700 group-hover:translate-x-2 transition-all">
+                                    Lihat Detail Program
+                                    <i data-lucide="arrow-right" class="ml-2 w-5 h-5"></i>
+                                </a>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+
+                <div class="text-center mt-12">
+                    <a href="{{ route('program') }}" class="inline-flex items-center bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-10 py-4 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+                        Lihat Semua Program
+                        <i data-lucide="arrow-right" class="ml-3 w-5 h-5"></i>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Schedule Overview Section - Redesigned -->
+            <section class="mb-24">
+
+                <!-- Upcoming Events List -->
+                <div class="bg-white rounded-3xl p-8 lg:p-10 shadow-xl border border-amber-50">
+                    <div class="flex items-center mb-8">
+                        <div
+                            class="w-16 h-16 bg-gradient-to-br from-amber-500 to-yellow-600 rounded-2xl flex items-center justify-center mr-5 shadow-lg">
+                            <i data-lucide="star" class="w-8 h-8 text-white"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-3xl font-bold text-gray-900 mb-1">Kegiatan & Event Mendatang</h2>
+                            <p class="text-gray-600">Acara spesial dan kegiatan luar biasa TPA/TPQ</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-6">
+                        @foreach($eventSchedules->take(4) as $event)
+                            <div
+                                class="flex flex-col lg:flex-row items-start gap-6 p-6 bg-gradient-to-r from-amber-50 to-yellow-50 rounded-2xl border-l-4 border-amber-500 hover:shadow-lg transition-all duration-300">
+                                <!-- Foto/Thumbnail -->
+                                <div class="w-full lg:w-48 h-48 flex-shrink-0 rounded-xl overflow-hidden relative">
+                                    @if($event->image)
+                                        <img src="{{ asset('storage/' . $event->image) }}" alt="{{ $event->title }}"
+                                            class="w-full h-full object-cover">
+                                    @else
+                                        <div class="w-full h-full bg-amber-200 flex items-center justify-center">
+                                            <i data-lucide="calendar" class="w-12 h-12 text-amber-600"></i>
+                                        </div>
+                                    @endif
+                                    <!-- Date Badge Overlay -->
+                                    <div class="absolute top-4 left-4 bg-amber-600 text-white px-3 py-2 rounded-lg font-bold text-sm">
+                                        {{ \Carbon\Carbon::parse($event->event_date)->format('d M') }}
+                                    </div>
+                                </div>
+
+                                <!-- Konten -->
+                                <div class="flex-1">
+                                    <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between mb-3">
+                                        <div>
+                                            <div class="text-amber-600 font-bold text-lg mb-2">
+                                                {{ \Carbon\Carbon::parse($event->event_date)->format('l, d F Y') }}
+                                            </div>
+                                            <h3 class="text-2xl font-bold text-gray-900 mb-2">{{ $event->title }}</h3>
+                                        </div>
+                                        <div class="bg-amber-600 text-white px-4 py-2 rounded-xl font-bold text-lg mb-3 lg:mb-0">
+                                            {{ \Carbon\Carbon::parse($event->start_time)->format('H:i') }}
+                                        </div>
+                                    </div>
+
+                                    <p class="text-gray-700 leading-relaxed mb-4">
+                                        {{ $event->description }}
+                                    </p>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+
+                    <div class="text-center mt-8">
+                        <a href="{{ route('schedule') }}"
+                            class="inline-flex items-center bg-amber-600 hover:bg-amber-700 text-white px-8 py-3 rounded-xl font-semibold text-lg transition-colors group">
+                            Lihat Semua Kegiatan
+                            <i data-lucide="arrow-right" class="ml-2 w-5 h-5 group-hover:translate-x-2 transition-transform"></i>
+                        </a>
                     </div>
                 </div>
-            </div>
+            </section>
 
-            <!-- Slide 2 -->
-            <div class="carousel-item min-w-full h-[70vh] md:h-screen relative snap-start">
-                <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&h=900&fit=crop"
-                    alt="Environment" class="w-full h-full object-cover">
-                <div class="gradient-overlay absolute inset-0"></div>
-                <div class="absolute bottom-0 left-0 right-0 p-4 sm:p-8 md:p-12 lg:p-16">
-                    <div class="max-w-4xl">
-                        <span
-                            class="inline-block px-3 py-1 bg-green-600 text-white text-xs font-semibold rounded-full mb-2 sm:mb-4">ENVIRONMENT</span>
-                        <h1
-                            class="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-6xl font-bold text-white mb-2 sm:mb-4 leading-tight">
-                            Climate Action: Global Leaders Unite for Change</h1>
-                        <p class="text-gray-200 text-sm sm:text-base md:text-lg lg:text-xl mb-4 sm:mb-6 max-w-2xl">
-                            Nations commit to ambitious targets as climate summit delivers groundbreaking agreements.
-                        </p>
-                        <button
-                            class="px-4 py-2 sm:px-6 sm:py-3 bg-white text-gray-900 rounded-full font-semibold hover:bg-gray-100 transition-all text-sm sm:text-base">Read
-                            More</button>
+            <!-- Latest News Section - Redesigned -->
+            <section class="mb-24">
+                <div class="text-center mb-16">
+                    <div class="inline-block mb-4">
+                        <span class="text-green-600 font-semibold text-sm uppercase tracking-wider bg-green-50 px-4 py-2 rounded-full">Berita Terkini</span>
+                    </div>
+                    <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 pb-10 bg-clip-text text-transparent bg-gradient-to-r from-gray-800 to-gray-600">
+                        Berita & Kegiatan Terbaru
+                    </h2>
+                    <p class="text-gray-600 text-lg lg:text-xl max-w-3xl mx-auto">
+                        Update terbaru dari TPA/TPQ kami seputar kegiatan dan prestasi santri
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    @foreach($newsList as $news)
+                        <article class="group bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100">
+                            <div class="relative overflow-hidden h-56">
+                                @if($news->thumbnail)
+                                    <img src="{{ asset('storage/' . $news->thumbnail) }}" alt="{{ $news->title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                @else
+                                    <div class="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
+                                        <i data-lucide="image" class="text-5xl text-gray-400"></i>
+                                    </div>
+                                @endif
+                                <div class="absolute top-4 left-4">
+                                    <span class="bg-green-600 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg">
+                                        {{ $news->category ?? 'Berita' }}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="p-8">
+                                <div class="flex items-center text-sm text-gray-500 mb-4">
+                                    <i data-lucide="calendar" class="w-4 h-4 mr-2"></i>
+                                    <span>{{ $news->created_at->format('d F Y') }}</span>
+                                </div>
+
+                                <h3 class="text-xl font-bold text-gray-900 mb-4 leading-tight group-hover:text-green-600 transition-colors">
+                                    <a href="">{{ $news->title }}</a>
+                                </h3>
+
+                                <p class="text-gray-600 leading-relaxed mb-6">{{ Str::limit($news->content ?? '', 100) }}</p>
+
+                                <a href="" class="inline-flex items-center text-green-600 font-semibold hover:text-green-700 group-hover:translate-x-2 transition-all">
+                                    Baca Selengkapnya
+                                    <i data-lucide="arrow-right" class="ml-2 w-5 h-5"></i>
+                                </a>
+                            </div>
+                        </article>
+                    @endforeach
+                </div>
+
+                <div class="text-center mt-12">
+                    <a href="{{ route('news') }}" class="inline-flex items-center bg-gray-900 hover:bg-gray-800 text-white px-10 py-4 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+                        Lihat Semua Berita
+                        <i data-lucide="arrow-right" class="ml-3 w-5 h-5"></i>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Contact Overview Section - Redesigned -->
+            <section class="mb-16">
+                <div class="relative bg-gradient-to-br from-green-600 via-emerald-600 to-teal-600 rounded-3xl overflow-hidden shadow-2xl">
+                    <!-- Decorative Elements -->
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-32 -mt-32"></div>
+                    <div class="absolute bottom-0 left-0 w-96 h-96 bg-white/5 rounded-full -ml-48 -mb-48"></div>
+
+                    <div class="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center p-10 lg:p-16">
+                        <div>
+                            <div class="inline-block mb-4">
+                                <span class="text-green-200 font-semibold text-sm uppercase tracking-wider bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full">Hubungi Kami</span>
+                            </div>
+                            <h2 class="text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
+                                Butuh Informasi Lebih Lanjut?
+                            </h2>
+                            <p class="text-green-50 text-lg lg:text-xl mb-8 leading-relaxed">
+                                Hubungi kami untuk informasi pendaftaran, program, atau pertanyaan lainnya. Tim kami siap membantu Anda.
+                            </p>
+
+                            <div class="space-y-5">
+                                @if($footer && $footer->telepon)
+                                    <div class="flex items-center bg-white/10 backdrop-blur-sm rounded-2xl p-5 hover:bg-white/20 transition-all">
+                                        <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mr-4">
+                                            <i data-lucide="phone" class="w-6 h-6 text-white"></i>
+                                        </div>
+                                        @php
+                                            $formattedPhone = preg_replace('/(\d{4})(?=\d)/', '$1-', $footer->telepon);
+                                        @endphp
+
+                                        <div>
+                                            <p class="text-green-100 text-sm mb-1">Telepon</p>
+                                            <span class="text-white font-semibold text-lg">{{ $formattedPhone }}</span>
+                                        </div>
+                                    </div>
+                                @endif
+                                @if($footer && $footer->email)
+                                    <div class="flex items-center bg-white/10 backdrop-blur-sm rounded-2xl p-5 hover:bg-white/20 transition-all">
+                                        <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mr-4">
+                                            <i data-lucide="mail" class="w-6 h-6 text-white"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-green-100 text-sm mb-1">Email</p>
+                                            <span class="text-white font-semibold text-lg">{{ $footer->email }}</span>
+                                        </div>
+                                    </div>
+                                @endif
+                                @if($footer && $footer->alamat)
+                                    <div class="flex items-center bg-white/10 backdrop-blur-sm rounded-2xl p-5 hover:bg-white/20 transition-all">
+                                        <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mr-4">
+                                            <i data-lucide="map-pin" class="w-6 h-6 text-white"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-green-100 text-sm mb-1">Alamat</p>
+                                            <span class="text-white font-semibold text-lg">{{ $footer->alamat }}</span>
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="text-center lg:text-right">
+                            <a href="{{ route('contact') }}" class="inline-flex items-center bg-white text-green-600 hover:bg-green-50 px-10 py-5 rounded-full font-bold text-lg shadow-2xl hover:shadow-xl transition-all duration-300 hover:scale-105">
+                                <i data-lucide="message-circle" class="mr-3 w-6 h-6"></i>
+                                Hubungi Kami Sekarang
+                            </a>
+                            <p class="text-green-100 text-sm mt-6">Kami siap melayani Anda 24/7</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Slide 3 -->
-            <div class="carousel-item min-w-full h-[70vh] md:h-screen relative snap-start">
-                <img src="https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=1600&h=900&fit=crop"
-                    alt="Innovation" class="w-full h-full object-cover">
-                <div class="gradient-overlay absolute inset-0"></div>
-                <div class="absolute bottom-0 left-0 right-0 p-4 sm:p-8 md:p-12 lg:p-16">
-                    <div class="max-w-4xl">
-                        <span
-                            class="inline-block px-3 py-1 bg-purple-600 text-white text-xs font-semibold rounded-full mb-2 sm:mb-4">INNOVATION</span>
-                        <h1
-                            class="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-6xl font-bold text-white mb-2 sm:mb-4 leading-tight">
-                            Space Exploration Reaches New Milestones</h1>
-                        <p class="text-gray-200 text-sm sm:text-base md:text-lg lg:text-xl mb-4 sm:mb-6 max-w-2xl">
-                            Breakthrough discoveries push the boundaries of human knowledge and exploration beyond
-                            Earth.</p>
-                        <button
-                            class="px-4 py-2 sm:px-6 sm:py-3 bg-white text-gray-900 rounded-full font-semibold hover:bg-gray-100 transition-all text-sm sm:text-base">Read
-                            More</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Carousel Dots -->
-        <div class="absolute bottom-4 sm:bottom-6 md:bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2">
-            <button class="dot w-2 h-2 rounded-full bg-white bg-opacity-50 active" onclick="scrollToSlide(0)"></button>
-            <button class="dot w-2 h-2 rounded-full bg-white bg-opacity-50" onclick="scrollToSlide(1)"></button>
-            <button class="dot w-2 h-2 rounded-full bg-white bg-opacity-50" onclick="scrollToSlide(2)"></button>
-        </div>
-
-        <!-- Navigation Arrows -->
-        <button onclick="scrollCarousel(-1)" class="hidden md:flex absolute left-2 md:left-4 top-1/2 -translate-y-1/2 
-                           w-8 h-8 md:w-12 md:h-12 bg-white cursor-pointer hover:bg-white/30 backdrop-blur-sm 
-                           rounded-full items-center justify-center transition-all">
-            <svg class="w-4 h-4 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-            </svg>
-        </button>
-
-        <button onclick="scrollCarousel(1)" class="hidden md:flex absolute right-2 md:right-4 top-1/2 -translate-y-1/2 
-                           w-8 h-8 md:w-12 md:h-12 bg-white cursor-pointer hover:bg-white/30 backdrop-blur-sm 
-                           rounded-full items-center justify-center transition-all">
-            <svg class="w-4 h-4 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-            </svg>
-        </button>
+            </section>
+        </main>
     </div>
 
-    <!-- News Grid -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 md:py-16">
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 sm:mb-12">
-            <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-0">Latest Stories</h2>
-            <a href="#" class="text-blue-600 hover:text-blue-700 font-semibold flex items-center">
-                View All
-                <svg class="w-5 h-5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                </svg>
-            </a>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            <!-- Card 1 -->
-            <article class="card-hover bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-md sm:shadow-lg">
-                <div class="relative h-48 sm:h-56 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=800&h=600&fit=crop" alt="Tech"
-                        class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
-                    <span
-                        class="absolute top-3 sm:top-4 left-3 sm:left-4 px-2 sm:px-3 py-1 bg-blue-600 text-white text-xs font-semibold rounded-full">TECH</span>
-                </div>
-                <div class="p-4 sm:p-6">
-                    <h3
-                        class="text-lg sm:text-xl font-bold text-gray-900 mb-2 hover:text-blue-600 transition-colors cursor-pointer">
-                        Quantum Computing Breakthrough Announced</h3>
-                    <p class="text-gray-600 text-sm sm:text-base mb-3 sm:mb-4">Researchers achieve quantum supremacy
-                        milestone with new processor architecture.</p>
-                    <div class="flex items-center text-xs sm:text-sm text-gray-500">
-                        <span>5 hours ago</span>
-                        <span class="mx-2">•</span>
-                        <span>3 min read</span>
-                    </div>
-                </div>
-            </article>
-
-            <!-- Card 2 -->
-            <article class="card-hover bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-md sm:shadow-lg">
-                <div class="relative h-48 sm:h-56 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&h=600&fit=crop"
-                        alt="Business" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
-                    <span
-                        class="absolute top-3 sm:top-4 left-3 sm:left-4 px-2 sm:px-3 py-1 bg-orange-600 text-white text-xs font-semibold rounded-full">BUSINESS</span>
-                </div>
-                <div class="p-4 sm:p-6">
-                    <h3
-                        class="text-lg sm:text-xl font-bold text-gray-900 mb-2 hover:text-blue-600 transition-colors cursor-pointer">
-                        Global Markets React to Economic Data</h3>
-                    <p class="text-gray-600 text-sm sm:text-base mb-3 sm:mb-4">Stock markets show resilience as
-                        investors digest quarterly earnings reports.</p>
-                    <div class="flex items-center text-xs sm:text-sm text-gray-500">
-                        <span>8 hours ago</span>
-                        <span class="mx-2">•</span>
-                        <span>4 min read</span>
-                    </div>
-                </div>
-            </article>
-
-            <!-- Card 3 -->
-            <article class="card-hover bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-md sm:shadow-lg">
-                <div class="relative h-48 sm:h-56 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=800&h=600&fit=crop"
-                        alt="Health" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
-                    <span
-                        class="absolute top-3 sm:top-4 left-3 sm:left-4 px-2 sm:px-3 py-1 bg-red-600 text-white text-xs font-semibold rounded-full">HEALTH</span>
-                </div>
-                <div class="p-4 sm:p-6">
-                    <h3
-                        class="text-lg sm:text-xl font-bold text-gray-900 mb-2 hover:text-blue-600 transition-colors cursor-pointer">
-                        Revolutionary Medical Treatment Approved</h3>
-                    <p class="text-gray-600 text-sm sm:text-base mb-3 sm:mb-4">New therapy offers hope for millions
-                        affected by chronic conditions worldwide.</p>
-                    <div class="flex items-center text-xs sm:text-sm text-gray-500">
-                        <span>12 hours ago</span>
-                        <span class="mx-2">•</span>
-                        <span>6 min read</span>
-                    </div>
-                </div>
-            </article>
-
-            <!-- Card 4 -->
-            <article class="card-hover bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-md sm:shadow-lg">
-                <div class="relative h-48 sm:h-56 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1477346611705-65d1883cee1e?w=800&h=600&fit=crop"
-                        alt="Culture" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
-                    <span
-                        class="absolute top-3 sm:top-4 left-3 sm:left-4 px-2 sm:px-3 py-1 bg-pink-600 text-white text-xs font-semibold rounded-full">CULTURE</span>
-                </div>
-                <div class="p-4 sm:p-6">
-                    <h3
-                        class="text-lg sm:text-xl font-bold text-gray-900 mb-2 hover:text-blue-600 transition-colors cursor-pointer">
-                        Art Exhibition Breaks Attendance Records</h3>
-                    <p class="text-gray-600 text-sm sm:text-base mb-3 sm:mb-4">Contemporary art showcase attracts
-                        visitors from around the globe in historic numbers.</p>
-                    <div class="flex items-center text-xs sm:text-sm text-gray-500">
-                        <span>1 day ago</span>
-                        <span class="mx-2">•</span>
-                        <span>5 min read</span>
-                    </div>
-                </div>
-            </article>
-
-            <!-- Card 5 -->
-            <article class="card-hover bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-md sm:shadow-lg">
-                <div class="relative h-48 sm:h-56 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=800&h=600&fit=crop"
-                        alt="Sports" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
-                    <span
-                        class="absolute top-3 sm:top-4 left-3 sm:left-4 px-2 sm:px-3 py-1 bg-yellow-600 text-white text-xs font-semibold rounded-full">SPORTS</span>
-                </div>
-                <div class="p-4 sm:p-6">
-                    <h3
-                        class="text-lg sm:text-xl font-bold text-gray-900 mb-2 hover:text-blue-600 transition-colors cursor-pointer">
-                        Championship Finals Set Record Viewership</h3>
-                    <p class="text-gray-600 text-sm sm:text-base mb-3 sm:mb-4">Thrilling match captivates millions as
-                        underdog team defies all expectations.</p>
-                    <div class="flex items-center text-xs sm:text-sm text-gray-500">
-                        <span>1 day ago</span>
-                        <span class="mx-2">•</span>
-                        <span>4 min read</span>
-                    </div>
-                </div>
-            </article>
-
-            <!-- Card 6 -->
-            <article class="card-hover bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-md sm:shadow-lg">
-                <div class="relative h-48 sm:h-56 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=800&h=600&fit=crop"
-                        alt="Travel" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
-                    <span
-                        class="absolute top-3 sm:top-4 left-3 sm:left-4 px-2 sm:px-3 py-1 bg-teal-600 text-white text-xs font-semibold rounded-full">TRAVEL</span>
-                </div>
-                <div class="p-4 sm:p-6">
-                    <h3
-                        class="text-lg sm:text-xl font-bold text-gray-900 mb-2 hover:text-blue-600 transition-colors cursor-pointer">
-                        Hidden Gems: Destinations for 2025</h3>
-                    <p class="text-gray-600 text-sm sm:text-base mb-3 sm:mb-4">Discover the world's most breathtaking
-                        locations that remain off the beaten path.</p>
-                    <div class="flex items-center text-xs sm:text-sm text-gray-500">
-                        <span>2 days ago</span>
-                        <span class="mx-2">•</span>
-                        <span>7 min read</span>
-                    </div>
-                </div>
-            </article>
-        </div>
-    </section>
-
     <script>
-        // Initialize Lucide icons
-        lucide.createIcons();
-
-        const carousel = document.getElementById('carousel');
-        const dots = document.querySelectorAll('.dot');
+        // Slider functionality - TIDAK DIUBAH
         let currentSlide = 0;
-        let autoScrollInterval;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        let autoplayInterval;
 
-        function scrollCarousel(direction) {
-            const slideWidth = carousel.offsetWidth;
-            currentSlide = (currentSlide + direction + 3) % 3;
-            carousel.scrollTo({
-                left: slideWidth * currentSlide,
-                behavior: 'smooth'
-            });
-            updateDots();
+        // Create dots
+        const dotsContainer = document.getElementById('dotsContainer');
+        for (let i = 0; i < totalSlides; i++) {
+            const dot = document.createElement('div');
+            dot.className = 'dot' + (i === 0 ? ' active' : '');
+            dot.onclick = () => goToSlide(i);
+            dotsContainer.appendChild(dot);
         }
 
-        function scrollToSlide(index) {
-            const slideWidth = carousel.offsetWidth;
-            currentSlide = index;
-            carousel.scrollTo({
-                left: slideWidth * index,
-                behavior: 'smooth'
-            });
-            updateDots();
-        }
+        function updateSlider() {
+            const sliderWrapper = document.getElementById('sliderWrapper');
+            sliderWrapper.style.transform = `translateX(-${currentSlide * 100}%)`;
 
-        function updateDots() {
+            slides.forEach((slide, index) => {
+                slide.classList.toggle('active', index === currentSlide);
+            });
+
+            const dots = document.querySelectorAll('.dot');
             dots.forEach((dot, index) => {
-                if (index === currentSlide) {
-                    dot.classList.add('active');
-                } else {
-                    dot.classList.remove('active');
-                }
+                dot.classList.toggle('active', index === currentSlide);
             });
         }
 
-        // Update dots on scroll
-        carousel.addEventListener('scroll', () => {
-            const slideWidth = carousel.offsetWidth;
-            const scrolled = carousel.scrollLeft;
-            currentSlide = Math.round(scrolled / slideWidth);
-            updateDots();
-        });
+        function moveSlide(direction) {
+            currentSlide += direction;
+            if (currentSlide < 0) {
+                currentSlide = totalSlides - 1;
+            } else if (currentSlide >= totalSlides) {
+                currentSlide = 0;
+            }
+            updateSlider();
+            resetAutoplay();
+        }
 
-        // Auto-scroll carousel
-        function startAutoScroll() {
-            autoScrollInterval = setInterval(() => {
-                scrollCarousel(1);
+        function goToSlide(index) {
+            currentSlide = index;
+            updateSlider();
+            resetAutoplay();
+        }
+
+        function autoplay() {
+            autoplayInterval = setInterval(() => {
+                moveSlide(1);
             }, 5000);
         }
 
-        function stopAutoScroll() {
-            clearInterval(autoScrollInterval);
+        function resetAutoplay() {
+            clearInterval(autoplayInterval);
+            autoplay();
         }
 
-        // Pause auto-scroll on hover
-        carousel.addEventListener('mouseenter', stopAutoScroll);
-        carousel.addEventListener('mouseleave', startAutoScroll);
+        // Start autoplay
+        autoplay();
 
-        // Touch swipe support
-        let touchStartX = 0;
-        let touchEndX = 0;
-
-        carousel.addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-            stopAutoScroll();
+        // Pause autoplay when user hovers over slider
+        const sliderContainer = document.querySelector('.slider-container');
+        sliderContainer.addEventListener('mouseenter', () => {
+            clearInterval(autoplayInterval);
         });
 
-        carousel.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            if (touchStartX - touchEndX > 50) {
-                scrollCarousel(1);
-            } else if (touchEndX - touchStartX > 50) {
-                scrollCarousel(-1);
-            }
-            startAutoScroll();
+        sliderContainer.addEventListener('mouseleave', () => {
+            autoplay();
         });
 
-        // Start auto-scroll on page load
-        startAutoScroll();
+        // Initialize Lucide icons
+        lucide.createIcons();
     </script>
 @endsection

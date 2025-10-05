@@ -36,6 +36,7 @@ class ComposerStaticInitc514d8f7b9fc5970bdd94287905ef584
         '7f7ac2ddea9cc3fb4b2cc201d63dbc10' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Log/functions.php',
         '493c6aea52f6009bab023b26c21a386a' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Support/functions.php',
         '58571171fd5812e6e447dce228f52f4d' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Support/helpers.php',
+        'd21d43db5f6e840ee7b10744ec7fdf66' => __DIR__ . '/../..' . '/app/Helpers/helpers.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -481,8 +482,24 @@ class ComposerStaticInitc514d8f7b9fc5970bdd94287905ef584
 
     public static $classMap = array (
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
+        'App\\Http\\Controllers\\DashboardAdminController' => __DIR__ . '/../..' . '/app/Http/Controllers/DashboardAdminController.php',
+        'App\\Http\\Controllers\\FooterController' => __DIR__ . '/../..' . '/app/Http/Controllers/FooterController.php',
+        'App\\Http\\Controllers\\LoginController' => __DIR__ . '/../..' . '/app/Http/Controllers/LoginController.php',
+        'App\\Http\\Controllers\\NewsController' => __DIR__ . '/../..' . '/app/Http/Controllers/NewsController.php',
+        'App\\Http\\Controllers\\ProgramController' => __DIR__ . '/../..' . '/app/Http/Controllers/ProgramController.php',
+        'App\\Http\\Controllers\\RegisterOnlineController' => __DIR__ . '/../..' . '/app/Http/Controllers/RegisterOnlineController.php',
+        'App\\Http\\Controllers\\ScheduleController' => __DIR__ . '/../..' . '/app/Http/Controllers/ScheduleController.php',
         'App\\Http\\Controllers\\ViewController' => __DIR__ . '/../..' . '/app/Http/Controllers/ViewController.php',
+        'App\\Models\\EventSchedules' => __DIR__ . '/../..' . '/app/Models/EventSchedules.php',
+        'App\\Models\\Footer' => __DIR__ . '/../..' . '/app/Models/Footer.php',
+        'App\\Models\\FooterSocial' => __DIR__ . '/../..' . '/app/Models/FooterSocial.php',
+        'App\\Models\\News' => __DIR__ . '/../..' . '/app/Models/News.php',
+        'App\\Models\\NewsPhoto' => __DIR__ . '/../..' . '/app/Models/NewsPhoto.php',
+        'App\\Models\\Programs' => __DIR__ . '/../..' . '/app/Models/Programs.php',
+        'App\\Models\\QuoteSchedules' => __DIR__ . '/../..' . '/app/Models/QuoteSchedules.php',
+        'App\\Models\\RegisterOnline' => __DIR__ . '/../..' . '/app/Models/RegisterOnline.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
+        'App\\Models\\WeeklySchedules' => __DIR__ . '/../..' . '/app/Models/WeeklySchedules.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'Brick\\Math\\BigDecimal' => __DIR__ . '/..' . '/brick/math/src/BigDecimal.php',

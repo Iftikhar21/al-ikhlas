@@ -35,4 +35,5 @@ return array(
     '7f7ac2ddea9cc3fb4b2cc201d63dbc10' => $vendorDir . '/laravel/framework/src/Illuminate/Log/functions.php',
     '493c6aea52f6009bab023b26c21a386a' => $vendorDir . '/laravel/framework/src/Illuminate/Support/functions.php',
     '58571171fd5812e6e447dce228f52f4d' => $vendorDir . '/laravel/framework/src/Illuminate/Support/helpers.php',
+    'd21d43db5f6e840ee7b10744ec7fdf66' => $baseDir . '/app/Helpers/helpers.php',
 );

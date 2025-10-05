@@ -11,10 +11,12 @@
             @php
 $menus = [
     ['route' => 'home', 'label' => 'Beranda'],
+    ['route' => 'news', 'label' => 'Berita'],
     ['route' => 'program', 'label' => 'Program'],
     ['route' => 'schedule', 'label' => 'Jadwal'],
     ['route' => 'register-online', 'label' => 'Pendaftaran'],
     ['route' => 'contact', 'label' => 'Kontak'],
+    ['route' => 'login', 'label' => 'Login'],
 ];
             @endphp
             
@@ -24,13 +26,13 @@ $menus = [
                     @foreach ($menus as $menu)
                         <a href="{{ route($menu['route']) }}" class="relative px-3 py-2 text-sm font-medium transition-colors
                                     {{ request()->routeIs($menu['route'])
-                                    ? 'text-primary after:scale-x-100'
-                                    : 'text-gray-600 hover:text-primary hover:after:scale-x-100' }}
+        ? 'text-primary after:scale-x-100'
+        : 'text-gray-600 hover:text-primary hover:after:scale-x-100' }}
                                     after:content-[''] after:absolute after:left-0 after:bottom-0 
-                                    after:w-full after:h-[2px] after:bg-accent  <!-- Ganti warna untuk testing -->
+                                    after:w-full after:h-[2px] after:bg-green-700
                                     after:origin-center after:scale-x-0 
                                     after:transition-transform after:duration-300
-                                    debug-border"> <!-- Tambah class untuk debug -->
+                                    debug-border">
                             {{ $menu['label'] }}
                         </a>
                     @endforeach
@@ -38,10 +40,11 @@ $menus = [
             </div>
 
             <div class="hidden md:block">
-                <button
-                    class="bg-accent hover:bg-accent-dark text-gray-800 font-medium px-4 py-2 rounded-lg transition-all duration-300 transform hover:scale-105">
+                <a href="{{ route('register-online') }}" class="bg-accent text-gray-800 font-medium px-4 py-2 rounded-lg 
+                          transition-all duration-300 transform 
+                          hover:bg-yellow-900 hover:scale-105 hover:shadow-lg hover:text-white">
                     Daftar Sekarang
-                </button>
+                </a>
             </div>
 
             <!-- Mobile menu button -->
