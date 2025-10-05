@@ -97,7 +97,7 @@
         <div class="bg-white rounded-lg shadow-sm p-6 mb-8">
             <h3 class="text-xl font-bold text-gray-800 mb-4">Menu Cepat</h3>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <a href="{{ route('admin-news.create') }}"
+                <a href="{{ route('admin.news.create') }}"
                     class="bg-blue-500 text-white p-4 rounded-lg hover:bg-blue-600 transition transform hover:scale-105 flex items-center justify-center gap-2">
                     <i data-lucide="plus"></i>
                     <span class="font-medium">Tambah Berita</span>
@@ -110,7 +110,7 @@
                     <span class="font-medium">Tambah Event</span>
                 </a>
 
-                <a href="{{ route('admin-programs.create') }}" 
+                <a href="{{ route('admin.programs.create') }}" 
                    class="bg-purple-500 text-white p-4 rounded-lg hover:bg-purple-600 transition transform hover:scale-105 flex items-center justify-center gap-2">
                     <i data-lucide="clipboard"></i>
                     <span class="font-medium">Tambah Program</span>
@@ -183,7 +183,7 @@
                 <div class="bg-white rounded-lg shadow-sm p-6">
                     <div class="flex justify-between items-center mb-4">
                         <h3 class="text-xl font-bold text-gray-800">Event Mendatang</h3>
-                        <a href="{{ route('admin.events.index') }}" class="text-blue-600 hover:text-blue-800 text-sm font-medium">
+                        <a href="{{ route('admin.schedules.index') }}" class="text-blue-600 hover:text-blue-800 text-sm font-medium">
                             Lihat Semua →
                         </a>
                     </div>
@@ -234,7 +234,7 @@
             <div class="bg-white rounded-lg shadow-sm p-6">
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="text-xl font-bold text-gray-800">Berita Terbaru</h3>
-                    <a href="{{ route('admin-news.index') }}" class="text-blue-600 hover:text-blue-800 text-sm font-medium">
+                    <a href="{{ route('admin.news.index') }}" class="text-blue-600 hover:text-blue-800 text-sm font-medium">
                         Lihat Semua →
                     </a>
                 </div>
@@ -264,7 +264,7 @@
             <div class="bg-white rounded-lg shadow-sm p-6">
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="text-xl font-bold text-gray-800">Program Aktif</h3>
-                    <a href="{{ route('admin-programs.index') }}" class="text-blue-600 hover:text-blue-800 text-sm font-medium">
+                    <a href="{{ route('admin.programs.index') }}" class="text-blue-600 hover:text-blue-800 text-sm font-medium">
                         Lihat Semua →
                     </a>
                 </div>

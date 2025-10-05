@@ -40,7 +40,7 @@
                             <label for="start_time" class="block text-sm font-medium text-gray-700 mb-2">Waktu Mulai
                                 *</label>
                             <input type="time" name="start_time" id="start_time"
-                                value="{{ old('start_time', $schedule->start_time) }}"
+                                value="{{ \Carbon\Carbon::parse($schedule->start_time)->format('H:i') }}"
                                 class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                 required>
                         </div>
@@ -49,7 +49,7 @@
                             <label for="end_time" class="block text-sm font-medium text-gray-700 mb-2">Waktu Selesai
                                 *</label>
                             <input type="time" name="end_time" id="end_time"
-                                value="{{ old('end_time', $schedule->end_time) }}"
+                                value="{{ \Carbon\Carbon::parse($schedule->end_time)->format('H:i') }}"
                                 class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                 required>
                         </div>

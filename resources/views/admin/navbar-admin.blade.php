@@ -6,20 +6,25 @@
             'icon' => 'home',
         ],
         [
-            'route' => 'admin-news.index',
+            'route' => 'admin.news.index', // DIUBAH: dari admin-news.index
             'label' => 'Berita',
             'icon' => 'newspaper',
         ],
         [
-            'route' => 'admin-programs.index',
+            'route' => 'admin.programs.index', // DIUBAH: dari admin-programs.index
             'label' => 'Program',
             'icon' => 'list',
         ],
         [
-            'route' => ['admin.schedules.*', 'admin.weekly-schedule.*', 'admin.event-schedule.*', 'admin.quote-schedule.*'],
+            'route' => [
+                'admin.schedules.*',
+                'admin.weekly.*',     // DIUBAH: dari admin.weekly-schedule.*
+                'admin.events.*',     // DIUBAH: dari admin.event-schedule.*  
+                'admin.quotes.*'      // DIUBAH: dari admin.quote-schedule.*
+            ],
             'label' => 'Jadwal',
             'icon' => 'calendar',
-            'main' => 'admin.schedules.index', // biar tahu route utama untuk href
+            'main' => 'admin.schedules.index',
         ],
         [
             'route' => 'admin.admin-register-online.index',
@@ -27,9 +32,9 @@
             'icon' => 'book-text',
         ],
         [
-            'route' => 'admin.footer.index',   // route resource footer
+            'route' => 'admin.footer.index',
             'label' => 'Contact',
-            'icon' => 'phone',      // pakai icon lucide
+            'icon' => 'phone',
         ],
     ];
 @endphp
@@ -49,15 +54,15 @@
         <ul class="space-y-2">
             @foreach($menus as $menu)
                 @php
-                    $routes = is_array($menu['route']) ? $menu['route'] : [$menu['route']];
-                    $isActive = false;
-                    foreach ($routes as $r) {
-                        if (request()->routeIs($r)) {
-                            $isActive = true;
-                            break;
-                        }
-                    }
-                    $href = $menu['main'] ?? (is_array($menu['route']) ? $menu['route'][0] : $menu['route']);
+    $routes = is_array($menu['route']) ? $menu['route'] : [$menu['route']];
+    $isActive = false;
+    foreach ($routes as $r) {
+        if (request()->routeIs($r)) {
+            $isActive = true;
+            break;
+        }
+    }
+    $href = $menu['main'] ?? (is_array($menu['route']) ? $menu['route'][0] : $menu['route']);
                 @endphp
 
                 <li>

@@ -33,7 +33,7 @@
                         <h2 class="text-3xl font-bold text-gray-800 mb-2">Edit Event</h2>
                         <p class="text-gray-600">Ubah informasi event dengan konten yang menarik dan terstruktur</p>
                     </div>
-                    <a href="{{ route('admin.events.index') }}"
+                    <a href="{{ route('admin.schedules.index') }}"
                         class="inline-flex items-center gap-2 px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white text-sm font-medium rounded-lg shadow transition">
                         <i data-lucide="chevron-left" class="w-4 h-4"></i>
                         <span>Kembali</span>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\EventSchedules;
 use App\Models\QuoteSchedules;
@@ -189,8 +190,14 @@ class ScheduleController extends Controller
         if (!Auth::check()) {
             return redirect()->route('login');
         }
+
         try {
             $schedule = WeeklySchedules::findOrFail($weeklyId);
+
+            // Format waktu agar compatible dengan <input type="time">
+            $schedule->start_time = Carbon::parse($schedule->start_time)->format('H:i');
+            $schedule->end_time   = Carbon::parse($schedule->end_time)->format('H:i');
+
             $days = [
                 'Monday' => 'Senin',
                 'Tuesday' => 'Selasa',
