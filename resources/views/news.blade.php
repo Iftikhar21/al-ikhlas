@@ -1,5 +1,5 @@
 @extends('template')
-
+@section('title', 'Berita Terbaru')
 @section('content')
     <style>
         .arabic-font {

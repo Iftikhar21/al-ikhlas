@@ -1,5 +1,5 @@
 @extends('template')
-
+@section('title', 'Jadwal Kegiatan')
 @section('content')
     @php
         \Carbon\Carbon::setLocale('id');

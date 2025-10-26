@@ -1,5 +1,5 @@
 @extends('template')
-
+@section('title', 'Register Online')
 @section('content')
     <div class="min-h-screen py-8 px-4">
         <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">

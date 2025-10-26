@@ -1,5 +1,5 @@
 @extends('template')
-
+@section('title', 'Struktur Organisasi')
 @section('content')
     <style>
         .islamic-pattern {

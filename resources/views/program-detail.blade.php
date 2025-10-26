@@ -1,5 +1,5 @@
 @extends('template')
-
+@section('title', 'Detail Program')
 @section('content')
     <style>
         .program-image {

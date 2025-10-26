@@ -1,5 +1,5 @@
 @extends('template')
-
+@section('title', 'Program Kami')
 @section('content')
         <style>
             .arabic-font {
@@ -69,12 +69,12 @@
 
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         @php
-    $colors = ['green', 'yellow', 'emerald', 'teal', 'blue', 'purple']; // Warna Tailwind
+$colors = ['green', 'yellow', 'emerald', 'teal', 'blue', 'purple']; // Warna Tailwind
                         @endphp
 
                         @forelse($programs as $index => $program)
                             @php
-                                $color = $colors[$index % count($colors)]; // putar warna jika program lebih banyak
+    $color = $colors[$index % count($colors)]; // putar warna jika program lebih banyak
                             @endphp
 
                             <div

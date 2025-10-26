@@ -1,4 +1,5 @@
 @extends('template')
+@section('title', 'Beranda')
 
 @section('content')
     <style>

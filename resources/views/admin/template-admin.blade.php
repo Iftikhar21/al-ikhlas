@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin</title>
     @vite('resources/css/app.css')
+    <link rel="icon" type="image/png" href="{{ asset('img/al_ikhlas_logo.jpg') }}">
     <script src="https://unpkg.com/lucide@latest"></script>
     <script>
         tailwind.config = {

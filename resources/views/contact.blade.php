@@ -1,5 +1,5 @@
 @extends('template')
-
+@section('title', 'Kontak Kami')
 @section('content')
     <style>
         .islamic-bg {
@@ -67,7 +67,7 @@
                 <!-- Phone -->
                 @if($footer && $footer->telepon)
                     @php
-                        $formattedPhone = preg_replace('/(\d{4})(?=\d)/', '$1-', $footer->telepon);
+    $formattedPhone = preg_replace('/(\d{4})(?=\d)/', '$1-', $footer->telepon);
                     @endphp
 
                     <div class="contact-card bg-white rounded-xl p-6 text-center shadow-lg islamic-border">
