@@ -104,23 +104,6 @@
             .slide-image {
                 height: 350px;
             }
-
-            .slide-overlay {
-                padding: 2rem 1.5rem 1.5rem;
-            }
-
-            .nav-button {
-                width: 40px;
-                height: 40px;
-            }
-
-            .nav-button.prev {
-                left: 10px;
-            }
-
-            .nav-button.next {
-                right: 10px;
-            }
         }
 
         @media (max-width: 480px) {
@@ -135,8 +118,8 @@
         <main class="container mx-auto px-4 py-8 min-h-screen">
             <!-- Latest News Section -->
             <section class="mb-12">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    @foreach($newsList as $news)
+                @forelse($newsList as $news)
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         <article class="news-card">
                             <div class="overflow-hidden">
                                 @if($news->thumbnail)
@@ -154,7 +137,6 @@
                                 </h3>
                                 <p class="text-gray-600 mb-4">{{ Str::limit($news->content ?? '', 100) }}</p>
 
-                                <!-- Tanggal dan Tombol di satu baris -->
                                 <div class="flex items-center justify-between text-sm text-gray-500 mt-3">
                                     <div class="flex items-center">
                                         <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
@@ -172,111 +154,19 @@
                                 </div>
                             </div>
                         </article>
-                    @endforeach
-                </div>
+                    </div>
+                @empty
+                    <div class="flex flex-col items-center justify-center text-center h-[70vh]">
+                        <svg class="w-20 h-20 text-primary mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <h2 class="text-2xl font-semibold text-gray-700 mb-2">Belum ada berita tersedia</h2>
+                        <p class="text-gray-500 max-w-md">Saat ini belum ada berita yang dapat ditampilkan. Silakan cek kembali
+                            nanti untuk mendapatkan kabar terbaru dari kami.</p>
+                    </div>
+                @endforelse
             </section>
         </main>
     </div>
-
-    <script>
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.slide');
-        const totalSlides = slides.length;
-        let autoplayInterval;
-        let touchStartX = 0;
-        let touchEndX = 0;
-
-        // Create dots
-        const dotsContainer = document.getElementById('dotsContainer');
-        for (let i = 0; i < totalSlides; i++) {
-            const dot = document.createElement('div');
-            dot.className = 'dot' + (i === 0 ? ' active' : '');
-            dot.onclick = () => goToSlide(i);
-            dotsContainer.appendChild(dot);
-        }
-
-        function updateSlider() {
-            const sliderWrapper = document.getElementById('sliderWrapper');
-            sliderWrapper.style.transform = `translateX(-${currentSlide * 100}%)`;
-
-            slides.forEach((slide, index) => {
-                slide.classList.toggle('active', index === currentSlide);
-            });
-
-            const dots = document.querySelectorAll('.dot');
-            dots.forEach((dot, index) => {
-                dot.classList.toggle('active', index === currentSlide);
-            });
-        }
-
-        function moveSlide(direction) {
-            currentSlide += direction;
-            if (currentSlide < 0) {
-                currentSlide = totalSlides - 1;
-            } else if (currentSlide >= totalSlides) {
-                currentSlide = 0;
-            }
-            updateSlider();
-            resetAutoplay();
-        }
-
-        function goToSlide(index) {
-            currentSlide = index;
-            updateSlider();
-            resetAutoplay();
-        }
-
-        function autoplay() {
-            autoplayInterval = setInterval(() => {
-                moveSlide(1);
-            }, 5000);
-        }
-
-        function resetAutoplay() {
-            clearInterval(autoplayInterval);
-            autoplay();
-        }
-
-        // Touch support for mobile swipe
-        const sliderContainer = document.querySelector('.slider-container');
-
-        sliderContainer.addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-        });
-
-        sliderContainer.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
-        });
-
-        function handleSwipe() {
-            if (touchEndX < touchStartX - 50) {
-                moveSlide(1);
-            }
-            if (touchEndX > touchStartX + 50) {
-                moveSlide(-1);
-            }
-        }
-
-        // Keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowLeft') {
-                moveSlide(-1);
-            } else if (e.key === 'ArrowRight') {
-                moveSlide(1);
-            }
-        });
-
-        // Start autoplay
-        autoplay();
-
-        // Pause autoplay when user hovers over slider
-        sliderContainer.addEventListener('mouseenter', () => {
-            clearInterval(autoplayInterval);
-        });
-
-        sliderContainer.addEventListener('mouseleave', () => {
-            autoplay();
-        });
-    </script>
 @endsection

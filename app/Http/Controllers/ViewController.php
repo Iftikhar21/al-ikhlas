@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Footer;
 use App\Models\News;
+use App\Models\Footer;
+use App\Models\History;
+use App\Models\OrganizationStructure;
 use App\Models\Programs;
+use App\Models\Vision;
 use Illuminate\Http\Request;
 use App\Models\EventSchedules;
 use App\Models\QuoteSchedules;
@@ -19,8 +22,10 @@ class ViewController extends Controller
         $programs = Programs::where('status', 'published')->take(3)->get();
 
         // Ambil data schedule
-        $weeklySchedules = WeeklySchedules::orderByRaw("FIELD(day, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')")
-            ->orderBy('start_time')
+        $weeklySchedules = WeeklySchedules::with(['items' => function ($q) {
+            $q->orderBy('start_time');
+        }])
+            ->orderByRaw("FIELD(day, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')")
             ->take(5)
             ->get();
 
@@ -39,6 +44,25 @@ class ViewController extends Controller
             'eventSchedules',
             'footer'
         ));
+    }
+
+    public function HistoryPage()
+    {
+        $history = History::first();
+        $visions = Vision::all();
+        return view('history', compact('history', 'visions'));
+    }
+
+    public function StructurePage()
+    {
+        $structure = OrganizationStructure::first();
+        return view('structure', compact('structure'));
+    }
+
+    public function VisionMissionPage()
+    {
+        $visions = Vision::all();
+        return view('vision', compact('visions'));
     }
 
     public function NewsPage()
@@ -81,8 +105,10 @@ class ViewController extends Controller
     public function SchedulePage()
     {
         // Ambil data weekly schedules dengan urutan hari
-        $weeklySchedules = WeeklySchedules::orderByRaw("FIELD(day, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')")
-            ->orderBy('start_time')
+        $weeklySchedules = WeeklySchedules::with(['items' => function ($q) {
+            $q->orderBy('start_time');
+        }])
+            ->orderByRaw("FIELD(day, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')")
             ->get();
 
         // Ambil data event schedules (upcoming events)

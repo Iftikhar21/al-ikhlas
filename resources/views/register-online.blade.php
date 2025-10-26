@@ -7,7 +7,7 @@
             <div class="bg-green-600 py-6 px-6 text-white">
                 <div class="flex items-center justify-center mb-2">
                     <i data-lucide="book-text" class="text-3xl mr-3"></i>
-                    <h1 class="text-3xl font-bold">Pendaftaran TPA/TPQ</h1>
+                    <h1 class="text-3xl font-bold">Pendaftaran TPA</h1>
                 </div>
                 <p class="text-center text-green-100">Formulir Pendaftaran Murid Baru</p>
             </div>
@@ -198,7 +198,7 @@
                                 class="mt-1 mr-3 w-5 h-5 text-green-600 focus:ring-green-500 border-gray-300 rounded">
                             <label for="agreement" class="block text-sm text-gray-700">
                                 <span class="text-red-500">*</span> Saya menyatakan bahwa data yang diisi adalah benar
-                                dan siap mengikuti aturan yang berlaku di TPA/TPQ
+                                dan siap mengikuti aturan yang berlaku di TPA
                             </label>
                         </div>
                         <div class="error-message text-red-500 text-sm mt-1" id="agreementError"></div>

@@ -6,10 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class WeeklySchedules extends Model
 {
-    protected $fillable = ['day', 'start_time', 'end_time', 'activity', 'teacher'];
+    protected $fillable = ['day'];
 
-    protected $casts = [
-        'start_time' => 'datetime:H:i:s',
-        'end_time' => 'datetime:H:i:s',
-    ];
+    public function items()
+    {
+        return $this->hasMany(DailyScheduleItem::class, 'weekly_schedule_id');
+    }
+
+    public function level()
+    {
+        return $this->belongsTo(UmmiLevel::class, 'ummi_level_id');
+    }
 }

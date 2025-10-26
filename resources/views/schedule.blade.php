@@ -66,61 +66,77 @@
                 <div class="bg-white rounded-xl shadow-lg overflow-hidden">
                     <!-- TABEL (hanya muncul di md ke atas) -->
                     <div class="overflow-x-auto hidden md:block">
-                        <table class="w-full">
+                        <table class="w-full border-collapse">
                             <thead class="bg-emerald-700 text-white">
                                 <tr>
-                                    <th class="py-4 px-6 text-left">Hari</th>
-                                    <th class="py-4 px-6 text-left">Waktu</th>
-                                    <th class="py-4 px-6 text-left">Kegiatan</th>
-                                    <th class="py-4 px-6 text-left">Pengajar</th>
+                                    <th class="py-4 px-6 text-left border-b border-emerald-800">Hari</th>
+                                    <th class="py-4 px-6 text-left border-b border-emerald-800">Waktu</th>
+                                    <th class="py-4 px-6 text-left border-b border-emerald-800">Level</th>
+                                    <th class="py-4 px-6 text-left border-b border-emerald-800">Kegiatan</th>
+                                    <th class="py-4 px-6 text-left border-b border-emerald-800">Pengajar</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @forelse($weeklySchedules as $schedule)
-                                <tr class="border-b border-gray-100 hover:bg-emerald-50 transition">
-                                    <td class="py-4 px-6 font-medium">
-                                        @switch($schedule->day)
-                                            @case('Monday') Senin @break
-                                            @case('Tuesday') Selasa @break
-                                            @case('Wednesday') Rabu @break
-                                            @case('Thursday') Kamis @break
-                                            @case('Friday') Jumat @break
-                                            @case('Saturday') Sabtu @break
-                                            @case('Sunday') Minggu @break
-                                            @default {{ $schedule->day }}
-                                        @endswitch
-                                    </td>
+                                    @if($schedule->items->isNotEmpty())
+                                        @foreach($schedule->items as $index => $item)
+                                            <tr class="border-b border-gray-200 hover:bg-gray-50 transition-colors">
+                                                <!-- Kolom Hari - hanya tampil di baris pertama setiap hari -->
+                                                @if($index === 0)
+                                                    <td rowspan="{{ $schedule->items->count() }}" class="py-4 px-6 font-semibold text-gray-800 align-top border-r border-gray-200 bg-gray-50">
+                                                        @switch($schedule->day)
+                                                            @case('Monday') Senin @break
+                                                            @case('Tuesday') Selasa @break
+                                                            @case('Wednesday') Rabu @break
+                                                            @case('Thursday') Kamis @break
+                                                            @case('Friday') Jumat @break
+                                                            @case('Saturday') Sabtu @break
+                                                            @case('Sunday') Minggu @break
+                                                            @default {{ $schedule->day }}
+                                                        @endswitch
+                                                    </td>
+                                                @endif
+                                                
+                                                <!-- Kolom Waktu -->
+                                                <td class="py-4 px-6 whitespace-nowrap">
+                                                    {{ \Carbon\Carbon::parse($item->start_time)->format('H:i') }} - 
+                                                    {{ \Carbon\Carbon::parse($item->end_time)->format('H:i') }}
+                                                </td>
 
-                                    <td class="py-4 px-6">
-                                        {{ formatTimeWithPeriod($schedule->start_time) }} - {{ formatTimeWithPeriod($schedule->end_time) }}
-                                    </td>
-                                    <td class="py-4 px-6">
-                                        @php
-                                            $activityClass = 'tahsin';
-                                            if (str_contains(strtolower($schedule->activity), 'tahfidz')) {
-                                                $activityClass = 'tahfidz';
-                                            } elseif (str_contains(strtolower($schedule->activity), 'fiqih')) {
-                                                $activityClass = 'fiqih';
-                                            } elseif (str_contains(strtolower($schedule->activity), 'aqidah')) {
-                                                $activityClass = 'aqidah';
-                                            } elseif (str_contains(strtolower($schedule->activity), 'sejarah')) {
-                                                $activityClass = 'sejarah';
-                                            } elseif (str_contains(strtolower($schedule->activity), 'bahasa')) {
-                                                $activityClass = 'bahasa';
-                                            }
-                                        @endphp
-                                        <span class="activity-badge {{ $activityClass }}">
-                                            {{ $schedule->activity }}
-                                        </span>
-                                    </td>
-                                    <td class="py-4 px-6">{{ $schedule->teacher }}</td>
-                                </tr>
+                                                <!-- Kolom Level -->
+                                                <td class="py-4 px-6 font-medium text-gray-700">
+                                                    {{ $item->ummiLevel->name }}
+                                                </td>
+                                                
+                                                <!-- Kolom Kegiatan -->
+                                                <td class="py-4 px-6">
+                                                    @php
+                                                        $activityClass = 'bg-blue-100 text-blue-800';
+                                                        $name = strtolower($item->activity);
+                                                        if (str_contains($name, 'tahfidz')) $activityClass = 'bg-green-100 text-green-800';
+                                                        elseif (str_contains($name, 'fiqih')) $activityClass = 'bg-purple-100 text-purple-800';
+                                                        elseif (str_contains($name, 'aqidah')) $activityClass = 'bg-orange-100 text-orange-800';
+                                                        elseif (str_contains($name, 'sejarah')) $activityClass = 'bg-red-100 text-red-800';
+                                                        elseif (str_contains($name, 'bahasa')) $activityClass = 'bg-indigo-100 text-indigo-800';
+                                                    @endphp
+                                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium {{ $activityClass }}">
+                                                        {{ $item->activity }}
+                                                    </span>
+                                                </td>
+                                                
+                                                <!-- Kolom Pengajar -->
+                                                <td class="py-4 px-6 font-medium text-gray-700">
+                                                    {{ $item->teacher }}
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @endif
                                 @empty
-                                <tr>
-                                    <td colspan="4" class="py-8 px-6 text-center text-gray-500">
-                                        Tidak ada jadwal yang tersedia saat ini.
-                                    </td>
-                                </tr>
+                                    <tr>
+                                        <td colspan="4" class="py-8 px-6 text-center text-gray-500 bg-gray-50">
+                                            Tidak ada jadwal yang tersedia saat ini.
+                                        </td>
+                                    </tr>
                                 @endforelse
                             </tbody>
                         </table>
@@ -129,9 +145,8 @@
                     <!-- CARD (hanya muncul di mobile) -->
                     <div class="space-y-4 p-4 md:hidden">
                         @forelse($weeklySchedules as $schedule)
-                        <div class="p-4 border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition">
-                            <div class="flex justify-between">
-                                <span class="font-semibold text-emerald-700">
+                            @if($schedule->items->isNotEmpty())
+                                <h3 class="text-emerald-700 font-bold text-lg mb-2">
                                     @switch($schedule->day)
                                         @case('Monday') Senin @break
                                         @case('Tuesday') Selasa @break
@@ -142,37 +157,26 @@
                                         @case('Sunday') Minggu @break
                                         @default {{ $schedule->day }}
                                     @endswitch
-                                </span>
-                                <span class="text-sm text-gray-500">
-                                    {{ \Carbon\Carbon::parse($schedule->start_time)->format('H:i') }} - 
-                                    {{ \Carbon\Carbon::parse($schedule->end_time)->format('H:i') }}
-                                </span>
-                            </div>
-                            <div class="mt-2 flex justify-between items-center">
-                                @php
-                                    $activityClass = 'tahsin';
-                                    if (str_contains(strtolower($schedule->activity), 'tahfidz')) {
-                                        $activityClass = 'tahfidz';
-                                    } elseif (str_contains(strtolower($schedule->activity), 'fiqih')) {
-                                        $activityClass = 'fiqih';
-                                    } elseif (str_contains(strtolower($schedule->activity), 'aqidah')) {
-                                        $activityClass = 'aqidah';
-                                    } elseif (str_contains(strtolower($schedule->activity), 'sejarah')) {
-                                        $activityClass = 'sejarah';
-                                    } elseif (str_contains(strtolower($schedule->activity), 'bahasa')) {
-                                        $activityClass = 'bahasa';
-                                    }
-                                @endphp
-                                <span class="activity-badge {{ $activityClass }}">
-                                    {{ $schedule->activity }}
-                                </span>
-                                <span class="text-gray-700 text-sm">{{ $schedule->teacher }}</span>
-                            </div>
-                        </div>
+                                </h3>
+                                @foreach($schedule->items as $item)
+                                    <div class="p-4 border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition mb-3">
+                                        <div class="flex justify-between items-center">
+                                            <span class="font-semibold text-emerald-700">{{ $item->activity }}</span>
+                                            <span class="text-sm text-gray-500">
+                                                {{ \Carbon\Carbon::parse($item->start_time)->format('H:i') }} - 
+                                                {{ \Carbon\Carbon::parse($item->end_time)->format('H:i') }}
+                                            </span>
+                                        </div>
+                                        <div class="mt-2 text-sm text-gray-700">
+                                            Pengajar: <strong>{{ $item->teacher }}</strong>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @endif
                         @empty
-                        <div class="p-4 border border-gray-200 rounded-lg shadow-sm text-center">
-                            <span class="text-gray-500">Tidak ada jadwal yang tersedia saat ini.</span>
-                        </div>
+                            <div class="p-4 border border-gray-200 rounded-lg shadow-sm text-center">
+                                <span class="text-gray-500">Tidak ada jadwal yang tersedia saat ini.</span>
+                            </div>
                         @endforelse
                     </div>
                 </div>

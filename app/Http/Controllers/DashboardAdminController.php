@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\News;
 use App\Models\Programs;
+use Illuminate\Http\Request;
 use App\Models\EventSchedules;
-use App\Models\WeeklySchedules;
 use App\Models\QuoteSchedules;
 use App\Models\RegisterOnline;
-use Illuminate\Http\Request;
-use Carbon\Carbon;
+use App\Models\WeeklySchedules;
+use App\Models\DailyScheduleItem;
 
 class DashboardAdminController extends Controller
 {
@@ -37,12 +38,23 @@ class DashboardAdminController extends Controller
             ->take(5)
             ->get();
 
-        // Jadwal hari ini - konversi hari Indonesia ke Inggris
+        /**
+         * ========================================
+         * 🔁 BAGIAN JADWAL HARI INI (versi baru)
+         * ========================================
+         */
         $todayIndonesian = $this->getIndonesianDay();
         $todayEnglish = $this->convertToEnglishDay($todayIndonesian);
-        $todaySchedules = WeeklySchedules::where('day', $todayEnglish)
-            ->orderBy('start_time')
-            ->get();
+
+        // ambil WeeklySchedule untuk hari ini
+        $weekly = WeeklySchedules::whereRaw('LOWER(day) = ?', [$todayEnglish])->first();
+
+
+        // ambil daftar DailyScheduleItem yang terkait
+        $todaySchedules = WeeklySchedules::with(['items.ummiLevel'])
+            ->whereRaw('LOWER(day) = ?', [$todayEnglish])
+            ->orderByRaw("FIELD(day, 'monday','tuesday','wednesday','thursday','friday','saturday','sunday')")
+            ->first();
 
         // Quote harian acak
         $dailyQuote = QuoteSchedules::inRandomOrder()->first();
@@ -70,9 +82,6 @@ class DashboardAdminController extends Controller
         ));
     }
 
-    /**
-     * Get current day in Indonesian
-     */
     private function getIndonesianDay()
     {
         $days = [
@@ -89,9 +98,6 @@ class DashboardAdminController extends Controller
         return $days[$englishDay] ?? $englishDay;
     }
 
-    /**
-     * Convert Indonesian day to English for database query
-     */
     private function convertToEnglishDay($indonesianDay)
     {
         $days = [

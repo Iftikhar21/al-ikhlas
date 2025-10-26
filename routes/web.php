@@ -1,16 +1,20 @@
 <?php
 
+use App\Http\Controllers\OrganizationStructureController;
+use App\Http\Controllers\VisionController;
+use App\Models\RegisterOnline;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\ViewController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\FooterController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\UmmiLevelController;
 use App\Http\Controllers\DashboardAdminController;
 use App\Http\Controllers\RegisterOnlineController;
-use App\Models\RegisterOnline;
 
 // ==================== USER ROUTES ====================
 
@@ -24,6 +28,9 @@ Route::get('/schedule', [ViewController::class, 'SchedulePage'])->name('schedule
 Route::get('/register-online', [ViewController::class, 'RegistrationPage'])->name('register-online');
 Route::post('/pendaftaran', [RegisterOnlineController::class, 'store'])->name('register.store');
 Route::get('/contact', [ViewController::class, 'ContactPage'])->name('contact');
+Route::get('/history', [ViewController::class, 'HistoryPage'])->name('history');
+Route::get('/structure-organization', [ViewController::class, 'StructurePage'])->name('structure');
+Route::get('/vision-mission', [ViewController::class, 'VisionMissionPage'])->name('visionAndMission');
 Route::resource('footer', FooterController::class);
 
 // Login & Logout
@@ -60,10 +67,45 @@ Route::prefix('admin')->middleware('auth')->group(function () {
         'destroy' => 'admin.programs.destroy',
     ]);
 
+    Route::resource('history', HistoryController::class)->names([
+        'index'   => 'admin.history.index',
+        'create'  => 'admin.history.create',
+        'store'   => 'admin.history.store',
+        'edit'    => 'admin.history.edit',
+        'update'  => 'admin.history.update',
+        'destroy' => 'admin.history.destroy',
+    ]);
+
+    Route::resource('structure', OrganizationStructureController::class)->names([
+        'index'   => 'admin.structure.index',
+        'create'  => 'admin.structure.create',
+        'store'   => 'admin.structure.store',
+        'edit'    => 'admin.structure.edit',
+        'update'  => 'admin.structure.update',
+        'destroy' => 'admin.structure.destroy',
+    ]);
+
+    Route::resource('visions', VisionController::class)->names([
+        'index'   => 'admin.visions.index',
+        'create'  => 'admin.visions.create',
+        'store'   => 'admin.visions.store',
+        'edit'    => 'admin.visions.edit',
+        'update'  => 'admin.visions.update',
+        'destroy' => 'admin.visions.destroy',
+    ]);
+
     // ==================== SCHEDULE ROUTES ====================
 
     // SATU HALAMAN UNTUK MENAMPILKAN SEMUA JADWAL
     Route::get('schedules', [ScheduleController::class, 'mainIndex'])->name('admin.schedules.index');
+
+    Route::resource('ummi-levels', UmmiLevelController::class)->names([
+        'index'   => 'admin.ummi-levels.index',
+        'store'   => 'admin.ummi-levels.store',
+        'update'  => 'admin.ummi-levels.update',
+        'destroy' => 'admin.ummi-levels.destroy',
+    ])->except(['create', 'edit', 'show']);
+
 
     // Weekly Schedule - CREATE/EDIT/SHOW/DELETE halaman terpisah
     Route::get('weekly/create', [ScheduleController::class, 'weeklyCreate'])->name('admin.weekly.create');

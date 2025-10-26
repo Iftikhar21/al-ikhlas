@@ -209,20 +209,57 @@
                 <div class="bg-white rounded-lg shadow-sm p-6">
                     <h3 class="text-xl font-bold text-gray-800 mb-4">Jadwal Hari Ini</h3>
                     <div class="space-y-3">
-                        @foreach($todaySchedules as $schedule)
-                        <div class="flex justify-between items-center py-3 border-b hover:bg-gray-50 rounded px-2 transition">
-                            <div class="flex-1">
-                                <h4 class="font-semibold text-gray-800">{{ $schedule->activity }}</h4>
-                                <p class="text-sm text-gray-600">{{ $schedule->teacher }}</p>
+                        @if ($todaySchedules && $todaySchedules->items->count() > 0)
+                            <div class="grid gap-3">
+                                @foreach ($todaySchedules->items as $item)
+                                    <div class="bg-white rounded-lg border border-gray-200 p-4 hover:bg-gray-50 transition-colors">
+                                        <div class="flex items-center justify-between">
+                                            <!-- Bagian Kiri: Waktu dan Info -->
+                                            <div class="flex items-center gap-4">
+                                                <!-- Time Badge -->
+                                                <div class="bg-blue-50 border border-blue-200 rounded-lg px-3 py-2">
+                                                    <div class="flex items-center justify-center gap-1 text-sm font-semibold text-blue-700">
+                                                        <div>{{ \Carbon\Carbon::parse($item->start_time)->format('H:i') }}</div>
+                                                        <div class="text-xs text-blue-500">s/d</div>
+                                                        <div>{{ \Carbon\Carbon::parse($item->end_time)->format('H:i') }}</div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Info Aktivitas -->
+                                                <div class="space-y-1">
+                                                    <h4 class="font-semibold text-gray-800">{{ $item->activity }}</h4>
+                                                    <div class="flex items-center gap-4 text-sm text-gray-600">
+                                                        <span class="flex items-center gap-1">
+                                                            <i data-lucide="user" class="w-4 h-4"></i>
+                                                            {{ $item->teacher }}
+                                                        </span>
+                                                        <span class="flex items-center gap-1">
+                                                            <i data-lucide="layers" class="w-4 h-4"></i>
+                                                            {{ $item->ummiLevel->name ?? '-' }}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Status/Indicator -->
+                                            <div class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium">
+                                                Aktif
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
                             </div>
-                            <div class="text-right">
-                                <p class="text-sm font-medium text-gray-900">
-                                    {{ \Carbon\Carbon::parse($schedule->start_time)->format('H:i') }} - {{ \Carbon\Carbon::parse($schedule->end_time)->format('H:i') }}
-                                </p>
-                                <p class="text-xs text-gray-500 capitalize">{{ $schedule->day }}</p>
+                        @else
+                            <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                                <div class="flex items-center gap-3">
+                                    <i data-lucide="calendar-off" class="w-5 h-5 text-yellow-500 flex-shrink-0"></i>
+                                    <div>
+                                        <p class="text-yellow-800 font-medium">Tidak ada jadwal hari ini</p>
+                                        <p class="text-yellow-600 text-sm">Tidak ada aktivitas yang dijadwalkan untuk hari ini.</p>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        @endforeach
+                        @endif
                     </div>
                 </div>
             </div>

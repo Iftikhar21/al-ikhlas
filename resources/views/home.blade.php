@@ -223,11 +223,12 @@
                     <div class="inline-block mb-4">
                         <span class="text-green-600 font-semibold text-sm uppercase tracking-wider bg-green-50 px-4 py-2 rounded-full">Layanan Kami</span>
                     </div>
-                    <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-6 bg-clip-text text-transparent bg-gradient-to-r from-green-600 to-emerald-600">
-                        Layanan TPA/TPQ
+                    <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 pb-6 bg-clip-text text-transparent bg-gradient-to-r from-green-600 to-emerald-600">
+                        Layanan Masjid/TPA
                     </h2>
                     <p class="text-gray-600 text-lg lg:text-xl max-w-3xl mx-auto leading-relaxed">
-                        Berbagai program dan layanan untuk pendidikan Al-Quran anak-anak dengan metode pembelajaran modern dan menyenangkan
+                        Berbagai Program dan layanan untuk pendidikan Al-Qur'an anak-anak dengan metode Ummi yang Mudah, menyenangkan
+                        dan menyentuh hati.
                     </p>
                 </div>
 
@@ -300,7 +301,7 @@
                     <div class="inline-block mb-4">
                         <span class="text-green-600 font-semibold text-sm uppercase tracking-wider bg-green-50 px-4 py-2 rounded-full">Program Kami</span>
                     </div>
-                    <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-6 bg-clip-text text-transparent bg-gradient-to-r from-green-600 to-emerald-600">
+                    <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 pb-6 bg-clip-text text-transparent bg-gradient-to-r from-green-600 to-emerald-600">
                         Program Unggulan
                     </h2>
                     <p class="text-gray-600 text-lg lg:text-xl max-w-3xl mx-auto">
@@ -361,7 +362,7 @@
                         </div>
                         <div>
                             <h2 class="text-3xl font-bold text-gray-900 mb-1">Kegiatan & Event Mendatang</h2>
-                            <p class="text-gray-600">Acara spesial dan kegiatan luar biasa TPA/TPQ</p>
+                            <p class="text-gray-600">Acara spesial dan kegiatan luar biasa TPA</p>
                         </div>
                     </div>
 
@@ -427,7 +428,7 @@
                         Berita & Kegiatan Terbaru
                     </h2>
                     <p class="text-gray-600 text-lg lg:text-xl max-w-3xl mx-auto">
-                        Update terbaru dari TPA/TPQ kami seputar kegiatan dan prestasi santri
+                        Update terbaru dari TPA kami seputar kegiatan dan prestasi santri
                     </p>
                 </div>
 
@@ -504,7 +505,7 @@
                                             <i data-lucide="phone" class="w-6 h-6 text-white"></i>
                                         </div>
                                         @php
-                                            $formattedPhone = preg_replace('/(\d{4})(?=\d)/', '$1-', $footer->telepon);
+    $formattedPhone = preg_replace('/(\d{4})(?=\d)/', '$1-', $footer->telepon);
                                         @endphp
 
                                         <div>

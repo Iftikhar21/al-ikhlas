@@ -35,7 +35,7 @@
             <div class="text-center">
                 @if($footer && $footer->logo)
                     <div class="flex justify-center mb-6">
-                        <img src="{{ asset('storage/' . $footer->logo) }}" alt="{{ $footer->slogan ?? 'Logo TPA/TPQ' }}"
+                        <img src="{{ asset('storage/' . $footer->logo) }}" alt="{{ $footer->slogan ?? 'Logo TPA' }}"
                             class="h-48 w-auto rounded-full islamic-border p-4 bg-primary">
                     </div>
                 @endif
@@ -45,7 +45,7 @@
                 <p class="text-xl opacity-90 max-w-2xl mx-auto leading-relaxed text-primary italic mb-6">
                     "{{ $footer->slogan ?? 'Mari bergabung dalam pendidikan Al-Quran dan Sunnah untuk generasi muslim yang shalih dan shalihah' }}"
                 </p>
-                <h1 class="text-4xl md:text-5xl text-primary font-bold">Hubungi TPA/TPQ Kami</h1>
+                <h1 class="text-4xl md:text-5xl text-primary font-bold">Hubungi TPA Kami</h1>
             </div>
         </div>
     </header>
@@ -103,7 +103,7 @@
                         <div class="w-14 h-14 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
                             <i data-lucide="map-pin" class="w-7 h-7 text-amber-600"></i>
                         </div>
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Alamat TPQ</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Alamat TPA</h3>
                         <p class="text-gray-600 mb-3">Lokasi belajar</p>
                         <p class="text-amber-600 font-semibold text-sm">
                             {{ $footer->alamat }}
@@ -152,7 +152,7 @@
                         <div class="inline-flex items-center justify-center w-16 h-16 bg-white rounded-full mb-4 shadow-sm">
                             <i data-lucide="map-pin" class="w-8 h-8 text-green-600"></i>
                         </div>
-                        <h2 class="text-3xl font-bold text-gray-800 mb-4">Lokasi TPA/TPQ</h2>
+                        <h2 class="text-3xl font-bold text-gray-800 mb-4">Lokasi TPA</h2>
                         <p class="text-gray-600">Silakan datang ke lokasi kami untuk pendaftaran dan informasi</p>
                     </div>
                     <div class="bg-white rounded-xl shadow-lg overflow-hidden islamic-border">

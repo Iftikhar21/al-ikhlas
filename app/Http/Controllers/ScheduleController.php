@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\UmmiLevel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\EventSchedules;
@@ -27,14 +28,19 @@ class ScheduleController extends Controller
         if (!Auth::check()) {
             return redirect()->route('login');
         }
-        $weeklySchedules = WeeklySchedules::orderByRaw("FIELD(day, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')")
-            ->orderBy('start_time')
+
+        // Ambil jadwal mingguan beserta semua item detail-nya
+        $weeklySchedules = WeeklySchedules::with(['items' => function ($query) {
+            $query->orderBy('start_time', 'asc'); // urutkan berdasarkan waktu di tabel item
+        }])
+            ->orderByRaw("FIELD(day, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')")
             ->get();
 
         $eventSchedules = EventSchedules::orderBy('event_date', 'desc')->get();
         $quoteSchedules = QuoteSchedules::latest()->get();
+        $levels = UmmiLevel::all();
 
-        return view('admin.schedules.index', compact('weeklySchedules', 'eventSchedules', 'quoteSchedules'));
+        return view('admin.schedules.index', compact('weeklySchedules', 'eventSchedules', 'quoteSchedules', 'levels'));
     }
 
     public function index()
@@ -125,23 +131,19 @@ class ScheduleController extends Controller
      */
     public function weeklyIndex()
     {
-        if (!Auth::check()) {
-            return redirect()->route('login');
-        }
-        $schedules = WeeklySchedules::orderByRaw("FIELD(day, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')")
-            ->orderBy('start_time')
+        if (!Auth::check()) return redirect()->route('login');
+
+        $schedules = WeeklySchedules::with(['details.level'])
+            ->orderByRaw("FIELD(day, 'Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday')")
             ->get();
+
         return view('admin.schedules.weekly-index', compact('schedules'));
     }
 
-    /**
-     * Show form for creating weekly schedule
-     */
     public function weeklyCreate()
     {
-        if (!Auth::check()) {
-            return redirect()->route('login');
-        }
+        if (!Auth::check()) return redirect()->route('login');
+
         $days = [
             'Monday' => 'Senin',
             'Tuesday' => 'Selasa',
@@ -151,7 +153,9 @@ class ScheduleController extends Controller
             'Saturday' => 'Sabtu',
             'Sunday' => 'Minggu'
         ];
-        return view('admin.schedules.weekly-create', compact('days'));
+        $levels = UmmiLevel::all();
+
+        return view('admin.schedules.weekly-create', compact('days', 'levels'));
     }
 
     /**
@@ -159,139 +163,115 @@ class ScheduleController extends Controller
      */
     public function weeklyStore(Request $request)
     {
-        if (!Auth::check()) {
-            return redirect()->route('login');
-        }
+        if (!Auth::check()) return redirect()->route('login');
+
+        // Validasi data
         $validated = $request->validate([
             'day' => 'required|string|in:Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday',
-            'start_time' => 'required|date_format:H:i',
-            'end_time' => 'required|date_format:H:i|after:start_time',
-            'activity' => 'required|string|max:255',
-            'teacher' => 'required|string|max:255',
+            'items' => 'required|array|min:1',
+            'items.*.ummi_level_id' => 'required|exists:ummi_levels,id',
+            'items.*.start_time' => 'required|date_format:H:i',
+            'items.*.end_time' => 'required|date_format:H:i|after:items.*.start_time',
+            'items.*.activity' => 'required|string|max:255',
+            'items.*.teacher' => 'required|string|max:255',
         ]);
 
         try {
-            WeeklySchedules::create($validated);
+            // Cek apakah sudah ada jadwal untuk hari yang sama
+            $existingSchedule = WeeklySchedules::where('day', $validated['day'])->first();
+
+            if ($existingSchedule) {
+                return redirect()->back()
+                    ->with('error', 'Sudah ada jadwal untuk hari ' . $validated['day'])
+                    ->withInput();
+            }
+
+            // Create the main schedule
+            $schedule = WeeklySchedules::create([
+                'day' => $validated['day']
+            ]);
+
+            // Create schedule items
+            foreach ($validated['items'] as $item) {
+                $schedule->items()->create([
+                    'ummi_level_id' => $item['ummi_level_id'],
+                    'start_time' => $item['start_time'],
+                    'end_time' => $item['end_time'],
+                    'activity' => $item['activity'],
+                    'teacher' => $item['teacher']
+                ]);
+            }
 
             return redirect()->route('admin.schedules.index')
                 ->with('success', 'Jadwal mingguan berhasil ditambahkan.');
         } catch (\Exception $e) {
+            Log::error('Error creating weekly schedule: ' . $e->getMessage());
+
             return redirect()->back()
-                ->with('error', 'Terjadi kesalahan saat menambah jadwal: ' . $e->getMessage())
+                ->with('error', 'Terjadi kesalahan saat menyimpan jadwal: ' . $e->getMessage())
                 ->withInput();
         }
     }
 
-    /**
-     * Show form for editing weekly schedule
-     */
     public function weeklyEdit($weeklyId)
     {
-        if (!Auth::check()) {
-            return redirect()->route('login');
-        }
+        if (!Auth::check()) return redirect()->route('login');
 
-        try {
-            $schedule = WeeklySchedules::findOrFail($weeklyId);
+        $schedule = WeeklySchedules::with('items.ummiLevel')->findOrFail($weeklyId);
 
-            // Format waktu agar compatible dengan <input type="time">
-            $schedule->start_time = Carbon::parse($schedule->start_time)->format('H:i');
-            $schedule->end_time   = Carbon::parse($schedule->end_time)->format('H:i');
+        $days = [
+            'Monday' => 'Senin',
+            'Tuesday' => 'Selasa',
+            'Wednesday' => 'Rabu',
+            'Thursday' => 'Kamis',
+            'Friday' => 'Jumat',
+            'Saturday' => 'Sabtu',
+            'Sunday' => 'Minggu'
+        ];
+        $ummiLevels = UmmiLevel::all();
 
-            $days = [
-                'Monday' => 'Senin',
-                'Tuesday' => 'Selasa',
-                'Wednesday' => 'Rabu',
-                'Thursday' => 'Kamis',
-                'Friday' => 'Jumat',
-                'Saturday' => 'Sabtu',
-                'Sunday' => 'Minggu'
-            ];
-
-            return view('admin.schedules.weekly-edit', compact('schedule', 'days'));
-        } catch (\Exception $e) {
-            return redirect()->route('admin.schedules.index')
-                ->with('error', 'Jadwal tidak ditemukan.');
-        }
+        return view('admin.schedules.weekly-edit', compact('schedule', 'days', 'ummiLevels'));
     }
 
-    /**
-     * Update weekly schedule
-     */
     public function weeklyUpdate(Request $request, $weeklyId)
     {
-        if (!Auth::check()) {
-            return redirect()->route('login');
-        }
-        $validator = Validator::make($request->all(), [
-            'day' => 'required|string|in:Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday',
-            'start_time' => 'required',
-            'end_time' => 'required',
-            'activity' => 'required|string|max:255',
-            'teacher' => 'required|string|max:255',
+        if (!Auth::check()) return redirect()->route('login');
+
+        $validated = $request->validate([
+            'day' => 'required|string',
+            'items' => 'required|array|min:1',
+            'items.*.ummi_level_id' => 'required|exists:ummi_levels,id',
+            'items.*.teacher' => 'required|string|max:255',
+            'items.*.activity' => 'required|string|max:255',
+            'items.*.start_time' => 'required|date_format:H:i',
+            'items.*.end_time' => 'required|date_format:H:i|after:items.*.start_time',
         ]);
 
-        // Custom time validation
-        $validator->after(function ($validator) use ($request) {
-            if (!strtotime($request->start_time)) {
-                $validator->errors()->add('start_time', 'Format waktu mulai tidak valid');
-            }
-            if (!strtotime($request->end_time)) {
-                $validator->errors()->add('end_time', 'Format waktu selesai tidak valid');
-            }
+        $schedule = WeeklySchedules::findOrFail($weeklyId);
+        $schedule->update(['day' => $validated['day']]);
 
-            if (strtotime($request->end_time) <= strtotime($request->start_time)) {
-                $validator->errors()->add('end_time', 'Waktu selesai harus setelah waktu mulai');
-            }
-        });
+        // Hapus semua item lama
+        $schedule->items()->delete();
 
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
+        // Simpan ulang item baru
+        foreach ($validated['items'] as $item) {
+            $schedule->items()->create($item);
         }
 
-        try {
-            $schedule = WeeklySchedules::findOrFail($weeklyId);
-
-            // Format time properly
-            $data = [
-                'day' => $request->day,
-                'start_time' => date('H:i:s', strtotime($request->start_time)),
-                'end_time' => date('H:i:s', strtotime($request->end_time)),
-                'activity' => $request->activity,
-                'teacher' => $request->teacher,
-            ];
-
-            $schedule->update($data);
-
-            return redirect()->route('admin.schedules.index')
-                ->with('success', 'Jadwal mingguan berhasil diperbarui.');
-        } catch (\Exception $e) {
-            return redirect()->back()
-                ->with('error', 'Terjadi kesalahan saat memperbarui jadwal: ' . $e->getMessage())
-                ->withInput();
-        }
+        return redirect()->route('admin.schedules.index')
+            ->with('success', 'Jadwal mingguan berhasil diperbarui.');
     }
 
-    /**
-     * Delete weekly schedule
-     */
     public function weeklyDestroy($weeklyId)
     {
-        if (!Auth::check()) {
-            return redirect()->route('login');
-        }
-        try {
-            $schedule = WeeklySchedules::findOrFail($weeklyId);
-            $schedule->delete();
+        if (!Auth::check()) return redirect()->route('login');
 
-            return redirect()->route('admin.schedules.index')
-                ->with('success', 'Jadwal mingguan berhasil dihapus.');
-        } catch (\Exception $e) {
-            return redirect()->route('admin.schedules.index')
-                ->with('error', 'Terjadi kesalahan saat menghapus jadwal: ' . $e->getMessage());
-        }
+        $schedule = WeeklySchedules::findOrFail($weeklyId);
+        $schedule->items()->delete();
+        $schedule->delete();
+
+        return redirect()->route('admin.schedules.index')
+            ->with('success', 'Jadwal mingguan berhasil dihapus.');
     }
 
     // ==================== EVENT SCHEDULE METHODS ====================

@@ -68,8 +68,6 @@
                         <!-- Dropdown -->
                         <div id="profileDropdown"
                             class="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-md hidden z-50">
-                            <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Profil</a>
-                            <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Pengaturan</a>
                             <form method="POST" action="{{ route('action-logout') }}">
                                 @csrf
                                 <button type="submit"

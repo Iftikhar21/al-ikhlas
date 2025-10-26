@@ -6,17 +6,24 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    /**
+     * Run the migrations.
+     */
     public function up(): void
     {
-        Schema::create('weekly_schedules', function (Blueprint $table) {
+        Schema::create('visions', function (Blueprint $table) {
             $table->id();
-            $table->string('day')->unique(); // contoh: Senin, Selasa, dst (1 hari = 1 record unik)
+            $table->text('vision')->nullable();
+            $table->json('missions')->nullable();
             $table->timestamps();
         });
     }
 
+    /**
+     * Reverse the migrations.
+     */
     public function down(): void
     {
-        Schema::dropIfExists('weekly_schedules');
+        Schema::dropIfExists('visions');
     }
 };
