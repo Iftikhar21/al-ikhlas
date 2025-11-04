@@ -21,7 +21,7 @@ use App\Http\Controllers\RegisterOnlineController;
 // View Page User
 Route::get('/', [ViewController::class, 'HomePage'])->name('home');
 Route::get('/news', [ViewController::class, 'NewsPage'])->name('news');
-Route::get('/news-detail/{id}', [ViewController::class, 'NewsDetailPage'])->name('news-detail');
+Route::get('/news-detail/{slug}', [ViewController::class, 'NewsDetailPage'])->name('news-detail');
 Route::get('/program', [ViewController::class, 'ProgramPage'])->name('program');
 Route::get('/program-detail/{slug}', [ViewController::class, 'ProgramDetailPage'])->name('program-detail');
 Route::get('/schedule', [ViewController::class, 'SchedulePage'])->name('schedule');

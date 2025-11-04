@@ -198,7 +198,7 @@
                                         <p class="text-gray-200 text-xs sm:text-base md:text-lg mb-3 sm:mb-4 max-w-xl">
                                             {{ Str::limit($slide->content ?? $slide->content ?? 'Tidak ada deskripsi', 150) }}
                                         </p>
-                                        <a href="" class="bg-white text-green-600 text-xs sm:text-sm md:text-base px-3 sm:px-5 md:px-6 py-1.5 sm:py-2 rounded-full font-semibold hover:bg-green-50 transition">
+                                        <a href="{{ route('news-detail', $slide->slug) }}" class="bg-white text-green-600 text-xs sm:text-sm md:text-base px-3 sm:px-5 md:px-6 py-1.5 sm:py-2 rounded-full font-semibold hover:bg-green-50 transition">
                                             Baca Selengkapnya
                                         </a>
                                     </div>
@@ -324,7 +324,7 @@
                                             <!-- Default icon -->
                                             <svg class="w-12 h-12 text-{{ $color }}-700" fill="currentColor" viewBox="0 0 20 20">
                                                 <path
-                                                    d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z" />
+                                                    d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 005.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z" />
                                             </svg>
                                         @endif
                                     </div>
@@ -458,12 +458,12 @@
                                 </div>
 
                                 <h3 class="text-xl font-bold text-gray-900 mb-4 leading-tight group-hover:text-green-600 transition-colors">
-                                    <a href="">{{ $news->title }}</a>
+                                    <a href="{{ route('news-detail', $news->slug) }}">{{ $news->title }}</a>
                                 </h3>
 
                                 <p class="text-gray-600 leading-relaxed mb-6">{{ Str::limit($news->content ?? '', 100) }}</p>
 
-                                <a href="" class="inline-flex items-center text-green-600 font-semibold hover:text-green-700 group-hover:translate-x-2 transition-all">
+                                <a href="{{ route('news-detail', $news->slug) }}" class="inline-flex items-center text-green-600 font-semibold hover:text-green-700 group-hover:translate-x-2 transition-all">
                                     Baca Selengkapnya
                                     <i data-lucide="arrow-right" class="ml-2 w-5 h-5"></i>
                                 </a>

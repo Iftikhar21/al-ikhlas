@@ -99,10 +99,31 @@
             letter-spacing: 0.5px;
         }
 
+        /* Center alignment for less than 3 items */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .center-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            justify-content: center;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .slide-image {
                 height: 350px;
+            }
+
+            .news-grid,
+            .center-grid {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+                margin: 0 auto;
             }
         }
 
@@ -118,44 +139,87 @@
         <main class="container mx-auto px-4 py-8 min-h-screen">
             <!-- Latest News Section -->
             <section class="mb-12">
-                @forelse($newsList as $news)
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <article class="news-card">
-                            <div class="overflow-hidden">
-                                @if($news->thumbnail)
-                                    <img src="{{ asset('storage/' . $news->thumbnail) }}" alt="{{ $news->title }}">
-                                @else
-                                    <div class="w-full h-48 bg-gray-200 flex items-center justify-center">
-                                        <i data-lucide="image" class="text-6xl text-gray-500"></i>
+                @if(count($newsList) > 0)
+                    @if(count($newsList) < 3)
+                        <div class="center-grid">
+                            @foreach($newsList as $news)
+                                <article class="news-card">
+                                    <div class="overflow-hidden">
+                                        @if($news->thumbnail)
+                                            <img src="{{ asset('storage/' . $news->thumbnail) }}" alt="{{ $news->title }}">
+                                        @else
+                                            <div class="w-full h-48 bg-gray-200 flex items-center justify-center">
+                                                <i data-lucide="image" class="text-6xl text-gray-500"></i>
+                                            </div>
+                                        @endif
                                     </div>
-                                @endif
-                            </div>
-                            <div class="p-5">
-                                <span class="category-badge mb-3">{{ $news->category ?? 'Umum' }}</span>
-                                <h3 class="text-xl font-bold text-gray-800 mb-2 hover:text-green-600 transition cursor-pointer">
-                                    <a href="">{{ $news->title }}</a>
-                                </h3>
-                                <p class="text-gray-600 mb-4">{{ Str::limit($news->content ?? '', 100) }}</p>
+                                    <div class="p-5">
+                                        <span class="category-badge mb-3">{{ $news->category ?? 'Umum' }}</span>
+                                        <h3 class="text-xl font-bold text-gray-800 mb-2 hover:text-green-600 transition cursor-pointer">
+                                            <a href="">{{ $news->title }}</a>
+                                        </h3>
+                                        <p class="text-gray-600 mb-4">{{ Str::limit($news->content ?? '', 100) }}</p>
 
-                                <div class="flex items-center justify-between text-sm text-gray-500 mt-3">
-                                    <div class="flex items-center">
-                                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd"
-                                                d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
-                                                clip-rule="evenodd" />
-                                        </svg>
-                                        <span>{{ $news->created_at->format('d F Y') }}</span>
+                                        <div class="flex items-center justify-between text-sm text-gray-500 mt-3">
+                                            <div class="flex items-center">
+                                                <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd"
+                                                        d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+                                                        clip-rule="evenodd" />
+                                                </svg>
+                                                <span>{{ $news->created_at->format('d F Y') }}</span>
+                                            </div>
+
+                                            <a href="{{ route('news-detail', $news->slug) }}"
+                                                class="px-3 py-1.5 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm font-medium transition">
+                                                Baca Selengkapnya
+                                            </a>
+                                        </div>
                                     </div>
+                                </article>
+                            @endforeach
+                        </div>
+                    @else
+                        <div class="news-grid">
+                            @foreach($newsList as $news)
+                                <article class="news-card">
+                                    <div class="overflow-hidden">
+                                        @if($news->thumbnail)
+                                            <img src="{{ asset('storage/' . $news->thumbnail) }}" alt="{{ $news->title }}">
+                                        @else
+                                            <div class="w-full h-48 bg-gray-200 flex items-center justify-center">
+                                                <i data-lucide="image" class="text-6xl text-gray-500"></i>
+                                            </div>
+                                        @endif
+                                    </div>
+                                    <div class="p-5">
+                                        <span class="category-badge mb-3">{{ $news->category ?? 'Umum' }}</span>
+                                        <h3 class="text-xl font-bold text-gray-800 mb-2 hover:text-green-600 transition cursor-pointer">
+                                            <a href="">{{ $news->title }}</a>
+                                        </h3>
+                                        <p class="text-gray-600 mb-4">{{ Str::limit($news->content ?? '', 100) }}</p>
 
-                                    <a href="{{ route('news-detail', $news->id) }}"
-                                        class="px-3 py-1.5 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm font-medium transition">
-                                        Baca Selengkapnya
-                                    </a>
-                                </div>
-                            </div>
-                        </article>
-                    </div>
-                @empty
+                                        <div class="flex items-center justify-between text-sm text-gray-500 mt-3">
+                                            <div class="flex items-center">
+                                                <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd"
+                                                        d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+                                                        clip-rule="evenodd" />
+                                                </svg>
+                                                <span>{{ $news->created_at->format('d F Y') }}</span>
+                                            </div>
+
+                                            <a href="{{ route('news-detail', $news->slug) }}"
+                                                class="px-3 py-1.5 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm font-medium transition">
+                                                Baca Selengkapnya
+                                            </a>
+                                        </div>
+                                    </div>
+                                </article>
+                            @endforeach
+                        </div>
+                    @endif
+                @else
                     <div class="flex flex-col items-center justify-center text-center h-[70vh]">
                         <svg class="w-20 h-20 text-primary mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -165,7 +229,7 @@
                         <p class="text-gray-500 max-w-md">Saat ini belum ada berita yang dapat ditampilkan. Silakan cek kembali
                             nanti untuk mendapatkan kabar terbaru dari kami.</p>
                     </div>
-                @endforelse
+                @endif
             </section>
         </main>
     </div>

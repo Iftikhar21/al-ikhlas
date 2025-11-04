@@ -71,12 +71,13 @@ class ViewController extends Controller
         return view('news', compact('newsList'));
     }
 
-    public function NewsDetailPage($id)
+    public function NewsDetailPage($slug)
     {
-        $news = News::with('photos')->findOrFail($id);
+        // cari berita berdasarkan slug, bukan id
+        $news = News::with('photos')->where('slug', $slug)->firstOrFail();
 
-        // ambil 6 berita lain terbaru, kecuali yang sedang dibuka
-        $otherNews = News::where('id', '!=', $id)
+        // ambil 6 berita terbaru lainnya, kecuali berita yang sedang dibuka
+        $otherNews = News::where('id', '!=', $news->id)
             ->latest()
             ->take(6)
             ->get();

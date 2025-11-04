@@ -7,6 +7,83 @@
     @vite('resources/css/app.css')
     <link rel="icon" type="image/png" href="{{ asset('img/al_ikhlas_logo.jpg') }}">
     <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* Umum */
+        .mobile-fix {
+            overflow-x: hidden;
+        }
+
+        .content-container {
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        * {
+            max-width: 100%;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* ✅ Fix tampilan dropdown profil */
+        #profileDropdown {
+            position: absolute;
+            right: 0;
+            top: 110%;
+            width: 180px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            z-index: 50;
+            transition: all 0.2s ease-in-out;
+        }
+
+        #profileDropdown button {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            width: 100%;
+            text-align: left;
+            padding: 0.75rem 1rem;
+            font-size: 0.875rem;
+            color: #374151;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        #profileDropdown button:hover {
+            background-color: #f3f4f6;
+            color: #111827;
+        }
+
+        #profileDropdown i {
+            width: 1rem;
+            height: 1rem;
+            color: #6b7280;
+        }
+
+        /* ✨ Fix posisi & tampilan di mobile */
+        @media (max-width: 768px) {
+            #profileDropdown {
+                position: fixed !important;
+                right: 1rem;
+                top: 4.25rem;
+                width: 160px;
+                z-index: 9999;
+            }
+
+            #profileDropdown button {
+                padding: 0.75rem;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+
     <script>
         tailwind.config = {
             theme: {
@@ -26,16 +103,15 @@
     </script>
 </head>
 
-<body>
-    <div>
+<body class="mobile-fix">
+    <div class="mobile-fix">
         @include('admin/navbar-admin')
 
-        <div class="min-h-screen bg-gray-100">
+        <div class="min-h-screen bg-gray-100 mobile-fix">
             <header class="fixed top-0 right-0 left-0 lg:left-80 bg-white border-b border-gray-200 z-30">
-                <div class="flex items-center justify-between px-4 lg:px-8 py-4">
-                    <!-- Kiri: button + title -->
+                <div class="flex items-center justify-between px-4 lg:px-8 py-4 content-container">
+                    <!-- Kiri -->
                     <div class="flex items-center gap-3">
-                        <!-- Mobile Menu Button -->
                         <button id="mobileMenuBtn" class="lg:hidden text-slate-900">
                             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd"
@@ -43,69 +119,72 @@
                                     clip-rule="evenodd" />
                             </svg>
                         </button>
-                        <!-- Title -->
-                        <h1 class="text-lg font-semibold text-gray-800">
+                        <h1 class="text-lg font-semibold text-gray-800 truncate max-w-[150px] lg:max-w-none">
                             @yield('title', 'Dashboard')
                         </h1>
                     </div>
 
-                    <!-- Kanan: user -->
+                    <!-- Kanan -->
                     <div class="relative">
                         <button id="profileBtn" class="flex items-center gap-2">
-                            <div class="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
-                                <svg class="w-6 h-6 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+                            <div
+                                class="w-8 h-8 lg:w-10 lg:h-10 bg-gray-200 rounded-full flex items-center justify-center flex-shrink-0">
+                                <svg class="w-4 h-4 lg:w-6 lg:h-6 text-gray-600" fill="currentColor"
+                                    viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
                                         clip-rule="evenodd" />
                                 </svg>
                             </div>
-                            <span class="hidden lg:inline text-sm font-medium text-gray-700">admin (Admin)</span>
-                            <svg class="w-4 h-4 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+                            <span class="hidden lg:inline text-sm font-medium text-gray-700 truncate max-w-[100px]">
+                                {{ Auth::user()->name ?? 'Unknown' }}
+                            </span>
+                            <svg class="w-4 h-4 text-gray-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd"
                                     d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
                                     clip-rule="evenodd" />
                             </svg>
                         </button>
 
-                        <!-- Dropdown -->
-                        <div id="profileDropdown"
-                            class="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-md hidden z-50">
+                        <!-- ✅ Dropdown rapi -->
+                        <div id="profileDropdown" class="hidden">
                             <form method="POST" action="{{ route('action-logout') }}">
                                 @csrf
-                                <button type="submit"
-                                    class="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100">
-                                    Logout
+                                <button type="submit">
+                                    <i data-lucide="log-out"></i>
+                                    <span>Logout</span>
                                 </button>
                             </form>
                         </div>
                     </div>
                 </div>
             </header>
-            <main>
-                @yield('content')
 
+            <main class="content-container">
+                <div>@yield('content')</div>
                 <x-confirm-modal id="globalConfirmModal" title="Hapus Data"
                     message="Apakah Anda yakin ingin menghapus data ini?" confirmText="Ya, Hapus" cancelText="Batal" />
-
             </main>
         </div>
 
         @include('admin/footer-admin')
     </div>
+
     <script>
         const profileBtn = document.getElementById("profileBtn");
         const profileDropdown = document.getElementById("profileDropdown");
 
-        profileBtn.addEventListener("click", () => {
+        profileBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
             profileDropdown.classList.toggle("hidden");
         });
 
-        // Klik di luar -> nutup dropdown
         document.addEventListener("click", (e) => {
             if (!profileBtn.contains(e.target) && !profileDropdown.contains(e.target)) {
                 profileDropdown.classList.add("hidden");
             }
         });
     </script>
+
     <script>
         const sidebar = document.querySelector("aside");
         const mobileMenuBtn = document.getElementById("mobileMenuBtn");
@@ -114,55 +193,25 @@
         function toggleSidebar() {
             sidebar.classList.toggle("-translate-x-full");
             overlay.classList.toggle("hidden");
+            document.body.classList.toggle('overflow-hidden');
         }
 
         mobileMenuBtn.addEventListener("click", toggleSidebar);
-        overlay.addEventListener("click", toggleSidebar);
+        if (overlay) overlay.addEventListener("click", toggleSidebar);
     </script>
-    <script>
-        let confirmCallback = null;
 
-        function openConfirmModal(id, callback, options = {}) {
-            const modal = document.getElementById(id);
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            confirmCallback = callback;
-
-            // ubah title/message jika ada
-            if (options.title) modal.querySelector('h2').textContent = options.title;
-            if (options.message) modal.querySelector('p').textContent = options.message;
-
-            // ubah tombol confirm
-            const confirmBtn = document.getElementById(id + '-confirm');
-
-            if (options.confirmText) confirmBtn.lastChild.textContent = options.confirmText;
-
-            if (options.confirmColor) {
-                // hapus semua class warna default
-                confirmBtn.className = confirmBtn.className
-                    .replace(/\bbg-[^ ]+\b/g, '') // hapus bg-xxx
-                    .replace(/\bhover:bg-[^ ]+\b/g, ''); // hapus hover:bg-xxx
-                confirmBtn.classList.add(...options.confirmColor.split(' '));
-            }
-
-            if (options.confirmIcon) {
-                confirmBtn.querySelector('i').setAttribute('data-lucide', options.confirmIcon);
-                lucide.createIcons(); // update icon
-            }
-
-            confirmBtn.onclick = function () {
-                if (confirmCallback) confirmCallback();
-                closeConfirmModal(id);
-            };
-        }
-
-        function closeConfirmModal(id) {
-            document.getElementById(id).classList.add('hidden');
-            document.getElementById(id).classList.remove('flex');
-        }
-    </script>
     <script>
         lucide.createIcons();
+
+        document.addEventListener('DOMContentLoaded', function () {
+            document.body.style.overflowX = 'hidden';
+            function setVH() {
+                let vh = window.innerHeight * 0.01;
+                document.documentElement.style.setProperty('--vh', `${vh}px`);
+            }
+            setVH();
+            window.addEventListener('resize', setVH);
+        });
     </script>
 </body>
 
