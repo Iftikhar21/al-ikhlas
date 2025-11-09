@@ -31,42 +31,42 @@
 
                         <!-- Search & Filter -->
                         <form method="GET" action="{{ route('admin.tpa.teachers.index') }}"
-                            class="flex flex-col lg:flex-row gap-3">
-                            <div class="flex gap-3">
-                                <div class="relative">
-                                    <input type="text" name="search" value="{{ request('search') }}"
-                                        placeholder="Cari nama..."
-                                        class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition text-gray-700 w-full lg:w-64">
+                            class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3 w-full">
+
+                            <!-- Input Fields -->
+                            <div class="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
+                                <div class="relative flex-1">
+                                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama..."
+                                        class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition text-gray-700 w-full">
                                     <i data-lucide="search"
                                         class="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
                                 </div>
 
-                                <div class="relative">
-                                    <input type="text" name="phone" value="{{ request('phone') }}"
-                                        placeholder="Cari no. telepon..."
-                                        class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition text-gray-700 w-full lg:w-64">
-                                    <i data-lucide="phone"
-                                        class="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                                <div class="relative flex-1">
+                                    <input type="text" name="phone" value="{{ request('phone') }}" placeholder="Cari no. telepon..."
+                                        class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition text-gray-700 w-full">
+                                    <i data-lucide="phone" class="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
                                 </div>
                             </div>
 
-                            <div class="flex gap-2">
+                            <!-- Action Buttons -->
+                            <div class="flex flex-wrap sm:flex-nowrap gap-2">
                                 <button type="submit"
-                                    class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm flex items-center gap-2 transition-colors">
+                                    class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm flex items-center gap-2 transition-colors w-full sm:w-auto justify-center">
                                     <i data-lucide="filter" class="w-4 h-4"></i>
                                     Filter
                                 </button>
 
                                 @if(request('search') || request('phone'))
                                     <a href="{{ route('admin.tpa.teachers.index') }}"
-                                        class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg text-sm flex items-center gap-2 transition-colors">
+                                        class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg text-sm flex items-center gap-2 transition-colors w-full sm:w-auto justify-center">
                                         <i data-lucide="x" class="w-4 h-4"></i>
                                         Reset
                                     </a>
                                 @endif
 
                                 <a href="{{ route('admin.tpa.teachers.create') }}"
-                                    class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg text-sm flex items-center gap-2 transition-colors">
+                                    class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg text-sm flex items-center gap-2 transition-colors w-full sm:w-auto justify-center">
                                     <i data-lucide="plus" class="w-4 h-4"></i>
                                     Tambah Pengajar
                                 </a>
@@ -133,7 +133,7 @@
                                         <div class="text-sm text-gray-900">{{ $teacher->address }}</div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="flex items-center gap-2">
+                                        <div class="flex flex-wrap lg:flex-nowrap items-center gap-2 justify-center">
                                             <a href="{{ route('admin.tpa.teachers.edit', $teacher->id) }}"
                                                 class="inline-flex items-center p-2 bg-yellow-50 hover:bg-yellow-100 text-yellow-600 rounded-lg transition-colors duration-200 group"
                                                 title="Edit Pengajar">
