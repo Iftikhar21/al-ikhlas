@@ -1,6 +1,6 @@
 <footer class="bg-primary-dark text-white py-12">
     <div class="max-w-6xl mx-auto px-4">
-        <div class="grid md:grid-cols-4 gap-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
 
             {{-- Logo & Slogan --}}
             <div class="flex flex-col items-center justify-center">
@@ -110,8 +110,8 @@
 
                     @if($footer && $footer->telepon)
                         @php
-                            // Tambahkan '-' setiap 4 digit, kecuali di akhir jika kurang dari 4
-                            $formattedPhone = preg_replace('/(\d{4})(?=\d)/', '$1-', $footer->telepon);
+    // Tambahkan '-' setiap 4 digit, kecuali di akhir jika kurang dari 4
+    $formattedPhone = preg_replace('/(\d{4})(?=\d)/', '$1-', $footer->telepon);
                         @endphp
                         <div class="flex items-center">
                             <i data-lucide="phone" class="mr-2"></i>
