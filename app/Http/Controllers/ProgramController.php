@@ -16,7 +16,7 @@ class ProgramController extends Controller
             return redirect()->route('login');
         }
         $programs = Programs::latest()->paginate(10);
-        return view('admin.programs.index', compact('programs'));
+        return view('admin.tpa.programs.index', compact('programs'));
     }
 
     public function create()
@@ -24,7 +24,7 @@ class ProgramController extends Controller
         if (!Auth::check()) {
             return redirect()->route('login');
         }
-        return view('admin.programs.create');
+        return view('admin.tpa.programs.create');
     }
 
     public function store(Request $request)
@@ -48,7 +48,7 @@ class ProgramController extends Controller
 
         Programs::create($data);
 
-        return redirect()->route('admin.programs.index')->with('success', 'Program berhasil ditambahkan.');
+        return redirect()->route('admin.tpa.programs.index')->with('success', 'Program berhasil ditambahkan.');
     }
 
     public function show(Programs $program)
@@ -56,7 +56,7 @@ class ProgramController extends Controller
         if (!Auth::check()) {
             return redirect()->route('login');
         }
-        return view('admin.programs.show', compact('program'));
+        return view('admin.tpa.programs.show', compact('program'));
     }
 
     public function edit(Programs $program)
@@ -64,7 +64,7 @@ class ProgramController extends Controller
         if (!Auth::check()) {
             return redirect()->route('login');
         }
-        return view('admin.programs.edit', compact('program'));
+        return view('admin.tpa.programs.edit', compact('program'));
     }
 
     public function update(Request $request, Programs $program)
@@ -91,7 +91,7 @@ class ProgramController extends Controller
 
         $program->update($data);
 
-        return redirect()->route('admin.programs.index')->with('success', 'Program berhasil diperbarui.');
+        return redirect()->route('admin.tpa.programs.index')->with('success', 'Program berhasil diperbarui.');
     }
 
     public function destroy(Programs $program)
@@ -104,6 +104,6 @@ class ProgramController extends Controller
         }
 
         $program->delete();
-        return redirect()->route('admin.programs.index')->with('success', 'Program berhasil dihapus.');
+        return redirect()->route('admin.tpa.programs.index')->with('success', 'Program berhasil dihapus.');
     }
 }

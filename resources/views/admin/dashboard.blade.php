@@ -103,19 +103,19 @@
                     <span class="font-medium">Tambah Berita</span>
                 </a>
 
-                <a href="{{ route('admin.events.create') }}" 
+                <a href="{{ route('admin.tpa.events.create') }}" 
                    class="bg-green-500 text-white p-3 lg:p-4 rounded-lg hover:bg-green-600 transition transform hover:scale-105 flex items-center justify-center gap-2 text-sm lg:text-base">
                     <i data-lucide="plus" class="w-4 h-4 lg:w-5 lg:h-5"></i>
                     <span class="font-medium">Tambah Event</span>
                 </a>
 
-                <a href="{{ route('admin.programs.create') }}" 
+                <a href="{{ route('admin.tpa.programs.create') }}" 
                    class="bg-purple-500 text-white p-3 lg:p-4 rounded-lg hover:bg-purple-600 transition transform hover:scale-105 flex items-center justify-center gap-2 text-sm lg:text-base">
                     <i data-lucide="clipboard" class="w-4 h-4 lg:w-5 lg:h-5"></i>
                     <span class="font-medium">Tambah Program</span>
                 </a>
 
-                <a href="{{ route('admin.admin-register-online.index') }}" 
+                <a href="{{ route('admin.register-online.index') }}" 
                    class="bg-orange-500 text-white p-3 lg:p-4 rounded-lg hover:bg-orange-600 transition transform hover:scale-105 flex items-center justify-center gap-2 text-sm lg:text-base">
                     <i data-lucide="bell" class="w-4 h-4 lg:w-5 lg:h-5"></i>
                     <span class="font-medium">Kelola Pendaftaran</span>
@@ -128,7 +128,7 @@
             <div class="bg-white rounded-lg shadow-sm p-4 lg:p-6">
                 <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-4">
                     <h3 class="text-lg lg:text-xl font-bold text-gray-800">Pendaftaran Menunggu</h3>
-                    <a href="{{ route('admin.admin-register-online.index') }}" class="text-blue-600 hover:text-blue-800 text-sm font-medium self-start sm:self-auto">
+                    <a href="{{ route('admin.register-online.index') }}" class="text-blue-600 hover:text-blue-800 text-sm font-medium self-start sm:self-auto">
                         Lihat Semua →
                     </a>
                 </div>
@@ -161,7 +161,7 @@
                                             </td>
                                             <td class="py-3 px-4 text-sm hidden md:table-cell">{{ $registration->birth_place }}</td>
                                             <td class="py-3 px-4">
-                                                <a href="{{ route('admin.admin-register-online.show', $registration->id) }}" 
+                                                <a href="{{ route('admin.register-online.show', $registration->id) }}" 
                                                    class="bg-blue-500 text-white px-3 py-1 rounded text-xs lg:text-sm hover:bg-blue-600 transition inline-block">
                                                     Review
                                                 </a>
@@ -188,7 +188,7 @@
                 <div class="bg-white rounded-lg shadow-sm p-4 lg:p-6">
                     <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-4">
                         <h3 class="text-lg lg:text-xl font-bold text-gray-800">Event Mendatang</h3>
-                        <a href="{{ route('admin.schedules.index') }}" class="text-blue-600 hover:text-blue-800 text-sm font-medium self-start sm:self-auto">
+                        <a href="{{ route('admin.tpa.schedule.index') }}" class="text-blue-600 hover:text-blue-800 text-sm font-medium self-start sm:self-auto">
                             Lihat Semua →
                         </a>
                     </div>
@@ -315,7 +315,7 @@
             <div class="bg-white rounded-lg shadow-sm p-4 lg:p-6">
                 <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-4">
                     <h3 class="text-lg lg:text-xl font-bold text-gray-800">Program Aktif</h3>
-                    <a href="{{ route('admin.programs.index') }}" class="text-blue-600 hover:text-blue-800 text-sm font-medium self-start sm:self-auto">
+                    <a href="{{ route('admin.tpa.programs.index') }}" class="text-blue-600 hover:text-blue-800 text-sm font-medium self-start sm:self-auto">
                         Lihat Semua →
                     </a>
                 </div>

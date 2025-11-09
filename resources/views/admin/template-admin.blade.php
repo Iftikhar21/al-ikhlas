@@ -213,6 +213,133 @@
             window.addEventListener('resize', setVH);
         });
     </script>
+
+    <!-- template-admin.blade.php -->
+    <script>
+        // Global Modal Functions - Available in all admin pages
+        function openConfirmModal(modalId, confirmCallback, options = {}) {
+            const modal = document.getElementById(modalId);
+            if (!modal) {
+                console.error('Modal not found:', modalId);
+                return;
+            }
+
+            // Set modal content based on options
+            if (options.title) {
+                const titleElement = modal.querySelector('h2');
+                if (titleElement) titleElement.textContent = options.title;
+            }
+
+            if (options.message) {
+                const messageElement = modal.querySelector('p');
+                if (messageElement) messageElement.textContent = options.message;
+            }
+
+            if (options.confirmText) {
+                const confirmBtn = modal.querySelector(`#${modalId}-confirm`);
+                if (confirmBtn) {
+                    const icon = confirmBtn.querySelector('i');
+                    const textSpan = confirmBtn.querySelector('span:last-child') || document.createElement('span');
+
+                    if (!textSpan.parentNode) {
+                        confirmBtn.innerHTML = '';
+                        if (icon) confirmBtn.appendChild(icon);
+                        confirmBtn.appendChild(textSpan);
+                    }
+
+                    textSpan.textContent = options.confirmText;
+                }
+            }
+
+            if (options.confirmColor) {
+                const confirmBtn = modal.querySelector(`#${modalId}-confirm`);
+                if (confirmBtn) {
+                    // Remove existing color classes
+                    confirmBtn.className = confirmBtn.className.replace(/bg-\w+-\d+ hover:bg-\w+-\d+/g, '');
+                    // Add new color classes
+                    confirmBtn.classList.add(...options.confirmColor.split(' '));
+                }
+            }
+
+            if (options.confirmIcon) {
+                const confirmBtn = modal.querySelector(`#${modalId}-confirm`);
+                if (confirmBtn) {
+                    // 🧹 Hapus SVG hasil render sebelumnya (biar gak dobel)
+                    confirmBtn.querySelectorAll('svg').forEach(svg => svg.remove());
+
+                    // 🔄 Cek kalau belum ada <i data-lucide>
+                    let icon = confirmBtn.querySelector('i[data-lucide]');
+                    if (!icon) {
+                        icon = document.createElement('i');
+                        confirmBtn.prepend(icon);
+                    }
+
+                    // 🔁 Set ikon baru
+                    icon.setAttribute('data-lucide', options.confirmIcon);
+
+                    // 🎯 Render ulang hanya dalam tombol ini
+                    lucide.createIcons({
+                        icons: lucide.icons, // pakai semua ikon default
+                        attrs: {},
+                        nameAttr: 'data-lucide',
+                    });
+
+                    // Pastikan ikon tampil di depan teks
+                    confirmBtn.prepend(icon);
+                }
+            }
+
+            // Set confirm action
+            const confirmBtn = modal.querySelector(`#${modalId}-confirm`);
+            if (confirmBtn) {
+                confirmBtn.onclick = function () {
+                    if (typeof confirmCallback === 'function') {
+                        confirmCallback();
+                    }
+                    closeConfirmModal(modalId);
+                };
+            }
+
+            // Show modal
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeConfirmModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+        }
+
+        // Close modal when clicking outside
+        document.addEventListener('click', function (e) {
+            if (e.target.classList.contains('backdrop-blur-sm') ||
+                e.target.classList.contains('bg-opacity-30')) {
+                const modals = document.querySelectorAll('[id$="ConfirmModal"]');
+                modals.forEach(modal => {
+                    if (!modal.classList.contains('hidden')) {
+                        const modalId = modal.id;
+                        closeConfirmModal(modalId);
+                    }
+                });
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                const modals = document.querySelectorAll('[id$="ConfirmModal"]');
+                modals.forEach(modal => {
+                    if (!modal.classList.contains('hidden')) {
+                        const modalId = modal.id;
+                        closeConfirmModal(modalId);
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 
 </html>

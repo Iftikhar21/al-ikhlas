@@ -234,7 +234,7 @@
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <a href="{{ route('program') }}" class="group relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-gray-100 overflow-hidden">
+                    <a href="{{ route('tpa.program') }}" class="group relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-gray-100 overflow-hidden">
                         <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-green-100 to-emerald-50 rounded-bl-full -mr-16 -mt-16 opacity-50 group-hover:opacity-100 transition-opacity"></div>
                         <div class="relative z-10">
                             <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
@@ -249,7 +249,7 @@
                         </div>
                     </a>
 
-                    <a href="{{ route('schedule') }}" class="group relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-gray-100 overflow-hidden">
+                    <a href="{{ route('tpa.schedule') }}" class="group relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-gray-100 overflow-hidden">
                         <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-100 to-cyan-50 rounded-bl-full -mr-16 -mt-16 opacity-50 group-hover:opacity-100 transition-opacity"></div>
                         <div class="relative z-10">
                             <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
@@ -264,7 +264,7 @@
                         </div>
                     </a>
 
-                    <a href="{{ route('register-online') }}" class="group relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-gray-100 overflow-hidden">
+                    <a href="{{ route('tpa.register') }}" class="group relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-gray-100 overflow-hidden">
                         <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-amber-100 to-orange-50 rounded-bl-full -mr-16 -mt-16 opacity-50 group-hover:opacity-100 transition-opacity"></div>
                         <div class="relative z-10">
                             <div class="w-16 h-16 bg-gradient-to-br from-amber-500 to-orange-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
@@ -334,7 +334,7 @@
 
                             <div class="p-8">
                                 <p class="text-gray-600 leading-relaxed mb-6">{{ Str::limit($program->description, 100) }}</p>
-                                <a href="{{ route('program-detail', $program->slug) }}" class="inline-flex items-center text-green-600 font-semibold hover:text-green-700 group-hover:translate-x-2 transition-all">
+                                <a href="{{ route('tpa.program-detail', $program->slug) }}" class="inline-flex items-center text-green-600 font-semibold hover:text-green-700 group-hover:translate-x-2 transition-all">
                                     Lihat Detail Program
                                     <i data-lucide="arrow-right" class="ml-2 w-5 h-5"></i>
                                 </a>
@@ -344,7 +344,7 @@
                 </div>
 
                 <div class="text-center mt-12">
-                    <a href="{{ route('program') }}" class="inline-flex items-center bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-10 py-4 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+                    <a href="{{ route('tpa.program') }}" class="inline-flex items-center bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-10 py-4 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
                         Lihat Semua Program
                         <i data-lucide="arrow-right" class="ml-3 w-5 h-5"></i>
                     </a>
@@ -410,7 +410,7 @@
                     </div>
 
                     <div class="text-center mt-8">
-                        <a href="{{ route('schedule') }}"
+                        <a href="{{ route('tpa.schedule') }}"
                             class="inline-flex items-center bg-amber-600 hover:bg-amber-700 text-white px-8 py-3 rounded-xl font-semibold text-lg transition-colors group">
                             Lihat Semua Kegiatan
                             <i data-lucide="arrow-right" class="ml-2 w-5 h-5 group-hover:translate-x-2 transition-transform"></i>
@@ -548,6 +548,134 @@
                             <p class="text-green-100 text-sm mt-6">Kami siap melayani Anda 24/7</p>
                         </div>
                     </div>
+                </div>
+            </section>
+            <!-- Upcoming Kajian Section -->
+            <section class="mb-24">
+                <div class="text-center mb-16">
+                    <div class="inline-block mb-4">
+                        <span
+                            class="text-green-600 font-semibold text-sm uppercase tracking-wider bg-green-50 px-4 py-2 rounded-full">Kajian</span>
+                    </div>
+                    <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">Kajian Mendatang</h2>
+                    <p class="text-gray-600 text-lg max-w-2xl mx-auto">Jadwal kajian rutin masjid Al-Ikhlas Dalang</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    @foreach($upcomingKajians as $kajian)
+                        <div
+                            class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-semibold">
+                                    {{ \Carbon\Carbon::parse($kajian->tanggal)->translatedFormat('l') }}
+                                </span>
+                                <span class="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-sm font-bold">
+                                    {{ \Carbon\Carbon::parse($kajian->tanggal)->translatedFormat('d M') }}
+                                </span>
+                            </div>
+
+                            <h3 class="text-xl font-bold text-gray-900 mb-3 line-clamp-2">{{ $kajian->judul }}</h3>
+
+                            <div class="space-y-2 mb-4">
+                                <div class="flex items-center text-gray-600">
+                                    <i data-lucide="user" class="w-4 h-4 mr-2 text-green-600"></i>
+                                    <span class="text-sm">{{ $kajian->pembicara }}</span>
+                                </div>
+                                <div class="flex items-center text-gray-600">
+                                    <i data-lucide="clock" class="w-4 h-4 mr-2 text-amber-600"></i>
+                                    <span class="text-sm">
+                                        {{ date('H:i', strtotime($kajian->waktu_mulai)) }} -
+                                        {{ date('H:i', strtotime($kajian->waktu_selesai)) }}
+                                    </span>
+                                </div>
+                                <div class="flex items-center text-gray-600">
+                                    <i data-lucide="map-pin" class="w-4 h-4 mr-2 text-blue-600"></i>
+                                    <span class="text-sm">{{ $kajian->lokasi }}</span>
+                                </div>
+                            </div>
+
+                            <p class="text-gray-600 text-sm line-clamp-2 mb-4">{{ $kajian->materi }}</p>
+
+                            <a href="{{ route('masjid.kajian') }}"
+                                class="inline-flex items-center text-green-600 font-semibold hover:text-green-700 text-sm">
+                                Lihat Detail
+                                <i data-lucide="arrow-right" class="ml-1 w-4 h-4"></i>
+                            </a>
+                        </div>
+                    @endforeach
+                </div>
+
+                <div class="text-center mt-8">
+                    <a href="{{ route('masjid.kajian') }}"
+                        class="inline-flex items-center bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-3 rounded-full font-semibold transition-colors">
+                        Lihat Semua Kajian
+                        <i data-lucide="calendar" class="ml-2 w-5 h-5"></i>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Latest Koperasi Activities -->
+            <section class="mb-24">
+                <div class="text-center mb-16">
+                    <div class="inline-block mb-4">
+                        <span
+                            class="text-green-600 font-semibold text-sm uppercase tracking-wider bg-green-50 px-4 py-2 rounded-full">Koperasi</span>
+                    </div>
+                    <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">Kegiatan Koperasi</h2>
+                    <p class="text-gray-600 text-lg max-w-2xl mx-auto">Aktivitas terbaru koperasi masjid Al-Ikhlas</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    @foreach($latestActivities as $activity)
+                        <article
+                            class="group bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100">
+                            <div class="relative overflow-hidden h-48">
+                                @if($activity->thumbnail)
+                                    <img src="{{ asset('storage/' . $activity->thumbnail) }}" alt="{{ $activity->title }}"
+                                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                @else
+                                    <div class="w-full h-full bg-gradient-to-br from-blue-200 to-cyan-300 flex items-center justify-center">
+                                        <i data-lucide="store" class="text-5xl text-blue-600"></i>
+                                    </div>
+                                @endif
+                                <div class="absolute top-4 left-4">
+                                    <span class="bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg">
+                                        Koperasi
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="p-6">
+                                <div class="flex items-center text-sm text-gray-500 mb-3">
+                                    <i data-lucide="calendar" class="w-4 h-4 mr-2"></i>
+                                    <span>{{ $activity->created_at->format('d F Y') }}</span>
+                                </div>
+
+                                <h3
+                                    class="text-xl font-bold text-gray-900 mb-3 leading-tight group-hover:text-blue-600 transition-colors line-clamp-2">
+                                    {{ $activity->title }}
+                                </h3>
+
+                                <p class="text-gray-600 leading-relaxed mb-4 line-clamp-3">
+                                    {{ Str::limit(strip_tags($activity->content), 120) }}
+                                </p>
+
+                                <a href="{{ route('koperasi.activity.detail', $activity->slug) }}"
+                                    class="inline-flex items-center text-blue-600 font-semibold hover:text-blue-700 group-hover:translate-x-2 transition-all text-sm">
+                                    Baca Selengkapnya
+                                    <i data-lucide="arrow-right" class="ml-2 w-4 h-4"></i>
+                                </a>
+                            </div>
+                        </article>
+                    @endforeach
+                </div>
+
+                <div class="text-center mt-8">
+                    <a href="{{ route('koperasi.kegiatan') }}"
+                        class="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-full font-semibold transition-colors">
+                        Lihat Semua Kegiatan
+                        <i data-lucide="arrow-right" class="ml-2 w-5 h-5"></i>
+                    </a>
                 </div>
             </section>
         </main>

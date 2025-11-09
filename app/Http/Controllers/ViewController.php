@@ -2,29 +2,46 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\News;
 use App\Models\Footer;
-use App\Models\History;
-use App\Models\OrganizationStructure;
-use App\Models\Programs;
+use App\Models\Kajian;
 use App\Models\Vision;
+use App\Models\History;
+use App\Models\Programs;
+use App\Models\TpaVision;
+use App\Models\TpaHistory;
+use App\Models\MasjidVision;
 use Illuminate\Http\Request;
+use App\Models\MasjidHistory;
 use App\Models\EventSchedules;
+use App\Models\KoperasiActivity;
+use App\Models\KoperasiVision;
 use App\Models\QuoteSchedules;
+use App\Models\KoperasiHistory;
 use App\Models\WeeklySchedules;
+use App\Models\OrganizationStructure;
+use App\Models\TpaOrganizationStructure;
+use App\Models\MasjidOrganizationStructure;
+use App\Models\KoperasiOrganizationStructure;
+use App\Models\Teacher;
 
 class ViewController extends Controller
 {
+    // ======================================================
+    // 🌐 GLOBAL (HOME / NEWS / CONTACT)
+    // ======================================================
     public function HomePage()
     {
         $heroSlides = News::latest()->take(5)->get();
         $newsList = News::latest()->take(6)->get();
         $programs = Programs::where('status', 'published')->take(3)->get();
+        $upcomingKajians = Kajian::whereDate('tanggal', '>=', now())
+            ->orderBy('tanggal', 'asc')
+            ->take(3)
+            ->get();
 
-        // Ambil data schedule
-        $weeklySchedules = WeeklySchedules::with(['items' => function ($q) {
-            $q->orderBy('start_time');
-        }])
+        $weeklySchedules = WeeklySchedules::with(['items' => fn($q) => $q->orderBy('start_time')])
             ->orderByRaw("FIELD(day, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')")
             ->take(5)
             ->get();
@@ -34,97 +51,36 @@ class ViewController extends Controller
             ->take(3)
             ->get();
 
+        $latestActivities = KoperasiActivity::with('koperasi_activity_photos')
+            ->latest()
+            ->take(3)
+            ->get();
+
         $footer = Footer::with('socials')->latest('id')->first();
 
         return view('home', compact(
             'heroSlides',
             'newsList',
+            'upcomingKajians',
             'programs',
             'weeklySchedules',
             'eventSchedules',
+            'latestActivities',
             'footer'
         ));
     }
 
-    public function HistoryPage()
-    {
-        $history = History::first();
-        $visions = Vision::all();
-        return view('history', compact('history', 'visions'));
-    }
-
-    public function StructurePage()
-    {
-        $structure = OrganizationStructure::first();
-        return view('structure', compact('structure'));
-    }
-
-    public function VisionMissionPage()
-    {
-        $visions = Vision::all();
-        return view('vision', compact('visions'));
-    }
-
     public function NewsPage()
     {
-        $newsList = News::latest()->take(6)->get();
+        $newsList = News::latest()->paginate(6);
         return view('news', compact('newsList'));
     }
 
     public function NewsDetailPage($slug)
     {
-        // cari berita berdasarkan slug, bukan id
         $news = News::with('photos')->where('slug', $slug)->firstOrFail();
-
-        // ambil 6 berita terbaru lainnya, kecuali berita yang sedang dibuka
-        $otherNews = News::where('id', '!=', $news->id)
-            ->latest()
-            ->take(6)
-            ->get();
-
+        $otherNews = News::where('id', '!=', $news->id)->latest()->take(6)->get();
         return view('news-detail', compact('news', 'otherNews'));
-    }
-
-    public function ProgramPage()
-    {
-        // Ambil hanya program dengan status 'published'
-        $programs = Programs::where('status', 'published')->get();
-        return view('program', compact('programs'));
-    }
-
-    public function ProgramDetailPage($slug)
-    {
-        $program = Programs::where('slug', $slug)->firstOrFail();
-
-        // Get 3 other programs excluding the current one
-        $otherPrograms = Programs::where('id', '!=', $program->id)->take(3)->get();
-
-        return view('program-detail', compact('program', 'otherPrograms'));
-    }
-
-
-    public function SchedulePage()
-    {
-        // Ambil data weekly schedules dengan urutan hari
-        $weeklySchedules = WeeklySchedules::with(['items' => function ($q) {
-            $q->orderBy('start_time');
-        }])
-            ->orderByRaw("FIELD(day, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')")
-            ->get();
-
-        // Ambil data event schedules (upcoming events)
-        $eventSchedules = EventSchedules::where('event_date', '>=', now())
-            ->orderBy('event_date', 'asc')
-            ->get();
-
-        // Ambil random quote untuk motivasi
-        $quote = QuoteSchedules::inRandomOrder()->first();
-
-        return view('schedule', compact('weeklySchedules', 'eventSchedules', 'quote'));
-    }
-
-    public function RegistrationPage() {
-        return view('register-online');
     }
 
     public function ContactPage()
@@ -133,7 +89,139 @@ class ViewController extends Controller
         return view('contact', compact('footer'));
     }
 
-    public function LoginPage() {
-        return view('auth.login');
+    // ======================================================
+    // 🕌 MASJID SECTION
+    // ======================================================
+    public function MasjidSejarah()
+    {
+        $history = MasjidHistory::first();
+        $visions = MasjidVision::all();
+        return view('masjid.history', compact('history', 'visions'));
+    }
+
+    public function MasjidStruktur()
+    {
+        $structure = MasjidOrganizationStructure::first();
+        return view('masjid.structure', compact('structure'));
+    }
+
+    public function MasjidVisiMisi()
+    {
+        $visions = MasjidVision::all();
+        return view('masjid.vision', compact('visions'));
+    }
+
+    public function MasjidKajian()
+    {
+        $today = Carbon::today();
+        $kajians = Kajian::whereDate('tanggal', '>=', $today)
+            ->orderBy('tanggal', 'asc')
+            ->get();
+
+        return view('masjid.kajian', compact('kajians'));
+    }
+
+    // ======================================================
+    // 📚 TPA SECTION
+    // ======================================================
+
+    public function TPAProgramPage()
+    {
+        $programs = Programs::where('status', 'published')->get();
+        return view('tpa.program', compact('programs'));
+    }
+
+    public function TPAProgramDetailPage($slug)
+    {
+        $program = Programs::where('slug', $slug)->firstOrFail();
+        $otherPrograms = Programs::where('id', '!=', $program->id)->take(3)->get();
+        return view('tpa.program-detail', compact('program', 'otherPrograms'));
+    }
+
+    public function TPAHistory()
+    {
+        $history = TpaHistory::first();
+        $visions = TpaVision::all();
+        return view('tpa.history', compact('history', 'visions' ));
+    }
+
+    public function TPAStructure()
+    {
+        $structure = TpaOrganizationStructure::first();
+        return view('tpa.structure', compact('structure'));
+    }
+
+    public function TPAVisionMission()
+    {
+        $visions = TpaVision::all();
+        return view('tpa.vision', compact('visions'));
+    }
+
+    public function TPATeachers()
+    {
+        $pengajars = Teacher::all();
+        return view('tpa.teacher', compact('pengajars'));
+    }
+
+    public function TPANews()
+    {
+        $newsList = News::latest()->take(6)->get();
+        return view('tpa.berita', compact('newsList'));
+    }
+
+    public function TPASchedule()
+    {
+        $weeklySchedules = WeeklySchedules::with(['items' => fn($q) => $q->orderBy('start_time')])
+            ->orderByRaw("FIELD(day, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')")
+            ->get();
+
+        $eventSchedules = EventSchedules::where('event_date', '>=', now())->orderBy('event_date', 'asc')->get();
+        $quote = QuoteSchedules::inRandomOrder()->first();
+
+        return view('tpa.schedule', compact('weeklySchedules', 'eventSchedules', 'quote'));
+    }
+
+    public function TPARegister()
+    {
+        return view('tpa.register-online');
+    }
+
+    // ======================================================
+    // 💼 KOPERASI SECTION
+    // ======================================================
+    public function KoperasiSejarah()
+    {
+        $history = KoperasiHistory::first();
+        $visions = KoperasiVision::all();
+        return view('koperasi.history', compact('history', 'visions'));
+    }
+
+    public function KoperasiStruktur()
+    {
+        $structure = KoperasiOrganizationStructure::first();
+        return view('koperasi.structure', compact('structure'));
+    }
+
+    public function KoperasiVisiMisi()
+    {
+        $visions = KoperasiVision::all();
+        return view('koperasi.vision', compact('visions'));
+    }
+
+    public function KoperasiKegiatan()
+    {
+        $activities = KoperasiActivity::with('koperasi_activity_photos')
+            ->latest()
+            ->paginate(9);
+        return view('koperasi.activity', compact('activities'));
+    }
+
+    public function KoperasiKegiatanDetail($slug)
+    {
+        $activity = KoperasiActivity::with('koperasi_activity_photos')
+            ->where('slug', $slug)
+            ->firstOrFail();
+
+        return view('koperasi.activity-detail', compact('activity'));
     }
 }

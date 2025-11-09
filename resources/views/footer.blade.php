@@ -9,7 +9,7 @@
                 @else
                     <img src="{{ asset('img/al_ikhlas_logo_white.png') }}" alt="Logo Default" class="mb-4">
                 @endif
-            
+
                 <div class="text-center">
                     @if($footer && $footer->slogan)
                         <p class="text-white font-semibold text-lg italic">"{{ $footer->slogan }}"</p>
@@ -19,7 +19,7 @@
 
             {{-- Deskripsi & Sosial Media --}}
             <div>
-                <h3 class="text-xl text-accent font-bold mb-4">TPA Masjid Al-Ikhlas</h3>
+                <h3 class="text-xl text-accent font-bold mb-4">Masjid Al-Ikhlas Dalang</h3>
                 <p class="text-gray-300 mb-4 text-sm leading-relaxed">
                     {{ $footer->deskripsi ?? 'Deskripsi belum diatur.' }}
                 </p>
@@ -41,13 +41,51 @@
             <div>
                 <h4 class="text-xl text-accent font-semibold mb-4">Menu Cepat</h4>
                 <ul class="space-y-2 text-sm">
-                    <li><a href="{{ route('home') }}" class="text-gray-300 hover:text-white">Beranda</a></li>
-                    <li><a href="{{ route('news') }}" class="text-gray-300 hover:text-white">Berita</a></li>
-                    <li><a href="{{ route('program') }}" class="text-gray-300 hover:text-white">Program</a></li>
-                    <li><a href="{{ route('schedule') }}" class="text-gray-300 hover:text-white">Jadwal</a></li>
-                    <li><a href="{{ route('register-online') }}" class="text-gray-300 hover:text-white">Pendaftaran</a>
-                    </li>
-                    <li><a href="{{ route('contact') }}" class="text-gray-300 hover:text-white">Kontak</a></li>
+                    <!-- Menu Utama -->
+                    <li><a href="{{ route('home') }}"
+                            class="text-gray-300 hover:text-white transition-colors flex items-center gap-1">
+                            <i data-lucide="home" class="w-3 h-3"></i> Beranda
+                        </a></li>
+
+                    <!-- Menu Masjid -->
+                    <li><a href="{{ route('masjid.sejarah') }}"
+                            class="text-gray-300 hover:text-white transition-colors flex items-center gap-1">
+                            <i data-lucide="moon" class="w-3 h-3"></i> Sejarah Masjid
+                        </a></li>
+                    <li><a href="{{ route('masjid.kajian') }}"
+                            class="text-gray-300 hover:text-white transition-colors flex items-center gap-1">
+                            <i data-lucide="book-open" class="w-3 h-3"></i> Kajian Rutin
+                        </a></li>
+
+                    <!-- Menu TPA -->
+                    <li><a href="{{ route('tpa.teachers') }}"
+                            class="text-gray-300 hover:text-white transition-colors flex items-center gap-1">
+                            <i data-lucide="users" class="w-3 h-3"></i> Pengajar TPA
+                        </a></li>
+                    <li><a href="{{ route('tpa.schedule') }}"
+                            class="text-gray-300 hover:text-white transition-colors flex items-center gap-1">
+                            <i data-lucide="calendar" class="w-3 h-3"></i> Jadwal TPA
+                        </a></li>
+                    <li><a href="{{ route('tpa.register') }}"
+                            class="text-gray-300 hover:text-white transition-colors flex items-center gap-1">
+                            <i data-lucide="clipboard-list" class="w-3 h-3"></i> Pendaftaran TPA
+                        </a></li>
+
+                    <!-- Menu Koperasi -->
+                    <li><a href="{{ route('koperasi.kegiatan') }}"
+                            class="text-gray-300 hover:text-white transition-colors flex items-center gap-1">
+                            <i data-lucide="store" class="w-3 h-3"></i> Kegiatan Koperasi
+                        </a></li>
+
+                    <!-- Menu Lainnya -->
+                    <li><a href="{{ route('news') }}"
+                            class="text-gray-300 hover:text-white transition-colors flex items-center gap-1">
+                            <i data-lucide="newspaper" class="w-3 h-3"></i> Berita & Kegiatan
+                        </a></li>
+                    <li><a href="{{ route('contact') }}"
+                            class="text-gray-300 hover:text-white transition-colors flex items-center gap-1">
+                            <i data-lucide="mail" class="w-3 h-3"></i> Kontak Kami
+                        </a></li>
                 </ul>
             </div>
 
@@ -89,13 +127,6 @@
                     @endif
                 </div>
             </div>
-        </div>
-
-        {{-- Copyright --}}
-        <div class="border-t border-gray-700 mt-8 pt-8 text-center">
-            <p class="text-gray-400 text-sm">
-                © {{ date('Y') }} TPA Masjid Al-Ikhlas. Semua hak dilindungi undang-undang.
-            </p>
         </div>
     </div>
 </footer>

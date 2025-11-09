@@ -12,7 +12,7 @@ class DailyScheduleItem extends Model
         'start_time',
         'end_time',
         'activity',
-        'teacher',
+        'teacher_id',
     ];
 
     public function weeklySchedule()
@@ -23,5 +23,10 @@ class DailyScheduleItem extends Model
     public function ummiLevel()
     {
         return $this->belongsTo(UmmiLevel::class, 'ummi_level_id');
+    }
+
+    public function teacher()
+    {
+        return $this->belongsTo(Teacher::class, 'teacher_id');
     }
 }

@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\UmmiLevel;
 use Carbon\Carbon;
+use App\Models\Teacher;
+use App\Models\UmmiLevel;
 use Illuminate\Http\Request;
 use App\Models\EventSchedules;
 use App\Models\QuoteSchedules;
@@ -31,8 +32,8 @@ class ScheduleController extends Controller
 
         // Ambil jadwal mingguan beserta semua item detail-nya
         $weeklySchedules = WeeklySchedules::with(['items' => function ($query) {
-            $query->orderBy('start_time', 'asc'); // urutkan berdasarkan waktu di tabel item
-        }])
+            $query->orderBy('start_time', 'asc');
+        }, 'items.teacher', 'items.ummiLevel']) // Add teacher eager loading
             ->orderByRaw("FIELD(day, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')")
             ->get();
 
@@ -40,7 +41,7 @@ class ScheduleController extends Controller
         $quoteSchedules = QuoteSchedules::latest()->get();
         $levels = UmmiLevel::all();
 
-        return view('admin.schedules.index', compact('weeklySchedules', 'eventSchedules', 'quoteSchedules', 'levels'));
+        return view('admin.tpa.schedules.index', compact('weeklySchedules', 'eventSchedules', 'quoteSchedules', 'levels'));
     }
 
     public function index()
@@ -49,7 +50,7 @@ class ScheduleController extends Controller
             return redirect()->route('login');
         }
         // Default redirect to weekly schedule
-        return redirect()->route('admin.weekly-schedule.index');
+        return redirect()->route('admin.tpa.weekly-schedule.index');
     }
 
     /**
@@ -61,7 +62,7 @@ class ScheduleController extends Controller
             return redirect()->route('login');
         }
         // Default redirect to weekly schedule create
-        return redirect()->route('admin.weekly-schedule.create');
+        return redirect()->route('admin.tpa.weekly-schedule.create');
     }
 
     /**
@@ -137,7 +138,7 @@ class ScheduleController extends Controller
             ->orderByRaw("FIELD(day, 'Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday')")
             ->get();
 
-        return view('admin.schedules.weekly-index', compact('schedules'));
+        return view('admin.tpa.schedules.weekly-index', compact('schedules'));
     }
 
     public function weeklyCreate()
@@ -154,8 +155,9 @@ class ScheduleController extends Controller
             'Sunday' => 'Minggu'
         ];
         $levels = UmmiLevel::all();
+        $teachers = Teacher::all();
 
-        return view('admin.schedules.weekly-create', compact('days', 'levels'));
+        return view('admin.tpa.schedules.weekly-create', compact('days', 'levels', 'teachers'));
     }
 
     /**
@@ -173,7 +175,7 @@ class ScheduleController extends Controller
             'items.*.start_time' => 'required|date_format:H:i',
             'items.*.end_time' => 'required|date_format:H:i|after:items.*.start_time',
             'items.*.activity' => 'required|string|max:255',
-            'items.*.teacher' => 'required|string|max:255',
+            'items.*.teacher' => 'required|string|exists:teachers,id',
         ]);
 
         try {
@@ -198,11 +200,11 @@ class ScheduleController extends Controller
                     'start_time' => $item['start_time'],
                     'end_time' => $item['end_time'],
                     'activity' => $item['activity'],
-                    'teacher' => $item['teacher']
+                    'teacher_id' => $item['teacher']
                 ]);
             }
 
-            return redirect()->route('admin.schedules.index')
+            return redirect()->route('admin.tpa.schedule.index')
                 ->with('success', 'Jadwal mingguan berhasil ditambahkan.');
         } catch (\Exception $e) {
             Log::error('Error creating weekly schedule: ' . $e->getMessage());
@@ -229,8 +231,9 @@ class ScheduleController extends Controller
             'Sunday' => 'Minggu'
         ];
         $ummiLevels = UmmiLevel::all();
+        $teachers = Teacher::all(); // Add this line
 
-        return view('admin.schedules.weekly-edit', compact('schedule', 'days', 'ummiLevels'));
+        return view('admin.tpa.schedules.weekly-edit', compact('schedule', 'days', 'ummiLevels', 'teachers'));
     }
 
     public function weeklyUpdate(Request $request, $weeklyId)
@@ -241,7 +244,7 @@ class ScheduleController extends Controller
             'day' => 'required|string',
             'items' => 'required|array|min:1',
             'items.*.ummi_level_id' => 'required|exists:ummi_levels,id',
-            'items.*.teacher' => 'required|string|max:255',
+            'items.*.teacher' => 'required|exists:teachers,id', // Update validation
             'items.*.activity' => 'required|string|max:255',
             'items.*.start_time' => 'required|date_format:H:i',
             'items.*.end_time' => 'required|date_format:H:i|after:items.*.start_time',
@@ -250,15 +253,21 @@ class ScheduleController extends Controller
         $schedule = WeeklySchedules::findOrFail($weeklyId);
         $schedule->update(['day' => $validated['day']]);
 
-        // Hapus semua item lama
+        // Delete old items
         $schedule->items()->delete();
 
-        // Simpan ulang item baru
+        // Create new items with teacher_id
         foreach ($validated['items'] as $item) {
-            $schedule->items()->create($item);
+            $schedule->items()->create([
+                'ummi_level_id' => $item['ummi_level_id'],
+                'start_time' => $item['start_time'],
+                'end_time' => $item['end_time'],
+                'activity' => $item['activity'],
+                'teacher_id' => $item['teacher'] // Use teacher_id
+            ]);
         }
 
-        return redirect()->route('admin.schedules.index')
+        return redirect()->route('admin.tpa.schedule.index')
             ->with('success', 'Jadwal mingguan berhasil diperbarui.');
     }
 
@@ -270,7 +279,7 @@ class ScheduleController extends Controller
         $schedule->items()->delete();
         $schedule->delete();
 
-        return redirect()->route('admin.schedules.index')
+        return redirect()->route('admin.tpa.schedule.index')
             ->with('success', 'Jadwal mingguan berhasil dihapus.');
     }
 
@@ -285,7 +294,7 @@ class ScheduleController extends Controller
             return redirect()->route('login');
         }
         $events = EventSchedules::orderBy('event_date', 'desc')->get();
-        return view('admin.schedules.event-index', compact('events'));
+        return view('admin.tpa.schedules.event-index', compact('events'));
     }
 
     /**
@@ -296,7 +305,7 @@ class ScheduleController extends Controller
         if (!Auth::check()) {
             return redirect()->route('login');
         }
-        return view('admin.schedules.event-create');
+        return view('admin.tpa.schedules.event-create');
     }
 
     /**
@@ -324,7 +333,7 @@ class ScheduleController extends Controller
 
             EventSchedules::create($data);
 
-            return redirect()->route('admin.schedules.index')
+            return redirect()->route('admin.tpa.schedule.index')
                 ->with('success', 'Event berhasil ditambahkan.');
         } catch (\Exception $e) {
             return redirect()->back()
@@ -343,9 +352,9 @@ class ScheduleController extends Controller
         }
         try {
             $event = EventSchedules::findOrFail($eventId);
-            return view('admin.schedules.event-edit', compact('event'));
+            return view('admin.tpa.schedules.event-edit', compact('event'));
         } catch (\Exception $e) {
-            return redirect()->route('admin.schedules.index')
+            return redirect()->route('admin.tpa.schedule.index')
                 ->with('error', 'Event tidak ditemukan.');
         }
     }
@@ -384,7 +393,7 @@ class ScheduleController extends Controller
 
             $event->update($data);
 
-            return redirect()->route('admin.schedules.index')
+            return redirect()->route('admin.tpa.schedule.index')
                 ->with('success', 'Event berhasil diperbarui.');
         } catch (\Exception $e) {
             return redirect()->back()
@@ -411,10 +420,10 @@ class ScheduleController extends Controller
 
             $event->delete();
 
-            return redirect()->route('admin.schedules.index')
+            return redirect()->route('admin.tpa.schedule.index')
                 ->with('success', 'Event berhasil dihapus.');
         } catch (\Exception $e) {
-            return redirect()->route('admin.schedules.index')
+            return redirect()->route('admin.tpa.schedule.index')
                 ->with('error', 'Terjadi kesalahan saat menghapus event: ' . $e->getMessage());
         }
     }
@@ -429,9 +438,9 @@ class ScheduleController extends Controller
         }
         try {
             $event = EventSchedules::findOrFail($eventId);
-            return view('admin.schedules.event-show', compact('event'));
+            return view('admin.tpa.schedules.event-show', compact('event'));
         } catch (\Exception $e) {
-            return redirect()->route('admin.schedules.index')
+            return redirect()->route('admin.tpa.schedule.index')
                 ->with('error', 'Event tidak ditemukan.');
         }
     }
@@ -447,7 +456,7 @@ class ScheduleController extends Controller
             return redirect()->route('login');
         }
         $quotes = QuoteSchedules::latest()->get();
-        return view('admin.schedules.quote-index', compact('quotes'));
+        return view('admin.tpa.schedules.quote-index', compact('quotes'));
     }
 
     /**
@@ -458,7 +467,7 @@ class ScheduleController extends Controller
         if (!Auth::check()) {
             return redirect()->route('login');
         }
-        return view('admin.schedules.quote-create');
+        return view('admin.tpa.schedules.quote-create');
     }
 
     /**
@@ -477,7 +486,7 @@ class ScheduleController extends Controller
         try {
             QuoteSchedules::create($validated);
 
-            return redirect()->route('admin.schedules.index')
+            return redirect()->route('admin.tpa.schedule.index')
                 ->with('success', 'Quote berhasil ditambahkan.');
         } catch (\Exception $e) {
             return redirect()->back()
@@ -496,9 +505,9 @@ class ScheduleController extends Controller
         }
         try {
             $quote = QuoteSchedules::findOrFail($quoteId);
-            return view('admin.schedules.quote-edit', compact('quote'));
+            return view('admin.tpa.schedules.quote-edit', compact('quote'));
         } catch (\Exception $e) {
-            return redirect()->route('admin.schedules.index')
+            return redirect()->route('admin.tpa.schedule.index')
                 ->with('error', 'Quote tidak ditemukan.');
         }
     }
@@ -520,7 +529,7 @@ class ScheduleController extends Controller
             $quote = QuoteSchedules::findOrFail($quoteId);
             $quote->update($validated);
 
-            return redirect()->route('admin.schedules.index')
+            return redirect()->route('admin.tpa.schedule.index')
                 ->with('success', 'Quote berhasil diperbarui.');
         } catch (\Exception $e) {
             return redirect()->back()
@@ -541,10 +550,10 @@ class ScheduleController extends Controller
             $quote = QuoteSchedules::findOrFail($quoteId);
             $quote->delete();
 
-            return redirect()->route('admin.schedules.index')
+            return redirect()->route('admin.tpa.schedule.index')
                 ->with('success', 'Quote berhasil dihapus.');
         } catch (\Exception $e) {
-            return redirect()->route('admin.schedules.index')
+            return redirect()->route('admin.tpa.schedule.index')
                 ->with('error', 'Terjadi kesalahan saat menghapus quote: ' . $e->getMessage());
         }
     }
@@ -559,9 +568,9 @@ class ScheduleController extends Controller
         }
         try {
             $quote = QuoteSchedules::findOrFail($quoteId);
-            return view('admin.schedules.quote-show', compact('quote'));
+            return view('admin.tpa.schedules.quote-show', compact('quote'));
         } catch (\Exception $e) {
-            return redirect()->route('admin.schedules.index')
+            return redirect()->route('admin.tpa.schedule.index')
                 ->with('error', 'Quote tidak ditemukan.');
         }
     }
@@ -680,7 +689,7 @@ class ScheduleController extends Controller
             ->orderBy('start_time')
             ->get();
 
-        return view('admin.schedules.weekly-index', compact('schedules'));
+        return view('admin.tpa.schedules.weekly-index', compact('schedules'));
     }
 
     /**
@@ -700,7 +709,7 @@ class ScheduleController extends Controller
             ->orderBy('event_date', 'desc')
             ->get();
 
-        return view('admin.schedules.event-index', compact('events'));
+        return view('admin.tpa.schedules.event-index', compact('events'));
     }
 
     /**
@@ -720,6 +729,6 @@ class ScheduleController extends Controller
             ->latest()
             ->get();
 
-        return view('admin.schedules.quote-index', compact('quotes'));
+        return view('admin.tpa.schedules.quote-index', compact('quotes'));
     }
 }
