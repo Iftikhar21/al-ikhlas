@@ -1,5 +1,5 @@
 @extends('template')
-@section('title', 'Beranda')
+@section('title', 'Masjid Al-Ikhlas Dalang - Pendidikan Al-Qur\'an Anak dengan Metode Ummi')
 
 @section('content')
     <style>
