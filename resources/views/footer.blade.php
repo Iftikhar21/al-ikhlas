@@ -1,5 +1,5 @@
 <footer class="bg-primary-dark text-white py-12">
-    <div class="max-w-8xl mx-auto px-4">
+    <div class="max-w-6xl mx-auto px-4">
         <div class="grid md:grid-cols-4 gap-8">
 
             {{-- Logo & Slogan --}}
