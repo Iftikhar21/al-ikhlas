@@ -6,7 +6,8 @@
     <title>@yield('title', 'Beranda')</title>
     @yield('meta') {{-- tempat meta SEO dari setiap halaman --}}
     @vite('resources/css/app.css')
-    <link rel="icon" type="image/png" href="{{ asset('img/al_ikhlas_logo.jpg') }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
     <script src="https://unpkg.com/lucide@latest"></script>
     <script>
         tailwind.config = {
