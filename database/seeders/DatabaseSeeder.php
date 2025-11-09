@@ -19,8 +19,8 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@example.com',
             'password' => Hash::make('password'), // password sudah di-hash
         ]);
-        $this->call([
-            UmmiLevelSeeder::class,
-        ]);
+        // $this->call([
+        //     UmmiLevelSeeder::class,
+        // ]);
     }
 }
