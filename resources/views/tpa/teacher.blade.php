@@ -48,7 +48,7 @@ $meta_keywords = "TPA Al-Ikhlas, pengajar TPA, guru TPA, pendidikan islam, masji
             <div class="text-center mb-12">
                 <h2 class="text-3xl md:text-4xl font-bold text-emerald-900 mb-4 font-serif">Tim Pengajar Kami</h2>
                 <p class="text-lg text-emerald-700 max-w-2xl mx-auto">
-                    Bertemu dengan para asatidzah yang berkompeten dan berpengalaman dalam mendidik generasi penerus ummat
+                    Bertemu dengan para pengajar yang berkompeten dan berpengalaman dalam mendidik generasi penerus ummat
                 </p>
             </div>
 
