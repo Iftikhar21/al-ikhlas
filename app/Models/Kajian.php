@@ -14,15 +14,11 @@ class Kajian extends Model
         'materi',
         'pembicara',
         'jenis_kajian',
-        'tanggal',
+        'hari',
         'waktu_mulai',
         'waktu_selesai',
         'lokasi',
         'keterangan',
         'poster',
-    ];
-
-    protected $casts = [
-        'tanggal' => 'date',
     ];
 }

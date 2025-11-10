@@ -36,8 +36,7 @@ class ViewController extends Controller
         $heroSlides = News::latest()->take(5)->get();
         $newsList = News::latest()->take(6)->get();
         $programs = Programs::where('status', 'published')->take(3)->get();
-        $upcomingKajians = Kajian::whereDate('tanggal', '>=', now())
-            ->orderBy('tanggal', 'asc')
+        $upcomingKajians = Kajian::orderByRaw("FIELD(hari, 'sabtu', 'ahad')")
             ->take(3)
             ->get();
 
@@ -114,8 +113,8 @@ class ViewController extends Controller
     public function MasjidKajian()
     {
         $today = Carbon::today();
-        $kajians = Kajian::whereDate('tanggal', '>=', $today)
-            ->orderBy('tanggal', 'asc')
+        $kajians = Kajian::orderByRaw("FIELD(hari, 'sabtu', 'ahad')")
+            ->take(3)
             ->get();
 
         return view('masjid.kajian', compact('kajians'));

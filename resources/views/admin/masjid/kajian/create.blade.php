@@ -41,6 +41,16 @@
                 </div>
             </div>
 
+            <!-- Catatan Info -->
+            <div class="bg-blue-50 border border-blue-200 text-blue-700 p-4 rounded-lg mb-6">
+                <p class="font-medium">Catatan:</p>
+                <p>Judul kajian akan otomatis diatur menjadi
+                    <strong>"KAJIAN RUTIN PEKANAN"</strong> atau
+                    <strong>"KAJIAN RUTIN BULANAN"</strong>
+                    sesuai jenis kajian yang kamu pilih.
+                </p>
+            </div>
+
             <form id="createForm" action="{{ route('admin.masjid.kajian.store') }}" method="POST"
                 enctype="multipart/form-data">
                 @csrf
@@ -57,21 +67,6 @@
 
                     <!-- Body Card -->
                     <div class="p-6 space-y-6">
-                        <!-- Judul Kajian -->
-                        <div>
-                            <label for="judul" class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
-                                <i data-lucide="captions" class="w-4 h-4 mr-2 text-green-500 text-xs"></i>
-                                Judul Kajian
-                                <span class="text-red-500 ml-1">*</span>
-                            </label>
-                            <input type="text" id="judul" name="judul" value="{{ old('judul') }}"
-                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 px-4 py-3 transition @error('judul') border-red-500 @enderror"
-                                placeholder="Contoh: Kajian Rutin Riyadhus Shalihin" required>
-                            @error('judul')
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
-
                         <!-- Materi Kajian -->
                         <div>
                             <label for="materi" class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
@@ -111,37 +106,33 @@
                                 <span class="text-red-500 ml-1">*</span>
                             </label>
                             <select id="jenis_kajian" name="jenis_kajian"
-                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 px-4 py-3 transition @error('jenis_kajian') border-red-500 @enderror"
+                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 px-4 py-3 transition"
                                 required>
                                 <option value="">Pilih Jenis Kajian</option>
-                                <option value="Mingguan" {{ old('jenis_kajian') == 'Mingguan' ? 'selected' : '' }}>Mingguan
+                                <option value="Pekanan" {{ old('jenis_kajian') == 'Pekanan' ? 'selected' : '' }}>Pekanan
                                 </option>
                                 <option value="Bulanan" {{ old('jenis_kajian') == 'Bulanan' ? 'selected' : '' }}>Bulanan
                                 </option>
                             </select>
-                            @error('jenis_kajian')
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
                         </div>
 
-                        <!-- Tanggal -->
-                        <div>
-                            <label for="tanggal" class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+                        <!-- Pilihan Hari (Sabtu/Ahad) -->
+                        <div id="hariContainer" class="hidden">
+                            <label for="hari" class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
                                 <i data-lucide="calendar" class="w-4 h-4 mr-2 text-green-500 text-xs"></i>
-                                Tanggal
+                                Hari Kajian
                                 <span class="text-red-500 ml-1">*</span>
                             </label>
-                            <input type="date" id="tanggal" name="tanggal" 
-                                value="{{ old('tanggal') }}"
-                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 px-4 py-3 transition @error('tanggal') border-red-500 @enderror"
-                                required>
-                            @error('tanggal')
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
+                            <select id="hari" name="hari"
+                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 px-4 py-3 transition">
+                                <option value="">Pilih Hari</option>
+                                <option value="Sabtu" {{ old('hari') == 'Sabtu' ? 'selected' : '' }}>Sabtu</option>
+                                <option value="Ahad" {{ old('hari') == 'Ahad' ? 'selected' : '' }}>Ahad</option>
+                            </select>
                         </div>
 
                         <!-- Waktu Mulai & Selesai -->
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div id="waktuContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4 hidden">
                             <div>
                                 <label for="waktu_mulai"
                                     class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
@@ -149,10 +140,7 @@
                                     Waktu Mulai
                                 </label>
                                 <input type="time" id="waktu_mulai" name="waktu_mulai" value="{{ old('waktu_mulai') }}"
-                                    class="w-full rounded-lg border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 px-4 py-3 transition @error('waktu_mulai') border-red-500 @enderror">
-                                @error('waktu_mulai')
-                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                @enderror
+                                    class="w-full rounded-lg border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 px-4 py-3 transition">
                             </div>
 
                             <div>
@@ -163,27 +151,21 @@
                                 </label>
                                 <input type="time" id="waktu_selesai" name="waktu_selesai"
                                     value="{{ old('waktu_selesai') }}"
-                                    class="w-full rounded-lg border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 px-4 py-3 transition @error('waktu_selesai') border-red-500 @enderror">
-                                @error('waktu_selesai')
-                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                @enderror
+                                    class="w-full rounded-lg border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 px-4 py-3 transition">
                             </div>
                         </div>
 
                         <!-- Lokasi -->
-                        <div>
+                        {{-- <div>
                             <label for="lokasi" class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
                                 <i data-lucide="map-pin" class="w-4 h-4 mr-2 text-green-500 text-xs"></i>
                                 Lokasi
                                 <span class="text-red-500 ml-1">*</span>
                             </label>
                             <input type="text" id="lokasi" name="lokasi" value="{{ old('lokasi') }}"
-                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 px-4 py-3 transition @error('lokasi') border-red-500 @enderror"
-                                placeholder="Contoh: Masjid Al Ikhlas Dalang, Jl. Dalang RT 12/RW 05" required>
-                            @error('lokasi')
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
+                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 px-4 py-3 transition"
+                                placeholder="Contoh: Masjid Al Ikhlas Dalang" required>
+                        </div> --}}
 
                         <!-- Keterangan -->
                         <div>
@@ -192,14 +174,10 @@
                                 Keterangan
                             </label>
                             <textarea id="keterangan" name="keterangan" rows="3"
-                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 px-4 py-3 transition resize-none @error('keterangan') border-red-500 @enderror"
-                                placeholder="Contoh: Terbuka untuk Umum, Ikhwan & Akhwat, Gratis">{{ old('keterangan') }}</textarea>
-                            @error('keterangan')
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
+                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 px-4 py-3 transition resize-none"
+                                placeholder="Contoh: Terbuka untuk umum">{{ old('keterangan') }}</textarea>
                         </div>
 
-                        <!-- Poster dengan Crop -->
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
                                 <i data-lucide="image" class="w-4 h-4 mr-2 text-green-500 text-xs"></i>
@@ -297,6 +275,31 @@
                         </div>
                     </div>
 
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function () {
+                            const jenisKajian = document.getElementById('jenis_kajian');
+                            const hariContainer = document.getElementById('hariContainer');
+                            const waktuContainer = document.getElementById('waktuContainer');
+
+                            function toggleFields() {
+                                const val = jenisKajian.value;
+                                if (val === 'Pekanan') {
+                                    hariContainer.classList.remove('hidden');
+                                    waktuContainer.classList.add('hidden');
+                                } else if (val === 'Bulanan') {
+                                    hariContainer.classList.remove('hidden');
+                                    waktuContainer.classList.remove('hidden');
+                                } else {
+                                    hariContainer.classList.add('hidden');
+                                    waktuContainer.classList.add('hidden');
+                                }
+                            }
+
+                            jenisKajian.addEventListener('change', toggleFields);
+                            toggleFields(); // jalankan saat load
+                        });
+                    </script>
+
                     <!-- Footer Card -->
                     <div class="bg-gray-50 px-6 py-4 border-t border-gray-200 flex justify-end">
                         <button type="submit"
@@ -347,7 +350,7 @@
                 document.getElementById('posterPreviewContainer').classList.remove('hidden');
                 document.getElementById('posterUploadArea').classList.add('hidden');
             @endif
-                });
+                    });
 
         // Poster Upload Handler
         document.getElementById('posterUploadArea').addEventListener('click', function () {

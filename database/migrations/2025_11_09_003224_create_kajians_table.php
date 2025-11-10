@@ -13,16 +13,16 @@ return new class extends Migration
     {
         Schema::create('kajians', function (Blueprint $table) {
             $table->id();
-            $table->string('judul'); // Judul kajian
-            $table->text('materi'); // Materi kajian
-            $table->string('pembicara'); // Nama ustadz/ustadzah
-            $table->string('jenis_kajian'); // Jenis kajian
-            $table->date('tanggal'); // Tanggal kajian
-            $table->time('waktu_mulai')->nullable(); // Waktu mulai
-            $table->time('waktu_selesai')->nullable(); // Waktu selesai
-            $table->string('lokasi'); // Alamat/lokasi kajian
-            $table->text('keterangan')->nullable(); // Keterangan tambahan
-            $table->string('poster')->nullable(); // Nama file poster
+            $table->string('judul');
+            $table->text('materi');
+            $table->string('pembicara');
+            $table->enum('jenis_kajian', ['pekanan', 'bulanan']); // Dua jenis saja
+            $table->enum('hari', ['sabtu', 'ahad']); // Pilihan hari
+            $table->time('waktu_mulai')->nullable(); // hanya diisi untuk bulanan
+            $table->time('waktu_selesai')->nullable(); // hanya diisi untuk bulanan
+            $table->string('lokasi')->nullable();
+            $table->text('keterangan')->nullable();
+            $table->string('poster')->nullable();
             $table->timestamps();
         });
     }

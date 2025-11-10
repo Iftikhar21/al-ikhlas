@@ -40,6 +40,16 @@
                 </div>
             </div>
 
+            <!-- Catatan Info -->
+            <div class="bg-blue-50 border border-blue-200 text-blue-700 p-4 rounded-lg mb-6">
+                <p class="font-medium">Catatan:</p>
+                <p>Judul kajian akan otomatis diatur menjadi
+                    <strong>"KAJIAN RUTIN PEKANAN"</strong> atau
+                    <strong>"KAJIAN RUTIN BULANAN"</strong>
+                    sesuai jenis kajian yang kamu pilih.
+                </p>
+            </div>
+
             <form id="editForm" action="{{ route('admin.masjid.kajian.update', $kajian->id) }}" method="POST"
                 enctype="multipart/form-data">
                 @csrf
@@ -57,20 +67,6 @@
 
                     <!-- Body Card -->
                     <div class="p-6 space-y-6">
-                        <!-- Judul Kajian -->
-                        <div>
-                            <label for="judul" class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
-                                <i data-lucide="captions" class="w-4 h-4 mr-2 text-green-500 text-xs"></i>
-                                Judul Kajian
-                                <span class="text-red-500 ml-1">*</span>
-                            </label>
-                            <input type="text" id="judul" name="judul" value="{{ old('judul', $kajian->judul) }}"
-                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 px-4 py-3 transition @error('judul') border-red-500 @enderror"
-                                required>
-                            @error('judul')
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
 
                         <!-- Materi Kajian -->
                         <div>
@@ -94,7 +90,8 @@
                                 Pembicara
                                 <span class="text-red-500 ml-1">*</span>
                             </label>
-                            <input type="text" id="pembicara" name="pembicara" value="{{ old('pembicara', $kajian->pembicara) }}"
+                            <input type="text" id="pembicara" name="pembicara"
+                                value="{{ old('pembicara', $kajian->pembicara) }}"
                                 class="w-full rounded-lg border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 px-4 py-3 transition @error('pembicara') border-red-500 @enderror"
                                 required>
                             @error('pembicara')
@@ -104,7 +101,8 @@
 
                         <!-- Jenis Kajian -->
                         <div>
-                            <label for="jenis_kajian" class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+                            <label for="jenis_kajian"
+                                class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
                                 <i data-lucide="tag" class="w-4 h-4 mr-2 text-green-500 text-xs"></i>
                                 Jenis Kajian
                                 <span class="text-red-500 ml-1">*</span>
@@ -113,26 +111,31 @@
                                 class="w-full rounded-lg border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 px-4 py-3 transition @error('jenis_kajian') border-red-500 @enderror"
                                 required>
                                 <option value="">Pilih Jenis Kajian</option>
-                                <option value="Mingguan" {{ old('jenis_kajian', $kajian->jenis_kajian) == 'Mingguan' ? 'selected' : '' }}>Mingguan</option>
-                                <option value="Bulanan" {{ old('jenis_kajian', $kajian->jenis_kajian) == 'Bulanan' ? 'selected' : '' }}>Bulanan</option>
+                                <option value="Pekanan" {{ old('jenis_kajian', $kajian->jenis_kajian) == 'pekanan' ? 'selected' : '' }}>Pekanan</option>
+                                <option value="Bulanan" {{ old('jenis_kajian', $kajian->jenis_kajian) == 'bulanan' ? 'selected' : '' }}>Bulanan</option>
                             </select>
                             @error('jenis_kajian')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
 
-                        <!-- Tanggal -->
+                        <!-- Hari -->
                         <div>
-                            <label for="tanggal" class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+                            <label for="hari" class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
                                 <i data-lucide="calendar" class="w-4 h-4 mr-2 text-green-500 text-xs"></i>
-                                Tanggal
+                                Hari
                                 <span class="text-red-500 ml-1">*</span>
                             </label>
-                            <input type="date" id="tanggal" name="tanggal"
-                                value="{{ old('tanggal', $kajian->tanggal ? $kajian->tanggal->format('Y-m-d') : '') }}"
-                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 px-4 py-3 transition @error('tanggal') border-red-500 @enderror"
+                            <select id="hari" name="hari"
+                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 px-4 py-3 transition @error('hari') border-red-500 @enderror"
                                 required>
-                            @error('tanggal')
+                                <option value="">Pilih Hari</option>
+                                <option value="Sabtu" {{ old('hari', $kajian->hari) == 'sabtu' ? 'selected' : '' }}>Sabtu
+                                </option>
+                                <option value="Ahad" {{ old('hari', $kajian->hari) == 'ahad' ? 'selected' : '' }}>Ahad
+                                </option>
+                            </select>
+                            @error('hari')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
@@ -140,7 +143,8 @@
                         <!-- Waktu Mulai & Selesai -->
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <label for="waktu_mulai" class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+                                <label for="waktu_mulai"
+                                    class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
                                     <i data-lucide="clock" class="w-4 h-4 mr-2 text-green-500 text-xs"></i>
                                     Waktu Mulai
                                 </label>
@@ -153,7 +157,8 @@
                             </div>
 
                             <div>
-                                <label for="waktu_selesai" class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+                                <label for="waktu_selesai"
+                                    class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
                                     <i data-lucide="clock" class="w-4 h-4 mr-2 text-green-500 text-xs"></i>
                                     Waktu Selesai
                                 </label>
@@ -167,7 +172,7 @@
                         </div>
 
                         <!-- Lokasi -->
-                        <div>
+                        {{-- <div>
                             <label for="lokasi" class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
                                 <i data-lucide="map-pin" class="w-4 h-4 mr-2 text-green-500 text-xs"></i>
                                 Lokasi
@@ -177,9 +182,9 @@
                                 class="w-full rounded-lg border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 px-4 py-3 transition @error('lokasi') border-red-500 @enderror"
                                 required>
                             @error('lokasi')
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
-                        </div>
+                        </div> --}}
 
                         <!-- Keterangan -->
                         <div>
@@ -188,14 +193,12 @@
                                 Keterangan
                             </label>
                             <textarea id="keterangan" name="keterangan" rows="3"
-                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 px-4 py-3 transition resize-none @error('keterangan') border-red-500 @enderror"
-                                >{{ old('keterangan', $kajian->keterangan) }}</textarea>
+                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 px-4 py-3 transition resize-none @error('keterangan') border-red-500 @enderror">{{ old('keterangan', $kajian->keterangan) }}</textarea>
                             @error('keterangan')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
 
-                        <!-- Poster -->
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
                                 <i data-lucide="image" class="w-4 h-4 mr-2 text-green-500 text-xs"></i>
@@ -210,11 +213,12 @@
                             @enderror
 
                             <!-- Preview Poster -->
-                            <div id="posterPreviewContainer" class="{{ $kajian->poster || old('poster_data') ? '' : 'hidden' }} mb-4">
+                            <div id="posterPreviewContainer"
+                                class="{{ $kajian->poster || old('poster_data') ? '' : 'hidden' }} mb-4">
                                 <div class="relative w-full max-w-2xl mx-auto">
                                     <div class="aspect-w-3 aspect-h-4 bg-gray-100 rounded-lg overflow-hidden border-2">
                                         <img id="posterPreview" class="w-full h-full object-cover"
-                                            src="{{ old('poster_data') ? old('poster_data') : ($kajian->poster ? asset('storage/' . $kajian->poster) : '') }}" 
+                                            src="{{ old('poster_data') ? old('poster_data') : ($kajian->poster ? asset('storage/' . $kajian->poster) : '') }}"
                                             alt="Preview poster">
                                     </div>
                                     <button type="button" onclick="removePoster()"
@@ -237,11 +241,13 @@
                                 <input type="hidden" id="posterData" name="poster_data" value="{{ old('poster_data') }}">
                             </div>
 
-                            <div id="cropModal" class="fixed inset-0 bg-black bg-opacity-75 hidden z-50 flex items-center justify-center p-4">
+                            <div id="cropModal"
+                                class="fixed inset-0 bg-black bg-opacity-75 hidden z-50 flex items-center justify-center p-4">
                                 <div class="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
                                     <div class="flex justify-between items-center p-4 border-b border-gray-200">
                                         <h3 class="text-lg font-semibold text-gray-800">Crop Poster (3:4)</h3>
-                                        <button type="button" onclick="closeCropModal()" class="text-gray-400 hover:text-gray-600">
+                                        <button type="button" onclick="closeCropModal()"
+                                            class="text-gray-400 hover:text-gray-600">
                                             <i data-lucide="x" class="w-4 h-4 mr-2 text-gray-500 text-xs"></i>
                                         </button>
                                     </div>
@@ -263,10 +269,12 @@
                                                 </div>
                                                 <div class="space-y-3">
                                                     <label class="block text-sm font-medium text-gray-700">Zoom</label>
-                                                    <input type="range" id="zoomSlider" min="0.1" max="3" step="0.1" value="1" class="w-full">
+                                                    <input type="range" id="zoomSlider" min="0.1" max="3" step="0.1"
+                                                        value="1" class="w-full">
 
                                                     <label class="block text-sm font-medium text-gray-700">Rotate</label>
-                                                    <input type="range" id="rotateSlider" min="-180" max="180" step="1" value="0" class="w-full">
+                                                    <input type="range" id="rotateSlider" min="-180" max="180" step="1"
+                                                        value="0" class="w-full">
                                                 </div>
                                             </div>
                                         </div>
@@ -288,7 +296,12 @@
                     </div>
 
                     <!-- Footer Card -->
-                    <div class="bg-gray-50 px-6 py-4 border-t border-gray-200 flex justify-end">
+                    <div class="bg-gray-50 px-6 py-4 border-t border-gray-200 flex justify-end gap-3">
+                        <a href="{{ route('admin.masjid.kajian.index') }}"
+                            class="px-6 py-3 bg-gray-500 hover:bg-gray-600 text-white rounded-lg shadow font-medium flex items-center">
+                            <i data-lucide="x" class="w-4 h-4 mr-2"></i>
+                            Batal
+                        </a>
                         <button type="submit"
                             class="px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg shadow font-medium flex items-center">
                             <i data-lucide="check" class="w-4 h-4 mr-2"></i>
@@ -313,6 +326,7 @@
             content: '';
             display: block;
             padding-bottom: 133.33%;
+            /* 4:3 Aspect Ratio (inversed for 3:4) */
         }
 
         .aspect-w-3>* {
@@ -328,6 +342,15 @@
         // Variabel global
         let cropper;
         let currentImageFile;
+
+        // Inisialisasi poster jika ada data sebelumnya
+        document.addEventListener('DOMContentLoaded', function () {
+            @if(old('poster_data'))
+                document.getElementById('posterPreview').src = '{{ old('poster_data') }}';
+                document.getElementById('posterPreviewContainer').classList.remove('hidden');
+                document.getElementById('posterUploadArea').classList.add('hidden');
+            @endif
+                    });
 
         // Poster Upload Handler
         document.getElementById('posterUploadArea').addEventListener('click', function () {
@@ -351,7 +374,7 @@
                 // Initialize cropper
                 const image = document.getElementById('imageToCrop');
                 cropper = new Cropper(image, {
-                    aspectRatio: 1,
+                    aspectRatio: 3 / 4, // Rasio 3:4 untuk poster portrait
                     viewMode: 2,
                     autoCropArea: 1,
                     responsive: true,
@@ -381,50 +404,18 @@
         function applyCrop() {
             if (cropper) {
                 const canvas = cropper.getCroppedCanvas({
-                    width: 800,
+                    width: 600,
                     height: 800,
                     imageSmoothingQuality: 'high'
                 });
 
-                // Convert ke data URL
+                // Convert to data URL and display preview
                 const croppedImageUrl = canvas.toDataURL('image/jpeg', 0.9);
-
-                let previewContainer = document.getElementById('posterPreviewContainer');
-                if (!previewContainer) {
-                    // Buat container baru jika belum ada
-                    previewContainer = document.createElement('div');
-                    previewContainer.id = 'posterPreviewContainer';
-                    previewContainer.className = 'mb-4';
-
-                    const innerDiv = document.createElement('div');
-                    innerDiv.className = 'relative w-full max-w-2xl mx-auto';
-                    previewContainer.appendChild(innerDiv);
-
-                    const img = document.createElement('img');
-                    img.id = 'posterPreview';
-                    img.className = 'w-full h-full object-cover rounded-lg border';
-                    innerDiv.appendChild(img);
-
-                    const removeBtn = document.createElement('button');
-                    removeBtn.type = 'button';
-                    removeBtn.onclick = removePoster;
-                    removeBtn.className = 'absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition';
-                    removeBtn.innerHTML = `<i data-lucide="trash" class="w-4 h-4 text-white text-xs"></i>`;
-                    innerDiv.appendChild(removeBtn);
-
-                    // Masukkan sebelum area upload
-                    const uploadArea = document.getElementById('posterUploadArea');
-                    uploadArea.parentNode.insertBefore(previewContainer, uploadArea);
-                }
-
-                // Update image src
                 document.getElementById('posterPreview').src = croppedImageUrl;
-
-                // Pastikan muncul dan sembunyikan area upload
-                previewContainer.classList.remove('hidden');
+                document.getElementById('posterPreviewContainer').classList.remove('hidden');
                 document.getElementById('posterUploadArea').classList.add('hidden');
 
-                // Simpan data base64
+                // Store cropped image data
                 document.getElementById('posterData').value = croppedImageUrl;
 
                 closeCropModal();
@@ -437,44 +428,48 @@
             document.getElementById('poster').value = '';
             document.getElementById('posterData').value = '';
         }
+    </script>
 
-        // Confirm Modal Functions
-        function openConfirmModal() {
-            // Validasi form sebelum menampilkan modal konfirmasi
-            if (validateForm()) {
-                document.getElementById('confirmModal').classList.remove('hidden');
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const jenisKajianSelect = document.getElementById('jenis_kajian');
+            const waktuFields = document.querySelectorAll('#waktu_mulai, #waktu_selesai');
+            const waktuContainers = waktuFields[0].closest('.grid'); // ambil grid parent
+
+            function toggleWaktuFields() {
+                if (jenisKajianSelect.value.toLowerCase() === 'pekanan') {
+                    waktuContainers.style.display = 'none';
+                    waktuFields.forEach(input => input.value = '');
+                } else {
+                    waktuContainers.style.display = 'grid';
+                }
             }
-        }
 
-        function closeConfirmModal() {
-            document.getElementById('confirmModal').classList.add('hidden');
-        }
+            // Jalankan saat load pertama kali
+            toggleWaktuFields();
 
-        function submitForm() {
-            document.getElementById('editForm').submit();
-        }
+            // Jalankan saat dropdown berubah
+            jenisKajianSelect.addEventListener('change', toggleWaktuFields);
+        });
+    </script>
 
-        // Form validation
+    <script>
+        // Form validation (hapus validasi judul)
         function validateForm() {
             let isValid = true;
             let errorMessages = [];
 
-            // Check title
-            const title = document.getElementById('judul').value.trim();
-            if (!title) {
-                isValid = false;
-                errorMessages.push('Judul kajian harus diisi');
-            }
+            const materi = document.getElementById('materi').value.trim();
+            const pembicara = document.getElementById('pembicara').value.trim();
+            const lokasi = document.getElementById('lokasi').value.trim();
 
-            // Check description
-            const description = document.getElementById('materi').value.trim();
-            if (!description) {
-                isValid = false;
-                errorMessages.push('Materi kajian harus diisi');
-            }
+            if (!materi) errorMessages.push('Materi kajian harus diisi');
+            if (!pembicara) errorMessages.push('Nama pembicara harus diisi');
+            if (!lokasi) errorMessages.push('Lokasi harus diisi');
 
-            if (!isValid) {
+            if (errorMessages.length > 0) {
                 alert('Mohon lengkapi semua field yang wajib diisi:\n\n' + errorMessages.join('\n'));
+                isValid = false;
             }
 
             return isValid;

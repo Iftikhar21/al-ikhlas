@@ -68,7 +68,7 @@ $meta_keywords = "kajian islam, jadwal kajian, kajian rutin, masjid al ikhlas, p
                         <button data-filter="weekly"
                             class="filter-btn px-4 py-2 rounded-full bg-white text-emerald-700 border border-emerald-200 hover:bg-emerald-50 transition-all text-sm flex items-center gap-2">
                             <i data-lucide="clock" class="w-4 h-4"></i>
-                            Mingguan
+                            Pekanan
                         </button>
                         <button data-filter="monthly"
                             class="filter-btn px-4 py-2 rounded-full bg-white text-emerald-700 border border-emerald-200 hover:bg-emerald-50 transition-all text-sm flex items-center gap-2">
@@ -91,10 +91,9 @@ $meta_keywords = "kajian islam, jadwal kajian, kajian rutin, masjid al ikhlas, p
             <div class="space-y-6">
                 @forelse($kajians as $kajian)
                     <div class="kajian-item bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border border-emerald-100 overflow-hidden"
-                        data-frequency="{{ $kajian->jenis_kajian }}"
-                        data-tanggal="{{ $kajian->tanggal?->format('Y-m-d') }}">
+                        data-frequency="{{ $kajian->jenis_kajian }}" data-tanggal="{{ $kajian->tanggal?->format('Y-m-d') }}">
                         <div class="flex flex-col lg:flex-row">
-                            <!-- Poster dengan rasio 3:4 di kanan -->
+                            <!-- Konten utama -->
                             <div class="lg:w-2/3 p-6">
                                 <div class="flex flex-col h-full">
                                     <!-- Header dengan judul dan badge -->
@@ -111,17 +110,17 @@ $meta_keywords = "kajian islam, jadwal kajian, kajian rutin, masjid al ikhlas, p
                                                 </span>
                                                 <span
                                                     class="px-3 py-1 bg-amber-100 text-amber-700 text-xs font-medium rounded-full">
-                                                    {{ $kajian->tanggal?->locale('id')->translatedFormat('l') ?? 'Belum ada tanggal' }}
+                                                    {{ $kajian->hari ?? 'Belum ada tanggal' }}
                                                 </span>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <!-- Materi (dipindah: sekarang langsung di bawah judul) -->
+                                    <!-- Materi -->
                                     <div class="mb-4">
                                         <div
-                                            class="text-sm text-gray-600 leading-relaxed bg-gray-50 p-4 rounded-lg border border-gray-100 italic">
-                                            {{ $kajian->materi }}
+                                            class="text-base font-semibold text-emerald-800 leading-relaxed bg-emerald-50 p-4 rounded-lg border border-emerald-100 shadow-sm italic">
+                                            “{{ $kajian->materi }}”
                                         </div>
                                     </div>
 
@@ -144,9 +143,9 @@ $meta_keywords = "kajian islam, jadwal kajian, kajian rutin, masjid al ikhlas, p
                                                 <i data-lucide="calendar" class="w-4 h-4 text-indigo-600"></i>
                                             </div>
                                             <div>
-                                                <div class="text-sm font-medium text-indigo-900">Tanggal</div>
-                                                <div class="text-indigo-700 font-semibold">
-                                                    {{ $kajian->tanggal?->locale('id')->translatedFormat('l, d F Y') ?? 'Belum ada tanggal' }}
+                                                <div class="text-sm font-medium text-indigo-900">Hari</div>
+                                                <div class="text-indigo-700 font-semibold capitalize">
+                                                    {{ $kajian->hari }}
                                                 </div>
                                             </div>
                                         </div>
@@ -159,14 +158,16 @@ $meta_keywords = "kajian islam, jadwal kajian, kajian rutin, masjid al ikhlas, p
                                             <div>
                                                 <div class="text-sm font-medium text-amber-900">Waktu</div>
                                                 <div class="text-amber-800 font-semibold">
-                                                    @if($kajian->waktu_mulai)
+                                                    @if($kajian->jenis_kajian === 'pekanan')
+                                                        Maghrib - Isya
+                                                    @elseif($kajian->waktu_mulai)
                                                         {{ date('H:i', strtotime($kajian->waktu_mulai)) }}
                                                         @if($kajian->waktu_selesai)
                                                             - {{ date('H:i', strtotime($kajian->waktu_selesai)) }}
                                                         @endif
                                                         WIB
                                                     @else
-                                                        - 
+                                                        -
                                                     @endif
                                                 </div>
                                             </div>
@@ -206,10 +207,10 @@ $meta_keywords = "kajian islam, jadwal kajian, kajian rutin, masjid al ikhlas, p
                                 </div>
                             </div>
 
-                            <!-- Poster 3:4 di kanan -->
+                            <!-- Poster - tanpa space di kanan -->
                             <div class="lg:w-1/3">
                                 <div
-                                    class="h-full min-h-[300px] lg:min-h-full relative bg-gradient-to-br from-emerald-50 to-amber-50">
+                                    class="h-full min-h-[300px] lg:min-h-full relative bg-gradient-to-br from-emerald-50 to-amber-50 overflow-hidden">
                                     @if($kajian->poster)
                                         <img src="{{ asset('storage/' . $kajian->poster) }}" alt="{{ $kajian->judul }}"
                                             class="w-full h-full object-cover">
@@ -331,8 +332,8 @@ $meta_keywords = "kajian islam, jadwal kajian, kajian rutin, masjid al ikhlas, p
                     if (filter === 'all') {
                         show = true;
                     } else if (filter === 'weekly') {
-                        // cocokkan label 'mingguan' (atau 'weekly' jika ada)
-                        show = frequency.includes('mingguan') || frequency.includes('weekly');
+                        // cocokkan label 'pekanan' (atau 'weekly' jika ada)
+                        show = frequency.includes('pekanan') || frequency.includes('weekly');
                     } else if (filter === 'monthly') {
                         // cocokkan label 'bulanan' (atau 'monthly' jika ada)
                         show = frequency.includes('bulanan') || frequency.includes('monthly');
@@ -350,14 +351,14 @@ $meta_keywords = "kajian islam, jadwal kajian, kajian rutin, masjid al ikhlas, p
                         const message = document.createElement('div');
                         message.className = 'no-results text-center py-8';
                         message.innerHTML = `
-                                <div class="max-w-md mx-auto">
-                                    <div class="p-6 bg-white rounded-xl shadow-sm border border-emerald-100">
-                                        <i data-lucide="search-x" class="w-12 h-12 mx-auto text-emerald-400 mb-3"></i>
-                                        <h3 class="text-lg font-semibold text-emerald-900 mb-2">Tidak ada kajian ditemukan</h3>
-                                        <p class="text-emerald-600 text-sm">Tidak ada kajian yang sesuai dengan filter yang dipilih</p>
+                                    <div class="max-w-md mx-auto">
+                                        <div class="p-6 bg-white rounded-xl shadow-sm border border-emerald-100">
+                                            <i data-lucide="search-x" class="w-12 h-12 mx-auto text-emerald-400 mb-3"></i>
+                                            <h3 class="text-lg font-semibold text-emerald-900 mb-2">Tidak ada kajian ditemukan</h3>
+                                            <p class="text-emerald-600 text-sm">Tidak ada kajian yang sesuai dengan filter yang dipilih</p>
+                                        </div>
                                     </div>
-                                </div>
-                            `;
+                                `;
                         document.querySelector('.space-y-6').appendChild(message);
                         lucide.createIcons();
                     }

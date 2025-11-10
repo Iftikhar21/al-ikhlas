@@ -218,6 +218,85 @@
                 </div>
             </section>
 
+            <!-- Upcoming Kajian Section -->
+            <section class="mb-24">
+                <div class="text-center mb-16">
+                    <div class="inline-block mb-4">
+                        <span
+                            class="text-green-600 font-semibold text-sm uppercase tracking-wider bg-green-50 px-4 py-2 rounded-full">Kajian</span>
+                    </div>
+                    <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">Kajian Mendatang</h2>
+                    <p class="text-gray-600 text-lg max-w-2xl mx-auto">Jadwal kajian rutin masjid Al-Ikhlas Dalang</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    @foreach($upcomingKajians as $kajian)
+                        <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="block font-semibold text-green-700 capitalize">
+                                    {{ ucfirst($kajian->hari) }}
+                                </span>
+                                <span class="block text-sm text-gray-500">
+                                    @if($kajian->jenis_kajian === 'bulanan')
+                                        {{ \Carbon\Carbon::parse($kajian->waktu_mulai)->format('H:i') }} -
+                                        {{ \Carbon\Carbon::parse($kajian->waktu_selesai)->format('H:i') }} WIB
+                                    @else
+                                        Maghrib - Isya
+                                    @endif
+                                </span>
+                            </div>
+
+                            {{-- Judul Kajian --}}
+                            <h3 class="text-xl font-bold text-gray-900 mb-2 line-clamp-2">
+                                {{ $kajian->judul }}
+                            </h3>
+
+                            {{-- Materi Kajian (lebih menonjol) --}}
+                            <p class="text-green-700 font-semibold italic mb-4 line-clamp-2">
+                                “{{ $kajian->materi }}”
+                            </p>
+
+                            {{-- Info Pembicara & Waktu --}}
+                            <div class="space-y-2 mb-4">
+                                <div class="flex items-center text-gray-600">
+                                    <i data-lucide="user" class="w-4 h-4 mr-2 text-green-600"></i>
+                                    <span class="text-sm">{{ $kajian->pembicara }}</span>
+                                </div>
+                                <div class="flex items-center text-gray-600">
+                                    <i data-lucide="clock" class="w-4 h-4 mr-2 text-amber-600"></i>
+                                    <span class="text-sm">
+                                        @if($kajian->jenis_kajian === 'bulanan')
+                                            {{ date('H:i', strtotime($kajian->waktu_mulai)) }} -
+                                            {{ date('H:i', strtotime($kajian->waktu_selesai)) }}
+                                        @else
+                                            Maghrib - Isya
+                                        @endif
+                                    </span>
+                                </div>
+                                <div class="flex items-center text-gray-600">
+                                    <i data-lucide="map-pin" class="w-4 h-4 mr-2 text-blue-600"></i>
+                                    <span class="text-sm">{{ $kajian->lokasi }}</span>
+                                </div>
+                            </div>
+
+                            <a href="{{ route('masjid.kajian') }}"
+                                class="inline-flex items-center text-green-600 font-semibold hover:text-green-700 text-sm">
+                                Lihat Detail
+                                <i data-lucide="arrow-right" class="ml-1 w-4 h-4"></i>
+                            </a>
+                        </div>
+                    @endforeach
+                </div>
+
+                <div class="text-center mt-8">
+                    <a href="{{ route('masjid.kajian') }}"
+                        class="inline-flex items-center bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-3 rounded-full font-semibold transition-colors">
+                        Lihat Semua Kajian
+                        <i data-lucide="calendar" class="ml-2 w-5 h-5"></i>
+                    </a>
+                </div>
+            </section>
+
             <!-- Quick Links Section - Redesigned -->
             <section class="mb-24">
                 <div class="text-center mb-16 animate-fade-in-up">
@@ -548,69 +627,6 @@
                             <p class="text-green-100 text-sm mt-6">Kami siap melayani Anda 24/7</p>
                         </div>
                     </div>
-                </div>
-            </section>
-            <!-- Upcoming Kajian Section -->
-            <section class="mb-24">
-                <div class="text-center mb-16">
-                    <div class="inline-block mb-4">
-                        <span
-                            class="text-green-600 font-semibold text-sm uppercase tracking-wider bg-green-50 px-4 py-2 rounded-full">Kajian</span>
-                    </div>
-                    <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">Kajian Mendatang</h2>
-                    <p class="text-gray-600 text-lg max-w-2xl mx-auto">Jadwal kajian rutin masjid Al-Ikhlas Dalang</p>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    @foreach($upcomingKajians as $kajian)
-                        <div
-                            class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
-                            <div class="flex items-center justify-between mb-4">
-                                <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-semibold">
-                                    {{ \Carbon\Carbon::parse($kajian->tanggal)->translatedFormat('l') }}
-                                </span>
-                                <span class="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-sm font-bold">
-                                    {{ \Carbon\Carbon::parse($kajian->tanggal)->translatedFormat('d M') }}
-                                </span>
-                            </div>
-
-                            <h3 class="text-xl font-bold text-gray-900 mb-3 line-clamp-2">{{ $kajian->judul }}</h3>
-
-                            <div class="space-y-2 mb-4">
-                                <div class="flex items-center text-gray-600">
-                                    <i data-lucide="user" class="w-4 h-4 mr-2 text-green-600"></i>
-                                    <span class="text-sm">{{ $kajian->pembicara }}</span>
-                                </div>
-                                <div class="flex items-center text-gray-600">
-                                    <i data-lucide="clock" class="w-4 h-4 mr-2 text-amber-600"></i>
-                                    <span class="text-sm">
-                                        {{ date('H:i', strtotime($kajian->waktu_mulai)) }} -
-                                        {{ date('H:i', strtotime($kajian->waktu_selesai)) }}
-                                    </span>
-                                </div>
-                                <div class="flex items-center text-gray-600">
-                                    <i data-lucide="map-pin" class="w-4 h-4 mr-2 text-blue-600"></i>
-                                    <span class="text-sm">{{ $kajian->lokasi }}</span>
-                                </div>
-                            </div>
-
-                            <p class="text-gray-600 text-sm line-clamp-2 mb-4">{{ $kajian->materi }}</p>
-
-                            <a href="{{ route('masjid.kajian') }}"
-                                class="inline-flex items-center text-green-600 font-semibold hover:text-green-700 text-sm">
-                                Lihat Detail
-                                <i data-lucide="arrow-right" class="ml-1 w-4 h-4"></i>
-                            </a>
-                        </div>
-                    @endforeach
-                </div>
-
-                <div class="text-center mt-8">
-                    <a href="{{ route('masjid.kajian') }}"
-                        class="inline-flex items-center bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-3 rounded-full font-semibold transition-colors">
-                        Lihat Semua Kajian
-                        <i data-lucide="calendar" class="ml-2 w-5 h-5"></i>
-                    </a>
                 </div>
             </section>
 
