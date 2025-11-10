@@ -168,7 +168,7 @@
                                             </span>
                                         </div>
                                         <div class="mt-2 text-sm text-gray-700">
-                                            Pengajar: <strong>{{ $item->teacher }}</strong>
+                                            Pengajar: <strong>{{ $item->teacher->name }}</strong>
                                         </div>
                                     </div>
                                 @endforeach
