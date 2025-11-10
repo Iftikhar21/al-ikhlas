@@ -38,6 +38,7 @@
                             ['route' => 'tpa.visimisi', 'label' => 'Visi & Misi'],
                             ['route' => 'tpa.teachers', 'label' => 'Profil Pengajar'],
                             ['route' => 'tpa.schedule', 'label' => 'Jadwal'],
+                            ['route' => 'tpa.program', 'label' => 'Program'],
                             ['route' => 'tpa.register', 'label' => 'Pendaftaran'],
                         ]
                     ],

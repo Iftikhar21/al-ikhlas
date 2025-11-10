@@ -102,7 +102,7 @@ $colors = ['green', 'yellow', 'emerald', 'teal', 'blue', 'purple']; // Warna Tai
                                 </p>
 
                                 <!-- Tombol -->
-                                <a href="{{ route('program-detail', $program->slug) }}"
+                                <a href="{{ route('tpa.program-detail', $program->slug) }}"
                                     class="w-full bg-{{ $color }}-600 hover:bg-{{ $color }}-700 text-white font-semibold py-2 rounded-lg transition text-center inline-block">
                                     Selengkapnya
                                 </a>
