@@ -126,7 +126,7 @@
                                                 
                                                 <!-- Kolom Pengajar -->
                                                 <td class="py-4 px-6 font-medium text-gray-700">
-                                                    {{ $item->teachers->name }}
+                                                    {{ $item->teacher->name }}
                                                 </td>
                                             </tr>
                                         @endforeach
