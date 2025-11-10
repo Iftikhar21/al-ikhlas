@@ -14,7 +14,7 @@
             <!-- Breadcrumb -->
             <nav class="mb-8">
                 <ol class="flex items-center space-x-2 text-sm text-gray-600">
-                    <li><a href="{{ route('program') }}" class="hover:text-green-700 transition">Program</a></li>
+                    <li><a href="{{ route('tpa.program') }}" class="hover:text-green-700 transition">Program</a></li>
                     <li><span class="mx-2">›</span></li>
                     <li class="text-green-700 font-semibold">{{ $program->title }}</li>
                 </ol>
