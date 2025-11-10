@@ -50,9 +50,9 @@
                         Bergabunglah dengan program pembelajaran Islam kami, tempat anak-anak dan orang dewasa
                         belajar Al-Qur'an, nilai-nilai Islam, serta pembentukan akhlak dalam suasana hangat dan penuh dukungan.
                     </p>
-                    <button class="btn-primary text-green-900 font-bold py-4 px-8 rounded-full text-lg shadow-lg">
+                    <a href="{{ route('tpa.register') }}" class="btn-primary text-green-900 font-bold py-4 px-8 rounded-full text-lg shadow-lg">
                         Daftar Sekarang
-                    </button>
+                    </a>
                 </div>
             </section>
 
