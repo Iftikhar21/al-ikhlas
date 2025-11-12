@@ -559,6 +559,71 @@
                 </div>
             </section>
 
+            <!-- Latest Koperasi Activities -->
+            <section class="mb-24">
+                <div class="text-center mb-16">
+                    <div class="inline-block mb-4">
+                        <span
+                            class="text-green-600 font-semibold text-sm uppercase tracking-wider bg-green-50 px-4 py-2 rounded-full">Koperasi</span>
+                    </div>
+                    <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">Kegiatan Koperasi</h2>
+                    <p class="text-gray-600 text-lg max-w-2xl mx-auto">Aktivitas terbaru koperasi masjid Al-Ikhlas</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    @foreach($latestActivities as $activity)
+                        <article
+                            class="group bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100">
+                            <div class="relative overflow-hidden h-48">
+                                @if($activity->thumbnail)
+                                    <img src="{{ asset('storage/' . $activity->thumbnail) }}" alt="{{ $activity->title }}"
+                                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                @else
+                                    <div class="w-full h-full bg-gradient-to-br from-blue-200 to-cyan-300 flex items-center justify-center">
+                                        <i data-lucide="store" class="text-5xl text-blue-600"></i>
+                                    </div>
+                                @endif
+                                <div class="absolute top-4 left-4">
+                                    <span class="bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg">
+                                        Koperasi
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="p-6">
+                                <div class="flex items-center text-sm text-gray-500 mb-3">
+                                    <i data-lucide="calendar" class="w-4 h-4 mr-2"></i>
+                                    <span>{{ $activity->created_at->format('d F Y') }}</span>
+                                </div>
+
+                                <h3
+                                    class="text-xl font-bold text-gray-900 mb-3 leading-tight group-hover:text-blue-600 transition-colors line-clamp-2">
+                                    {{ $activity->title }}
+                                </h3>
+
+                                <p class="text-gray-600 leading-relaxed mb-4 line-clamp-3">
+                                    {{ Str::limit(strip_tags($activity->content), 120) }}
+                                </p>
+
+                                <a href="{{ route('koperasi.activity.detail', $activity->slug) }}"
+                                    class="inline-flex items-center text-blue-600 font-semibold hover:text-blue-700 group-hover:translate-x-2 transition-all text-sm">
+                                    Baca Selengkapnya
+                                    <i data-lucide="arrow-right" class="ml-2 w-4 h-4"></i>
+                                </a>
+                            </div>
+                        </article>
+                    @endforeach
+                </div>
+
+                <div class="text-center mt-8">
+                    <a href="{{ route('koperasi.kegiatan') }}"
+                        class="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-full font-semibold transition-colors">
+                        Lihat Semua Kegiatan
+                        <i data-lucide="arrow-right" class="ml-2 w-5 h-5"></i>
+                    </a>
+                </div>
+            </section>
+
             <!-- Contact Overview Section - Redesigned -->
             <section class="mb-16">
                 <div class="relative bg-gradient-to-br from-green-600 via-emerald-600 to-teal-600 rounded-3xl overflow-hidden shadow-2xl">
@@ -627,71 +692,6 @@
                             <p class="text-green-100 text-sm mt-6">Kami siap melayani Anda 24/7</p>
                         </div>
                     </div>
-                </div>
-            </section>
-
-            <!-- Latest Koperasi Activities -->
-            <section class="mb-24">
-                <div class="text-center mb-16">
-                    <div class="inline-block mb-4">
-                        <span
-                            class="text-green-600 font-semibold text-sm uppercase tracking-wider bg-green-50 px-4 py-2 rounded-full">Koperasi</span>
-                    </div>
-                    <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">Kegiatan Koperasi</h2>
-                    <p class="text-gray-600 text-lg max-w-2xl mx-auto">Aktivitas terbaru koperasi masjid Al-Ikhlas</p>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    @foreach($latestActivities as $activity)
-                        <article
-                            class="group bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100">
-                            <div class="relative overflow-hidden h-48">
-                                @if($activity->thumbnail)
-                                    <img src="{{ asset('storage/' . $activity->thumbnail) }}" alt="{{ $activity->title }}"
-                                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                                @else
-                                    <div class="w-full h-full bg-gradient-to-br from-blue-200 to-cyan-300 flex items-center justify-center">
-                                        <i data-lucide="store" class="text-5xl text-blue-600"></i>
-                                    </div>
-                                @endif
-                                <div class="absolute top-4 left-4">
-                                    <span class="bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg">
-                                        Koperasi
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div class="p-6">
-                                <div class="flex items-center text-sm text-gray-500 mb-3">
-                                    <i data-lucide="calendar" class="w-4 h-4 mr-2"></i>
-                                    <span>{{ $activity->created_at->format('d F Y') }}</span>
-                                </div>
-
-                                <h3
-                                    class="text-xl font-bold text-gray-900 mb-3 leading-tight group-hover:text-blue-600 transition-colors line-clamp-2">
-                                    {{ $activity->title }}
-                                </h3>
-
-                                <p class="text-gray-600 leading-relaxed mb-4 line-clamp-3">
-                                    {{ Str::limit(strip_tags($activity->content), 120) }}
-                                </p>
-
-                                <a href="{{ route('koperasi.activity.detail', $activity->slug) }}"
-                                    class="inline-flex items-center text-blue-600 font-semibold hover:text-blue-700 group-hover:translate-x-2 transition-all text-sm">
-                                    Baca Selengkapnya
-                                    <i data-lucide="arrow-right" class="ml-2 w-4 h-4"></i>
-                                </a>
-                            </div>
-                        </article>
-                    @endforeach
-                </div>
-
-                <div class="text-center mt-8">
-                    <a href="{{ route('koperasi.kegiatan') }}"
-                        class="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-full font-semibold transition-colors">
-                        Lihat Semua Kegiatan
-                        <i data-lucide="arrow-right" class="ml-2 w-5 h-5"></i>
-                    </a>
                 </div>
             </section>
         </main>
