@@ -153,7 +153,7 @@
                     <!-- Container flex untuk mobile -->
                     <div class="flex space-x-4 overflow-x-auto md:grid md:grid-cols-3 md:gap-6 md:space-x-0 hide-scrollbar">
                         @foreach($otherNews as $item)
-                            <a href="{{ route('news-detail', $item->id) }}"
+                            <a href="{{ route('news-detail', $item->slug) }}"
                                 class="bg-white rounded-lg shadow-md overflow-hidden min-w-[250px] md:min-w-0 group">
                                 <div class="h-48 overflow-hidden">
                                     @if($item->thumbnail)
