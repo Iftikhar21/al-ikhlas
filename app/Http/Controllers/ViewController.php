@@ -71,15 +71,41 @@ class ViewController extends Controller
 
     public function NewsPage()
     {
+        // Berita terbaru dengan pagination
         $newsList = News::latest()->paginate(6);
-        return view('news', compact('newsList'));
+
+        // Berita populer (dilihat terbanyak)
+        $popularNews = News::orderBy('views', 'desc')
+            ->take(5)
+            ->get();
+
+        // Berita rekomendasi (random/berdasarkan kategori yang sama)
+        $recommendedNews = News::inRandomOrder() // Atau logika rekomendasi sesuai kebutuhan
+            ->take(6)
+            ->get();
+
+        return view('news', compact('newsList', 'popularNews', 'recommendedNews'));
     }
 
     public function NewsDetailPage($slug)
     {
         $news = News::with('photos')->where('slug', $slug)->firstOrFail();
-        $otherNews = News::where('id', '!=', $news->id)->latest()->take(6)->get();
-        return view('news-detail', compact('news', 'otherNews'));
+
+        // Tambah view +1
+        $news->increment('views');
+
+        // Berita lainnya (rekomendasi)
+        $otherNews = News::where('id', '!=', $news->id)
+            ->latest()
+            ->take(6)
+            ->get();
+
+        // Ambil berita populer untuk sidebar
+        $popularNews = News::orderBy('views', 'desc')
+            ->take(5)
+            ->get();
+
+        return view('news-detail', compact('news', 'otherNews', 'popularNews'));
     }
 
     public function ContactPage()

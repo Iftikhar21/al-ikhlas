@@ -14,6 +14,7 @@ return new class extends Migration
             $table->string('slug')->unique(); // url slug
             $table->text('content'); // isi berita
             $table->string('thumbnail')->nullable(); // gambar utama
+            $table->integer('views')->default(0);
             $table->timestamps();
         });
     }
