@@ -114,7 +114,11 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="w-12 h-12 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center">
-                                            <img src="{{ $teacher->foto ? asset('storage/' . $teacher->foto) : asset('img/placeholder-user.png') }}" alt="{{ $teacher->name }}" class="w-full h-full object-cover">
+                                            @if ($teacher->foto)
+                                                <img src="{{ asset('storage/' . $teacher->foto) }}" alt="{{ $teacher->name }}" class="w-full h-full object-cover">
+                                            @else
+                                                <i class="bi bi-person-fill text-gray-400 text-2xl"></i>
+                                            @endif
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
