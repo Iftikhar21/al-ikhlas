@@ -152,14 +152,14 @@
                     </div>
                     <div class="p-6">
                         <div class="space-y-3">
-                            <a href="{{ route('admin.admin-register-online.index') }}"
+                            <a href="{{ route('admin.register-online.index') }}"
                                 class="w-full flex items-center justify-center px-4 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors">
                                 <i data-lucide="chevron-left" class="mr-2"></i>
                                 Kembali ke Daftar
                             </a>
 
                             @if(!$registration->is_approved)
-                                <form action="{{ route('admin.admin-register-online.approve', $registration->id) }}"
+                                <form action="{{ route('admin.register-online.approve', $registration->id) }}"
                                     method="POST" class="w-full">
                                     @csrf
                                     <button type="submit"
@@ -170,7 +170,7 @@
                                 </form>
                             @endif
 
-                            <form action="{{ route('admin.admin-register-online.destroy', $registration->id) }}"
+                            <form action="{{ route('admin.register-online.destroy', $registration->id) }}"
                                 method="POST" onsubmit="return confirm('Yakin ingin menghapus pendaftar ini?');"
                                 class="w-full">
                                 @csrf
