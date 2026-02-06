@@ -193,14 +193,14 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex items-center space-x-2">
-                                            <a href="{{ route('admin.admin-register-online.show', $reg->id) }}"
+                                            <a href="{{ route('admin.register-online.show', $reg->id) }}"
                                                 title="Lihat Detail Pendaftar"
                                                 class="inline-flex items-center px-2 py-1 bg-blue-50 text-blue-700 rounded-lg text-sm font-medium hover:bg-blue-100 transition-colors duration-200">
                                                 <i data-lucide="eye" class=""></i>
                                             </a>
 
                                             @if(!$reg->is_approved)
-                                                <form action="{{ route('admin.admin-register-online.approve', $reg->id) }}" method="POST"
+                                                <form action="{{ route('admin.register-online.approve', $reg->id) }}" method="POST"
                                                     id="approveForm-{{ $reg->id }}">
                                                     @csrf
                                                 </form>
@@ -216,7 +216,7 @@
                                                     <i data-lucide="check" class=""></i>
                                                 </button>
                                             @endif
-                                            <form action="{{ route('admin.admin-register-online.destroy', $reg->id) }}" method="POST" id="deleteForm-{{ $reg->id }}">
+                                            <form action="{{ route('admin.register-online.destroy', $reg->id) }}" method="POST" id="deleteForm-{{ $reg->id }}">
                                                 @csrf
                                                 @method('DELETE')
                                             </form>
