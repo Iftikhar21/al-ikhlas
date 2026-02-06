@@ -185,8 +185,9 @@
                                     <img src="{{ asset('storage/' . $slide->thumbnail) }}" alt="{{ $slide->title }}"
                                         class="slide-image w-full h-full object-cover">
                                 @else
-                                    <div class="slide-image w-full h-full bg-gray-200 flex items-center justify-center">
+                                    <div class="slide-image w-full h-full bg-gray-200 flex flex-col items-center justify-center text-center">
                                         <i data-lucide="image" class="text-6xl text-gray-500"></i>
+                                        <span class="mt-3 text-sm text-gray-600">No image</span>
                                     </div>
                                 @endif
 
@@ -401,10 +402,7 @@
                                                 alt="{{ $program->title }}">
                                         @else
                                             <!-- Default icon -->
-                                            <svg class="w-12 h-12 text-{{ $color }}-700" fill="currentColor" viewBox="0 0 20 20">
-                                                <path
-                                                    d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 005.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z" />
-                                            </svg>
+                                            <i data-lucide="image" class="w-12 h-12 text-gray-400"></i>
                                         @endif
                                     </div>
                                     <h3 class="text-2xl font-bold mb-2">{{ $program->title }}</h3>

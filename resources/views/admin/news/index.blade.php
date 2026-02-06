@@ -44,8 +44,9 @@
                                 <img src="{{ asset('storage/' . $item->thumbnail) }}" alt="{{ $item->title }}"
                                     class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
                             @else
-                                <div class="w-full h-full bg-gray-200 flex items-center justify-center">
-                                    <i class="fas fa-image text-gray-400 text-4xl"></i>
+                                <div class="w-full h-full bg-gray-200 flex flex-col items-center justify-center gap-2">
+                                    <i data-lucide="image" class="w-12 h-12 text-gray-400"></i>
+                                    <span class="text-sm text-gray-500">No image</span>
                                 </div>
                             @endif
 

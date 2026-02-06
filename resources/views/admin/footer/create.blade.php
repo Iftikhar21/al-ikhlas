@@ -132,7 +132,7 @@
                                 <i data-lucide="phone" class="w-4 h-4 mr-2 text-blue-500 text-xs"></i>
                                 Telepon
                             </label>
-                            <input type="text" id="telepon" name="telepon"
+                            <input type="number" id="telepon" name="telepon"
                                 class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 px-4 py-3 transition"
                                 value="{{ old('telepon') }}" placeholder="Masukkan nomor telepon">
                         </div>

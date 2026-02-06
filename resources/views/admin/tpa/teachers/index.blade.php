@@ -117,7 +117,7 @@
                                             @if ($teacher->foto)
                                                 <img src="{{ asset('storage/' . $teacher->foto) }}" alt="{{ $teacher->name }}" class="w-full h-full object-cover">
                                             @else
-                                                <i class="bi bi-person-fill text-gray-400 text-2xl"></i>
+                                                <i data-lucide="circle-user-round" class="w-6 h-6 text-gray-400"></i>
                                             @endif
                                         </div>
                                     </td>

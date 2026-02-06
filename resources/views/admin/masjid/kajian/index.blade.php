@@ -44,69 +44,81 @@
                 <div class="kajian-card bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-all duration-300"
                     data-judul="{{ strtolower($kajian->judul) }}" data-hari="{{ strtolower($kajian->hari) }}">
                     <div class="flex flex-col md:flex-row">
-                        <!-- Poster Area -->
+                        <!-- Poster Area - Diperbaiki -->
                         <div class="md:w-1/6 lg:w-1/7 relative">
                             @if($kajian->poster)
-                                <div class="aspect-w-3 aspect-h-4">
+                                <div class="w-full h-full min-h-[200px] md:min-h-[240px]">
                                     <img src="{{ asset('storage/' . $kajian->poster) }}" alt="{{ $kajian->judul }}"
                                         class="w-full h-full object-cover">
                                 </div>
                             @else
-                                <div class="aspect-w-3 aspect-h-4 bg-gray-100 flex items-center justify-center">
+                                <div
+                                    class="w-full h-full min-h-[200px] md:min-h-[240px] bg-gray-100 flex flex-col items-center justify-center gap-2 py-12 px-12">
                                     <i data-lucide="book-open" class="w-12 h-12 text-gray-400"></i>
+                                    <span class="text-sm text-gray-400">No image</span>
                                 </div>
                             @endif
 
                             <!-- Hari & Jenis Badge -->
-                            <div class="absolute top-4 right-4 flex flex-col gap-1">
-                                <span
-                                    class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 border border-blue-200">
+                            <div class="absolute top-3 right-3 flex flex-col sm:flex-row gap-1 sm:gap-2">
+                                <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium
+                                           bg-blue-100 text-blue-800 border border-blue-200 whitespace-nowrap">
                                     <i data-lucide="calendar" class="w-3 h-3 text-blue-600"></i>
                                     {{ ucfirst($kajian->hari) }}
                                 </span>
-                                <span
-                                    class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 border border-green-200">
+
+                                <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium
+                                           bg-green-100 text-green-800 border border-green-200 whitespace-nowrap">
                                     <i data-lucide="hash" class="w-3 h-3 text-green-600"></i>
                                     {{ ucfirst($kajian->jenis_kajian) }}
                                 </span>
                             </div>
                         </div>
 
-                        <!-- Content -->
-                        <div class="md:w-3/4 lg:w-4/5 p-6 flex flex-col justify-between">
+                        <!-- Content - Diperbaiki -->
+                        <div class="md:w-5/6 lg:w-6/7 p-6 flex flex-col justify-between">
                             <div>
-                                <h3 class="font-bold text-gray-800 text-xl mb-3">{{ $kajian->judul }}</h3>
+                                <h3 class="font-bold text-gray-800 text-xl mb-4 line-clamp-2">{{ $kajian->judul }}</h3>
 
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                                    <div class="flex items-center text-gray-600">
-                                        <i data-lucide="user" class="w-4 h-4 mr-2 text-blue-500"></i>
-                                        <span class="font-medium">Pemateri:</span>
-                                        <span class="ml-2">{{ $kajian->pembicara }}</span>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+                                    <div class="flex items-start text-gray-600">
+                                        <i data-lucide="user" class="w-4 h-4 mr-2 mt-0.5 text-blue-500 flex-shrink-0"></i>
+                                        <div>
+                                            <span class="font-medium">Pemateri:</span>
+                                            <span class="ml-1">{{ $kajian->pembicara }}</span>
+                                        </div>
                                     </div>
 
                                     @if($kajian->jenis_kajian === 'bulanan' && $kajian->waktu_mulai && $kajian->waktu_selesai)
-                                        <div class="flex items-center text-gray-600">
-                                            <i data-lucide="clock" class="w-4 h-4 mr-2 text-blue-500"></i>
-                                            <span class="font-medium">Waktu:</span>
-                                            <span class="ml-2">
-                                                {{ \Carbon\Carbon::parse($kajian->waktu_mulai)->format('H:i') }} WIB -
-                                                {{ \Carbon\Carbon::parse($kajian->waktu_selesai)->format('H:i') }} WIB
-                                            </span>
+                                        <div class="flex items-start text-gray-600">
+                                            <i data-lucide="clock" class="w-4 h-4 mr-2 mt-0.5 text-blue-500 flex-shrink-0"></i>
+                                            <div>
+                                                <span class="font-medium">Waktu:</span>
+                                                <span class="ml-1">
+                                                    {{ \Carbon\Carbon::parse($kajian->waktu_mulai)->format('H:i') }} -
+                                                    {{ \Carbon\Carbon::parse($kajian->waktu_selesai)->format('H:i') }} WIB
+                                                </span>
+                                            </div>
                                         </div>
+                                    @else
+                                        <div></div> <!-- Placeholder untuk menjaga grid -->
                                     @endif
 
                                     @if($kajian->lokasi)
-                                        <div class="flex items-center text-gray-600 md:col-span-2">
-                                            <i data-lucide="map-pin" class="w-4 h-4 mr-2 text-blue-500"></i>
-                                            <span class="font-medium">Lokasi:</span>
-                                            <span class="ml-2">{{ $kajian->lokasi }}</span>
+                                        <div class="flex items-start text-gray-600 md:col-span-2">
+                                            <i data-lucide="map-pin" class="w-4 h-4 mr-2 mt-0.5 text-blue-500 flex-shrink-0"></i>
+                                            <div>
+                                                <span class="font-medium">Lokasi:</span>
+                                                <span class="ml-1">{{ $kajian->lokasi }}</span>
+                                            </div>
                                         </div>
                                     @endif
                                 </div>
                             </div>
 
-                            <!-- Actions -->
-                            <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                            <!-- Actions - Diperbaiki -->
+                            <div
+                                class="flex flex-col sm:flex-row items-start sm:items-center justify-between pt-4 border-t border-gray-100 gap-3 sm:gap-0">
                                 <div class="text-sm text-gray-500">
                                     Dibuat: {{ \Carbon\Carbon::parse($kajian->created_at)->format('d M Y') }}
                                 </div>
@@ -114,8 +126,7 @@
                                     <a href="{{ route('admin.masjid.kajian.edit', $kajian->id) }}"
                                         class="inline-flex items-center px-4 py-2 bg-yellow-50 hover:bg-yellow-100 text-yellow-600 rounded-lg transition-colors duration-200 group"
                                         title="Edit Kajian">
-                                        <i data-lucide="pencil"
-                                            class="w-4 h-4 mr-2 group-hover:scale-110 transition-transform"></i>
+                                        <i data-lucide="pencil" class="w-4 h-4 mr-2 group-hover:scale-110 transition-transform"></i>
                                         <span>Edit</span>
                                     </a>
 
@@ -125,16 +136,15 @@
                                         @method('DELETE')
                                     </form>
                                     <button type="button" onclick="openConfirmModal('globalConfirmModal', () => document.getElementById('deleteKajianForm-{{ $kajian->id }}').submit(), {
-                                                                                                        title: 'Hapus Kajian',
-                                                                                                        message: 'Apakah Anda yakin ingin menghapus kajian ini?',
-                                                                                                        confirmText: 'Ya, Hapus',
-                                                                                                        confirmColor: 'bg-red-600 hover:bg-red-700',
-                                                                                                        confirmIcon: 'trash'
-                                                                                                    })"
+                                                                        title: 'Hapus Kajian',
+                                                                        message: 'Apakah Anda yakin ingin menghapus kajian ini?',
+                                                                        confirmText: 'Ya, Hapus',
+                                                                        confirmColor: 'bg-red-600 hover:bg-red-700',
+                                                                        confirmIcon: 'trash'
+                                                                    })"
                                         class="inline-flex items-center px-4 py-2 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg transition-colors duration-200 group"
                                         title="Hapus Kajian">
-                                        <i data-lucide="trash"
-                                            class="w-4 h-4 mr-2 group-hover:scale-110 transition-transform"></i>
+                                        <i data-lucide="trash" class="w-4 h-4 mr-2 group-hover:scale-110 transition-transform"></i>
                                         <span>Hapus</span>
                                     </button>
                                 </div>
@@ -170,30 +180,6 @@
             <p class="text-gray-500">Coba ubah kata kunci pencarian</p>
         </div>
     </main>
-
-    <style>
-        .aspect-w-3 {
-            position: relative;
-            padding-bottom: 133.333333%;
-        }
-
-        .aspect-w-3>* {
-            position: absolute;
-            height: 100%;
-            width: 100%;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-        }
-
-        @media (max-width: 768px) {
-            .kajian-card .aspect-w-3 {
-                padding-bottom: 75%;
-                /* Mengubah rasio untuk tampilan mobile */
-            }
-        }
-    </style>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
